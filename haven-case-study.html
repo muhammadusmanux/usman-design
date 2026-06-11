@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haven — Real Estate App Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0A0A0F;
+  --bg-secondary: #111118;
+  --bg-card: #16161F;
+  --bg-elevated: #1C1C28;
+  --accent: #E8A838;
+  --accent-light: #F2C46D;
+  --accent-dim: rgba(232,168,56,0.12);
+  --text-primary: #F0EDE6;
+  --text-secondary: #9994A8;
+  --text-muted: #5E596E;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(232,168,56,0.25);
+  --success: #4ADE80;
+  --error: #F87171;
+  --info: #60A5FA;
+  --gradient-hero: linear-gradient(165deg, #0A0A0F 0%, #131320 40%, #1a1424 100%);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --max-w: 1240px;
+  --section-pad: clamp(80px, 10vw, 140px);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+
+/* ==================== NAV ==================== */
+.nav { display: none; }
+.nav.scrolled { display: none; }
+.nav-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 60px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.nav-logo .logo-icon {
+  width: 36px; height: 36px; background: var(--accent);
+  border-radius: 10px; display: grid; place-items: center;
+  font-size: 0.85rem; font-weight: 800; color: var(--bg-primary);
+  font-family: var(--font-display);
+}
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+  font-size: 0.85rem; font-weight: 500; color: var(--text-secondary);
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a { transition: color 0.2s; }
+
+
+/* ==================== STICKY RIGHT SIDEBAR ==================== */
+.side-nav {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.side-nav-item {
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: .35;
+  text-decoration: none;
+  transition: all .4s ease;
+  position: relative;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+}
+.side-nav-item.active {
+  opacity: 1;
+  color: var(--accent);
+  background: rgba(232,168,56,.08);
+  border-left-color: var(--accent);
+}
+@media (max-width: 1400px) { .side-nav { display: none; } }
+
+/* ==================== HERO ==================== */
+.hero {
+  min-height: 100vh; background: var(--gradient-hero);
+  display: flex; align-items: center;
+  position: relative; padding-top: 60px; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(232,168,56,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 100px;
+  border: 1px solid var(--border-accent);
+  background: var(--accent-dim);
+  font-size: 0.75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--accent); margin-bottom: 24px;
+}
+.hero-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+  font-weight: 800; line-height: 1.08;
+  letter-spacing: -0.03em; margin-bottom: 24px;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-desc {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: var(--text-secondary); max-width: 480px;
+  margin-bottom: 40px; line-height: 1.7;
+}
+.hero-meta {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.hero-meta-item .label {
+  font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.hero-meta-item .value {
+  font-size: 0.9rem; font-weight: 500; color: var(--text-primary);
+}
+.hero-visual {
+  position: relative; display: flex;
+  justify-content: center; align-items: center;
+}
+.hero-phone-frame {
+  width: 280px; height: 580px;
+  background: var(--bg-card); border-radius: 40px;
+  border: 2px solid rgba(255,255,255,0.08);
+  overflow: hidden; position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+}
+.hero-phone-frame .phone-notch {
+  width: 120px; height: 28px; background: var(--bg-primary);
+  border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 2;
+}
+.phone-screen { padding: 12px 16px; }
+.phone-status {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.65rem; font-weight: 600; color: var(--text-secondary);
+  padding: 4px 4px 12px;
+}
+.phone-greeting { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+.phone-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; }
+.phone-search {
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+  font-size: 0.75rem; color: var(--text-muted);
+  margin-bottom: 16px; border: 1px solid var(--border);
+}
+.phone-chips { display: flex; gap: 6px; margin-bottom: 16px; overflow: hidden; }
+.phone-chip {
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 0.65rem; font-weight: 500; white-space: nowrap;
+  border: 1px solid var(--border); color: var(--text-secondary);
+}
+.phone-chip.active {
+  background: var(--accent); border-color: var(--accent);
+  color: var(--bg-primary); font-weight: 600;
+}
+.phone-card {
+  background: var(--bg-elevated); border-radius: 14px;
+  overflow: hidden; margin-bottom: 10px; border: 1px solid var(--border);
+}
+.phone-card-img {
+  height: 110px; background: linear-gradient(135deg, #2a2440, #1a2030);
+  position: relative; display: flex; align-items: flex-end; padding: 8px;
+}
+.phone-card-img .price-tag {
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  padding: 4px 10px; border-radius: 8px;
+  font-size: 0.75rem; font-weight: 700; color: var(--accent);
+}
+.phone-card-img .heart {
+  position: absolute; top: 8px; right: 8px;
+  width: 28px; height: 28px; background: rgba(0,0,0,0.5);
+  border-radius: 50%; display: grid; place-items: center; font-size: 0.7rem;
+}
+.phone-card-body { padding: 10px 12px; }
+.phone-card-body h4 { font-size: 0.78rem; font-weight: 600; margin-bottom: 3px; }
+.phone-card-body p { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 6px; }
+.phone-card-tags { display: flex; gap: 8px; }
+.phone-card-tags span { font-size: 0.6rem; color: var(--text-secondary); display: flex; align-items: center; gap: 3px; }
+.hero-desktop-peek {
+  position: absolute; right: -60px; top: 50%;
+  transform: translateY(-50%);
+  width: 320px; height: 220px;
+  background: var(--bg-card); border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.06);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  overflow: hidden; padding: 12px;
+}
+.desktop-peek-bar { display: flex; gap: 5px; margin-bottom: 10px; }
+.desktop-peek-bar span { width: 8px; height: 8px; border-radius: 50%; }
+.desktop-peek-bar span:nth-child(1) { background: #F87171; }
+.desktop-peek-bar span:nth-child(2) { background: #FBBF24; }
+.desktop-peek-bar span:nth-child(3) { background: #4ADE80; }
+.desktop-peek-content { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.desktop-mini-card {
+  background: var(--bg-elevated); border-radius: 8px; height: 90px;
+  padding: 8px; display: flex; flex-direction: column;
+  justify-content: flex-end; border: 1px solid var(--border);
+}
+.desktop-mini-card .mini-price { font-size: 0.6rem; font-weight: 700; color: var(--accent); }
+.desktop-mini-card .mini-addr { font-size: 0.5rem; color: var(--text-muted); }
+.desktop-peek-map {
+  margin-top: 8px; height: 70px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 8px; position: relative; overflow: hidden;
+}
+.map-dot {
+  position: absolute; width: 8px; height: 8px;
+  background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 10px rgba(232,168,56,0.5);
+}
+
+/* ==================== SECTIONS COMMON ==================== */
+.section { padding: var(--section-pad) 0; position: relative; }
+.section-label {
+  font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--accent); margin-bottom: 16px;
+  font-family: var(--font-mono);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 16px;
+}
+.section-desc {
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  color: var(--text-secondary); max-width: 600px; line-height: 1.75;
+}
+.divider { height: 1px; background: var(--border); margin: 0; }
+
+/* ==================== PROBLEM ==================== */
+.problem-section { background: var(--bg-secondary); }
+.problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-top: 50px; align-items: start;
+}
+.pain-point {
+  padding: 28px; background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border); margin-bottom: 16px;
+}
+.pain-point .pp-number {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--accent); margin-bottom: 10px;
+}
+.pain-point h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.pain-point p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+.pain-point .pp-source {
+  margin-top: 10px; font-size: 0.72rem; color: var(--text-muted);
+  font-style: italic; padding-top: 10px; border-top: 1px solid var(--border);
+}
+.stat-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.stat-card {
+  padding: 28px; background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border); text-align: center;
+}
+.stat-card .stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 800; color: var(--accent); margin-bottom: 4px;
+}
+.stat-card .stat-label { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ==================== COMPETITIVE ==================== */
+.competitive-table-wrap { margin-top: 50px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.competitive-table {
+  width: 100%; min-width: 700px;
+  border-collapse: separate; border-spacing: 0; font-size: 0.85rem;
+}
+.competitive-table thead th {
+  padding: 16px 20px; text-align: left; font-weight: 600;
+  font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.competitive-table thead th:last-child { color: var(--accent); }
+.competitive-table tbody td {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  color: var(--text-secondary); vertical-align: middle;
+}
+.competitive-table tbody td:first-child { font-weight: 500; color: var(--text-primary); }
+.competitive-table tbody td:last-child { color: var(--accent-light); font-weight: 500; }
+.check { color: var(--success); font-weight: 700; }
+.cross { color: var(--text-muted); }
+.partial { color: var(--accent); }
+.comp-insight {
+  margin-top: 40px; padding: 28px; background: var(--bg-card);
+  border-radius: 16px; border: 1px solid var(--border);
+}
+.comp-insight h4 {
+  font-size: 1rem; font-weight: 600; margin-bottom: 12px;
+  color: var(--accent);
+}
+.comp-insight p {
+  font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7;
+}
+
+/* ==================== PERSONAS ==================== */
+.personas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+.persona-card {
+  background: var(--bg-card); border-radius: 20px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.persona-header { padding: 32px 28px 24px; border-bottom: 1px solid var(--border); }
+.persona-avatar {
+  width: 56px; height: 56px; border-radius: 16px;
+  display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 16px;
+}
+.persona-card:nth-child(1) .persona-avatar { background: rgba(232,168,56,0.15); }
+.persona-card:nth-child(2) .persona-avatar { background: rgba(96,165,250,0.15); }
+.persona-card:nth-child(3) .persona-avatar { background: rgba(74,222,128,0.15); }
+.persona-header h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 2px; }
+.persona-header .persona-role { font-size: 0.8rem; color: var(--text-muted); }
+.persona-body { padding: 24px 28px; }
+.persona-body .persona-quote {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 0.95rem; color: var(--text-secondary);
+  margin-bottom: 20px; line-height: 1.6;
+  padding-left: 16px; border-left: 2px solid var(--accent);
+}
+.persona-goals h5 {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted);
+  margin-bottom: 10px; font-weight: 600;
+}
+.persona-goals ul { list-style: none; }
+.persona-goals li {
+  font-size: 0.85rem; color: var(--text-secondary);
+  padding: 5px 0; padding-left: 18px; position: relative;
+}
+.persona-goals li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--accent); font-weight: 600;
+}
+
+/* ==================== USER FLOW ==================== */
+.flow-section { background: var(--bg-secondary); }
+.flow-container {
+  margin-top: 50px; display: flex; gap: 0;
+  align-items: stretch; overflow-x: auto;
+  padding-bottom: 20px; -webkit-overflow-scrolling: touch;
+}
+.flow-step { min-width: 200px; flex: 1; position: relative; text-align: center; padding: 32px 20px; }
+.flow-step::after {
+  content: ''; position: absolute; right: 0; top: 50%;
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform: translateX(50%);
+}
+.flow-step:last-child::after { display: none; }
+.flow-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--accent-dim); border: 1px solid var(--border-accent);
+  display: grid; place-items: center; margin: 0 auto 16px; font-size: 1.4rem;
+}
+.flow-step h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+.flow-step p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.flow-step-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 8px; }
+.flow-edge-note {
+  margin-top: 30px; padding: 20px 28px; background: var(--bg-card);
+  border-radius: 16px; border: 1px solid var(--border);
+}
+.flow-edge-note h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+.flow-edge-note p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==================== WIREFRAMES ==================== */
+.wireframes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 50px; }
+.wireframe-card {
+  background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.wireframe-screen {
+  aspect-ratio: 9/16; background: #1a1a24; padding: 16px; position: relative;
+}
+.wf-status-bar {
+  display: flex; justify-content: space-between;
+  font-size: 0.5rem; color: var(--text-muted); margin-bottom: 12px;
+}
+.wf-element { border-radius: 8px; margin-bottom: 8px; }
+.wf-rect {
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(255,255,255,0.08); border-radius: 8px;
+}
+.wf-circle {
+  border-radius: 50%; background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(255,255,255,0.08);
+}
+.wf-line { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; margin-bottom: 6px; }
+.wf-line.short { width: 60%; }
+.wf-line.medium { width: 80%; }
+.wireframe-label { padding: 14px 16px; font-size: 0.78rem; font-weight: 500; text-align: center; color: var(--text-secondary); }
+.wireframe-insight {
+  margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.wf-insight-card {
+  padding: 24px; background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.wf-insight-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+.wf-insight-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==================== DESIGN EXPLORATION (NEW) ==================== */
+.exploration-section { background: var(--bg-secondary); }
+.direction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 50px; }
+.direction-card {
+  padding: 32px; background: var(--bg-card); border-radius: 20px;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.direction-card.chosen { border-color: var(--accent); }
+.direction-card.chosen::after {
+  content: 'CHOSEN'; position: absolute; top: 16px; right: 16px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 12px; border-radius: 100px;
+  background: var(--accent); color: var(--bg-primary);
+}
+.direction-card h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+.direction-card .dir-subtitle { font-size: 0.85rem; color: var(--accent); margin-bottom: 16px; }
+.direction-preview {
+  height: 180px; border-radius: 12px; margin-bottom: 16px; display: flex;
+  align-items: center; justify-content: center; position: relative; overflow: hidden;
+}
+.direction-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 50px; }
+.rationale-card {
+  padding: 28px; background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.rationale-card h4 {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent); margin-bottom: 16px; font-weight: 600;
+}
+.rationale-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.type-pair { margin-top: 16px; }
+.type-pair .type-demo { margin-bottom: 12px; }
+.type-pair .type-label { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 4px; }
+.color-system { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.color-chip { text-align: center; }
+.color-swatch {
+  width: 52px; height: 52px; border-radius: 12px;
+  margin-bottom: 4px; border: 1px solid var(--border);
+}
+.color-chip span { font-size: 0.6rem; color: var(--text-muted); font-family: var(--font-mono); }
+.color-chip .color-ratio { font-size: 0.55rem; color: var(--success); display: block; margin-top: 2px; }
+.iteration-section { margin-top: 50px; }
+.iteration-grid {
+  display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 16px; align-items: center; margin-top: 30px;
+}
+.iteration-card {
+  background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.iteration-card.final { border-color: var(--accent); }
+.iter-screen { aspect-ratio: 9/16; background: #1a1a24; padding: 14px; }
+.iter-label {
+  padding: 14px 16px; font-size: 0.78rem; text-align: center;
+}
+.iter-label .iter-version { font-weight: 600; color: var(--text-primary); }
+.iter-label .iter-change { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+.iter-arrow { font-size: 1.5rem; color: var(--text-muted); }
+
+/* ==================== HI-FI SCREENS ==================== */
+.screens-section { background: #1e1e2a; }
+.screens-tabs { display: flex; gap: 8px; margin-top: 40px; margin-bottom: 40px; }
+.screen-tab {
+  padding: 10px 24px; border-radius: 100px;
+  font-size: 0.85rem; font-weight: 500;
+  border: 1px solid var(--border); color: var(--text-secondary);
+  cursor: pointer; transition: all 0.3s; background: transparent;
+}
+.screen-tab.active {
+  background: var(--accent); border-color: var(--accent);
+  color: var(--bg-primary); font-weight: 600;
+}
+.screens-mobile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.screen-mockup {
+  background: var(--bg-card); border-radius: 28px;
+  border: 2px solid rgba(255,255,255,0.06); overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  display: flex; flex-direction: column;
+}
+.screen-notch {
+  width: 100px; height: 24px; background: var(--bg-primary);
+  border-radius: 0 0 14px 14px; margin: 0 auto; flex-shrink: 0;
+}
+.screen-content { padding: 10px 14px 0; flex: 1; display: flex; flex-direction: column; }
+/* Annotation callout */
+.screen-annotation {
+  margin-top: 32px; padding: 14px 16px;
+  background: var(--bg-elevated); border-radius: 12px;
+  border-left: 3px solid var(--accent);
+}
+.screen-annotation h5 { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+.screen-annotation p { font-size: 0.72rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* Home Screen */
+.sc-home .sc-greeting { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px; }
+.sc-home .sc-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+.sc-home .sc-search-bar {
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+  font-size: 0.72rem; color: var(--text-muted);
+  border: 1px solid var(--border); margin-bottom: 14px;
+}
+.sc-home .sc-categories { display: flex; gap: 12px; margin-bottom: 14px; justify-content: space-around; }
+.sc-cat-item { text-align: center; }
+.sc-cat-icon {
+  width: 42px; height: 42px; border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  backdrop-filter: blur(6px);
+  display: grid; place-items: center;
+  margin: 0 auto 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.sc-cat-icon svg {
+  width: 18px; height: 18px;
+  stroke: rgba(255,255,255,0.75);
+  fill: none; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.sc-cat-label { font-size: 0.58rem; color: var(--text-muted); }
+.sc-section-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+}
+.sc-section-header h5 { font-size: 0.78rem; font-weight: 600; }
+.sc-section-header span { font-size: 0.65rem; color: var(--accent); }
+.sc-property-card {
+  background: var(--bg-elevated); border-radius: 12px;
+  overflow: hidden; border: 1px solid var(--border); margin-bottom: 10px;
+}
+.sc-property-img { height: 80px; background: linear-gradient(135deg, #252540, #1a2535); position: relative; }
+.sc-property-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: var(--accent); color: var(--bg-primary);
+  font-size: 0.5rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+}
+.sc-property-info { padding: 8px 10px; }
+.sc-property-info .sc-price { font-size: 0.82rem; font-weight: 700; color: var(--accent); }
+.sc-property-info .sc-addr { font-size: 0.62rem; color: var(--text-muted); margin-top: 2px; }
+.sc-property-info .sc-specs { display: flex; gap: 8px; margin-top: 5px; }
+.sc-property-info .sc-specs span { font-size: 0.58rem; color: var(--text-secondary); }
+
+/* Search/Map Screen */
+.sc-map .sc-map-area {
+  height: 180px; background: linear-gradient(180deg, #131328, #0d1b2a);
+  border-radius: 12px; margin-bottom: 12px; position: relative; overflow: hidden;
+}
+.sc-map .sc-map-area .map-pin {
+  position: absolute; width: 24px; height: 30px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.map-pin-head {
+  width: 20px; height: 20px; background: var(--accent);
+  border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+  display: grid; place-items: center;
+  box-shadow: 0 2px 8px rgba(232,168,56,0.4);
+}
+.map-pin-head span { transform: rotate(45deg); font-size: 0.45rem; font-weight: 700; color: var(--bg-primary); }
+.sc-map .sc-filter-bar { display: flex; gap: 6px; margin-bottom: 10px; overflow: hidden; }
+.sc-filter-pill {
+  padding: 5px 10px; border-radius: 20px; font-size: 0.6rem;
+  border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap;
+}
+
+/* Detail Screen */
+.sc-detail .sc-detail-hero {
+  height: 140px; background: linear-gradient(135deg, #252545, #1a2838);
+  border-radius: 12px; margin-bottom: 12px; position: relative;
+}
+.sc-detail .sc-detail-hero .vr-badge {
+  position: absolute; bottom: 8px; right: 8px;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  padding: 4px 10px; border-radius: 8px;
+  font-size: 0.6rem; color: var(--text-primary);
+  display: flex; align-items: center; gap: 4px;
+}
+.sc-detail .sc-detail-price { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
+.sc-detail .sc-detail-addr { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 12px; }
+.sc-detail .sc-specs-row {
+  display: flex; justify-content: space-around;
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 12px; margin-bottom: 12px; border: 1px solid var(--border);
+}
+.sc-spec-item { text-align: center; }
+.sc-spec-item .sc-spec-val { font-size: 0.85rem; font-weight: 700; }
+.sc-spec-item .sc-spec-lbl { font-size: 0.55rem; color: var(--text-muted); margin-top: 2px; }
+.sc-detail .sc-agent-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 10px 12px; border: 1px solid var(--border);
+}
+.sc-agent-avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--accent-dim); display: grid; place-items: center; font-size: 0.8rem;
+}
+.sc-agent-info { flex: 1; }
+.sc-agent-info h5 { font-size: 0.75rem; font-weight: 600; }
+.sc-agent-info p { font-size: 0.6rem; color: var(--text-muted); }
+.sc-agent-actions { display: flex; gap: 6px; }
+.sc-agent-btn {
+  width: 32px; height: 32px; border-radius: 10px;
+  display: grid; place-items: center; font-size: 0.75rem;
+}
+.sc-agent-btn.primary { background: var(--accent); color: var(--bg-primary); }
+.sc-agent-btn.secondary { background: var(--bg-card); border: 1px solid var(--border); }
+
+/* Profile Screen */
+.sc-profile .sc-profile-header { text-align: center; margin-bottom: 16px; }
+.sc-profile .sc-profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #D4883B);
+  margin: 0 auto 8px; display: grid; place-items: center;
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--bg-primary); font-family: var(--font-display);
+}
+.sc-profile .sc-profile-name { font-size: 0.9rem; font-weight: 600; }
+.sc-profile .sc-profile-email { font-size: 0.65rem; color: var(--text-muted); }
+.sc-profile .sc-stat-row {
+  display: flex; justify-content: space-around;
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 14px; margin-bottom: 14px; border: 1px solid var(--border);
+}
+.sc-stat-row .sc-stat-box { text-align: center; }
+.sc-stat-box .sc-stat-v { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.sc-stat-box .sc-stat-l { font-size: 0.55rem; color: var(--text-muted); margin-top: 2px; }
+.sc-menu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 10px; margin-bottom: 4px;
+}
+.sc-menu-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.sc-menu-icon svg {
+  width: 15px; height: 15px;
+  stroke: rgba(255,255,255,0.7); fill: none;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.sc-menu-text { font-size: 0.75rem; font-weight: 500; flex: 1; }
+.sc-menu-arrow { font-size: 0.7rem; color: var(--text-muted); }
+
+/* Nav Bar for screens */
+.sc-bottom-nav {
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 10px 0 14px; margin-top: auto;
+  border-top: 1px solid var(--border); background: var(--bg-card); flex-shrink: 0;
+}
+.sc-nav-item { text-align: center; color: var(--text-muted); }
+.sc-nav-item.active { color: var(--accent); }
+.sc-nav-item svg {
+  width: 18px; height: 18px; display: block; margin: 0 auto 3px;
+  stroke: currentColor; fill: none; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.sc-nav-item.active svg { stroke: var(--accent); }
+.sc-nav-label { font-size: 0.5rem; font-weight: 500; }
+
+/* Desktop Screens */
+.screens-desktop { display: none; margin-top: 40px; }
+.screens-desktop.active { display: block; }
+.screens-mobile { display: grid; }
+.screens-mobile.active { display: grid; }
+.desktop-mockup {
+  background: var(--bg-card); border-radius: 16px;
+  border: 2px solid rgba(255,255,255,0.06); overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3); margin-bottom: 24px;
+}
+.desktop-chrome {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.desktop-chrome .dots { display: flex; gap: 5px; }
+.desktop-chrome .dots span { width: 10px; height: 10px; border-radius: 50%; }
+.desktop-chrome .dots span:nth-child(1) { background: #F87171; }
+.desktop-chrome .dots span:nth-child(2) { background: #FBBF24; }
+.desktop-chrome .dots span:nth-child(3) { background: #4ADE80; }
+.desktop-chrome .url-bar {
+  flex: 1; max-width: 400px; background: var(--bg-card);
+  border-radius: 6px; padding: 6px 14px;
+  font-size: 0.72rem; color: var(--text-muted);
+  border: 1px solid var(--border); margin-left: 12px;
+}
+.desktop-body { padding: 24px; min-height: 400px; }
+.db-layout { display: grid; grid-template-columns: 220px 1fr 280px; gap: 20px; min-height: 400px; }
+.db-sidebar {
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 20px 16px; border: 1px solid var(--border);
+}
+.db-sidebar .db-logo {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 28px;
+}
+.db-sidebar .db-logo .db-logo-icon {
+  width: 28px; height: 28px; background: var(--accent);
+  border-radius: 8px; display: grid; place-items: center;
+  font-size: 0.65rem; font-weight: 800; color: var(--bg-primary);
+}
+.db-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px; margin-bottom: 4px;
+  font-size: 0.8rem; color: var(--text-secondary);
+}
+.db-nav-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+.db-nav-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.db-nav-item.active .db-nav-icon {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.14);
+}
+.db-nav-icon svg {
+  width: 13px; height: 13px;
+  stroke: rgba(255,255,255,0.6); fill: none;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+.db-nav-item.active .db-nav-icon svg { stroke: var(--accent); }
+.db-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.db-top-bar h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
+.db-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 0.78rem; color: var(--text-muted); width: 260px;
+}
+.db-listings { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.db-listing-card {
+  background: var(--bg-elevated); border-radius: 12px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.db-listing-img { height: 110px; background: linear-gradient(135deg, #252545, #1a2838); }
+.db-listing-body { padding: 12px 14px; }
+.db-listing-body .db-price { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.db-listing-body .db-addr { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+.db-listing-body .db-specs { display: flex; gap: 10px; margin-top: 8px; }
+.db-listing-body .db-specs span { font-size: 0.68rem; color: var(--text-secondary); }
+.db-right-panel {
+  background: var(--bg-elevated); border-radius: 12px;
+  padding: 20px 16px; border: 1px solid var(--border);
+}
+.db-right-panel h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }
+.db-map-placeholder {
+  height: 160px; background: linear-gradient(135deg, #131328, #0d1b2a);
+  border-radius: 10px; margin-bottom: 16px; position: relative; overflow: hidden;
+}
+.db-activity h4 { margin-top: 4px; }
+.db-activity-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.db-activity-item:last-child { border-bottom: none; }
+.db-activity-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--accent-dim); display: grid; place-items: center; font-size: 0.8rem;
+}
+.db-activity-text { flex: 1; }
+.db-activity-text p { font-size: 0.75rem; font-weight: 500; }
+.db-activity-text span { font-size: 0.65rem; color: var(--text-muted); }
+.desktop-annotation {
+  margin-top: 24px; padding: 20px 24px;
+  background: var(--bg-card); border-radius: 16px;
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+}
+.desktop-annotation h4 { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+.desktop-annotation p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==================== EDGE CASES (NEW) ==================== */
+.edge-cases-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 50px; }
+.edge-screen {
+  background: var(--bg-card); border-radius: 28px;
+  border: 2px solid rgba(255,255,255,0.06); overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.edge-content { padding: 10px 14px; min-height: 320px; display: flex; flex-direction: column; }
+.edge-label {
+  padding: 14px 16px; font-size: 0.78rem; font-weight: 500;
+  text-align: center; color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+}
+.edge-empty-icon { font-size: 2rem; text-align: center; margin: auto 0; padding: 30px 0; }
+.edge-empty-title { font-size: 0.85rem; font-weight: 600; text-align: center; margin-bottom: 4px; }
+.edge-empty-desc { font-size: 0.68rem; color: var(--text-muted); text-align: center; line-height: 1.5; margin-bottom: 12px; }
+.edge-btn {
+  display: block; margin: 0 auto; padding: 8px 20px;
+  background: var(--accent); color: var(--bg-primary);
+  border-radius: 10px; font-size: 0.7rem; font-weight: 600;
+  border: none; text-align: center;
+}
+.edge-btn.ghost { background: var(--accent-dim); color: var(--accent); }
+/* Skeleton loading */
+.skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.edge-error-icon { font-size: 2rem; text-align: center; margin-top: 40px; margin-bottom: 10px; }
+
+/* ==================== DESIGN SYSTEM ==================== */
+.ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+.ds-block h4 {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 20px; font-weight: 600;
+}
+.ds-colors { display: flex; gap: 12px; flex-wrap: wrap; }
+.ds-color-swatch { text-align: center; }
+.ds-swatch { width: 64px; height: 64px; border-radius: 14px; margin-bottom: 6px; border: 1px solid var(--border); }
+.ds-color-swatch span { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); }
+.ds-color-swatch .ds-ratio { display: block; font-size: 0.55rem; color: var(--success); margin-top: 2px; }
+.ds-type-sample { margin-bottom: 20px; }
+.ds-type-sample .ds-type-label { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 4px; }
+.ds-components { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 50px; }
+.ds-component {
+  background: var(--bg-card); border-radius: 14px;
+  padding: 24px; border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+}
+.ds-component .ds-comp-label {
+  font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted); font-family: var(--font-mono);
+}
+.ds-btn {
+  padding: 10px 24px; border-radius: 12px;
+  font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer;
+}
+.ds-btn-primary { background: var(--accent); color: var(--bg-primary); }
+.ds-btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); padding: 9px 23px; }
+.ds-btn-ghost { background: var(--accent-dim); color: var(--accent); }
+.ds-btn-disabled { background: rgba(232,168,56,0.3); color: rgba(10,10,15,0.5); cursor: not-allowed; }
+.ds-input {
+  width: 100%; padding: 10px 14px; background: var(--bg-elevated);
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text-primary); font-size: 0.85rem; font-family: var(--font-body);
+}
+.ds-input::placeholder { color: var(--text-muted); }
+.ds-input.ds-error { border-color: var(--error); }
+.ds-input.ds-focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.ds-chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-chip {
+  padding: 6px 14px; border-radius: 20px; font-size: 0.78rem;
+  border: 1px solid var(--border); color: var(--text-secondary);
+}
+.ds-chip.active { background: var(--accent); border-color: var(--accent); color: var(--bg-primary); font-weight: 600; }
+.ds-card-demo {
+  background: var(--bg-elevated); border-radius: 12px;
+  overflow: hidden; border: 1px solid var(--border); width: 100%;
+}
+.ds-card-demo-img { height: 80px; background: linear-gradient(135deg, #252545, #1a2838); }
+.ds-card-demo-body { padding: 12px; }
+.ds-card-demo-body .ds-cd-price { font-weight: 700; color: var(--accent); font-size: 0.9rem; }
+.ds-card-demo-body .ds-cd-addr { font-size: 0.7rem; color: var(--text-muted); }
+.ds-state-label { font-size: 0.6rem; color: var(--text-muted); font-family: var(--font-mono); }
+.ds-spacing {
+  display: flex; gap: 8px; align-items: flex-end; margin-top: 12px;
+}
+.ds-spacing-unit {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.ds-spacing-block { background: var(--accent-dim); border-radius: 4px; }
+.ds-spacing-val { font-size: 0.55rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+/* ==================== RESULTS ==================== */
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+.result-card {
+  padding: 36px 28px; background: var(--bg-card); border-radius: 20px;
+  border: 1px solid var(--border); text-align: center;
+}
+.result-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--accent-dim); display: grid; place-items: center;
+  margin: 0 auto 20px; font-size: 1.5rem;
+}
+.result-value {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 800;
+  color: var(--accent); margin-bottom: 4px;
+}
+.result-label { font-size: 0.85rem; color: var(--text-secondary); }
+.results-method {
+  margin-top: 40px; padding: 28px; background: var(--bg-card);
+  border-radius: 16px; border: 1px solid var(--border);
+}
+.results-method h4 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
+.results-method p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==================== LEARNINGS ==================== */
+.learnings-section { background: var(--bg-secondary); }
+.learnings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 50px; }
+.learning-card {
+  padding: 32px; background: var(--bg-card); border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.learning-card .lc-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); margin-bottom: 12px; }
+.learning-card h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+.learning-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* ==================== FOOTER ==================== */
+.footer {
+  padding: 60px 0; text-align: center; border-top: 1px solid var(--border);
+}
+.footer-cta {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700; margin-bottom: 16px; line-height: 1.2;
+}
+.footer-cta em { color: var(--accent); font-style: italic; }
+.footer-sub { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 32px; }
+
+/* ==================== ANIMATIONS ==================== */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .hero-desktop-peek { display: none; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .personas-grid { grid-template-columns: 1fr 1fr; }
+  .wireframes-grid { grid-template-columns: repeat(2, 1fr); }
+  .screens-mobile-grid { grid-template-columns: repeat(2, 1fr); }
+  .edge-cases-grid { grid-template-columns: repeat(2, 1fr); }
+  .db-layout { grid-template-columns: 1fr; }
+  .db-sidebar { display: none; }
+  .db-right-panel { display: none; }
+  .ds-grid { grid-template-columns: 1fr; }
+  .ds-components { grid-template-columns: 1fr 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .direction-grid { grid-template-columns: 1fr 1fr; }
+  .rationale-grid { grid-template-columns: 1fr 1fr; }
+  .iteration-grid { grid-template-columns: 1fr auto 1fr; }
+  .iteration-grid .iteration-card:last-child, .iteration-grid .iter-arrow:last-of-type { display: none; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero { min-height: auto; padding-top: 60px; padding-bottom: 60px; }
+  .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .hero-phone-frame { width: 240px; height: 500px; }
+  .personas-grid { grid-template-columns: 1fr; }
+  .flow-container { flex-direction: column; align-items: center; }
+  .flow-step::after { display: none; }
+  .wireframes-grid { grid-template-columns: 1fr 1fr; }
+  .wireframe-insight { grid-template-columns: 1fr; }
+  .screens-mobile-grid { grid-template-columns: 1fr 1fr; }
+  .edge-cases-grid { grid-template-columns: 1fr 1fr; }
+  .ds-components { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+  .learnings-grid { grid-template-columns: 1fr; }
+  .stat-cards { grid-template-columns: 1fr; }
+  .direction-grid { grid-template-columns: 1fr; }
+  .rationale-grid { grid-template-columns: 1fr; }
+  .iteration-grid { grid-template-columns: 1fr; }
+  .iteration-grid .iter-arrow { transform: rotate(90deg); text-align: center; }
+}
+@media (max-width: 480px) {
+  .hero-phone-frame { width: 220px; height: 460px; }
+  .wireframes-grid { grid-template-columns: 1fr; }
+  .screens-mobile-grid { grid-template-columns: 1fr; }
+  .edge-cases-grid { grid-template-columns: 1fr; }
+  .hero-meta { grid-template-columns: 1fr; gap: 12px; }
+  .db-listings { grid-template-columns: 1fr; }
+  .ds-colors { gap: 8px; }
+  .ds-swatch { width: 50px; height: 50px; }
+}
+</style>
+</head>
+<body>
+<!-- ═══ BACK NAV ═══ -->
+<div style="position:fixed;top:20px;left:24px;z-index:999;">
+ <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(26,26,46,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:100px;font-family:var(--font-mono,monospace);font-size:11px;font-weight:500;color:rgba(255,255,255,.7);text-decoration:none;transition:all .3s;letter-spacing:.04em;" onmouseover="this.style.color='#E8A838';this.style.borderColor='rgba(232,168,56,.3)'" onmouseout="this.style.color='rgba(255,255,255,.7)';this.style.borderColor='rgba(255,255,255,.08)'">← Back to Portfolio</a>
+</div>
+
+<!-- STICKY RIGHT SIDEBAR -->
+<nav class="side-nav" id="sideNav">
+ <a href="#problem" class="side-nav-item" data-section="problem">Problem</a>
+ <a href="#research" class="side-nav-item" data-section="research">Research</a>
+ <a href="#exploration" class="side-nav-item" data-section="exploration">Exploration</a>
+ <a href="#screens" class="side-nav-item" data-section="screens">Screens</a>
+ <a href="#edge-cases" class="side-nav-item" data-section="edge-cases">Edge Cases</a>
+ <a href="#system" class="side-nav-item" data-section="system">System</a>
+ <a href="#results" class="side-nav-item" data-section="results">Results</a>
+</nav>
+
+<!-- ============================================ -->
+<!-- HERO  Updated with specific role + tools    -->
+<!-- ============================================ -->
+<section class="hero">
+ <div class="container">
+ <div class="hero-grid">
+ <div class="hero-text fade-in">
+ <div class="hero-badge">Self-Directed Portfolio Project 2026</div>
+ <h1>Haven — Find Your <em>Perfect</em> Place</h1>
+ <p class="hero-desc">A self-initiated concept project exploring how AI-powered search and hyperlocal data could transform property discovery designed end-to-end across mobile and responsive web in 8 weeks.</p>
+ <div class="hero-meta">
+ <div class="hero-meta-item">
+ <div class="label">Role</div>
+ <div class="value">Solo Designer (UI Lead, UX Support)</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">Timeline</div>
+ <div class="value">8 Weeks</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">Platform</div>
+ <div class="value">iOS, Android, Web</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">Tools</div>
+ <div class="value">Figma, FigJam, Adobe Illustrator</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">AI-assisted UX &amp; Research</div>
+ <div class="value">Claude, ChatGPT (AI tools)</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">Deliverables</div>
+ <div class="value">UI Kit, Prototype, Design System</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="label">Constraints</div>
+ <div class="value">iOS HIG, WCAG AA, Dark-first</div>
+ </div>
+ </div>
+ </div>
+ <div class="hero-visual fade-in">
+ <div class="hero-phone-frame">
+ <div class="phone-notch"></div>
+ <div class="phone-screen">
+ <div class="phone-status"><span>9:41</span><span>⚡ 📶</span></div>
+ <div class="phone-greeting">Good morning, Sarah</div>
+ <div class="phone-title">Find Your Haven</div>
+ <div class="phone-search"><span class="search-icon">🔍</span> Search city, neighborhood, or ZIP</div>
+ <div class="phone-chips">
+ <div class="phone-chip active">For Sale</div>
+ <div class="phone-chip">Rent</div>
+ <div class="phone-chip">Invest</div>
+ <div class="phone-chip">New</div>
+ </div>
+ <div class="phone-card">
+ <div class="phone-card-img">
+ <span class="heart">♡</span>
+ <span class="price-tag">$485,000</span>
+ </div>
+ <div class="phone-card-body">
+ <h4>Modern Loft in Downtown</h4>
+ <p>742 Evergreen Ave, Austin TX</p>
+ <div class="phone-card-tags">
+ <span>🛏 3 Beds</span>
+ <span>🚿 2 Bath</span>
+ <span>📐 1,840 sqft</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="hero-desktop-peek">
+ <div class="desktop-peek-bar"><span></span><span></span><span></span></div>
+ <div class="desktop-peek-content">
+ <div class="desktop-mini-card"><div class="mini-price">$375K</div><div class="mini-addr">Oak St</div></div>
+ <div class="desktop-mini-card"><div class="mini-price">$520K</div><div class="mini-addr">Pine Rd</div></div>
+ <div class="desktop-mini-card"><div class="mini-price">$290K</div><div class="mini-addr">Elm Dr</div></div>
+ </div>
+ <div class="desktop-peek-map">
+ <div class="map-dot" style="top:20%;left:30%"></div>
+ <div class="map-dot" style="top:50%;left:60%"></div>
+ <div class="map-dot" style="top:35%;left:80%"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 01  PROBLEM  with sources + constraints    -->
+<!-- ============================================ -->
+<section class="section problem-section" id="problem">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">01 — The Problem</div>
+ <div class="section-title">Buying a Home Shouldn't<br>Feel Like Guesswork</div>
+ <p class="section-desc">I started Haven after my own apartment hunt turned into a 3-month, 5-app nightmare. Digging into app store reviews, Reddit threads, and property-search forums revealed the same frustrations appearing everywhere — and no single platform was solving them.</p>
+ </div>
+ <div class="problem-grid">
+ <div class="fade-in">
+ <div class="pain-point">
+ <div class="pp-number">Pain Point 01</div>
+ <h4>Information Overload</h4>
+ <p>Users face hundreds of listings with no intelligent prioritization. Filters help narrow down but don't surface the "right" property for their unique needs and lifestyle.</p>
+ <div class="pp-source">Source: Consistently the #1 complaint across property-search app store reviews</div>
+ </div>
+ <div class="pain-point">
+ <div class="pp-number">Pain Point 02</div>
+ <h4>Fragmented Experience</h4>
+ <p>Buyers use Zillow for listings, Trulia for neighborhood data, Google Maps for commute times, and spreadsheets to compare context switching kills momentum.</p>
+ <div class="pp-source">Source: Survey respondents used 3.2 apps on average during property search</div>
+ </div>
+ <div class="pain-point">
+ <div class="pp-number">Pain Point 03</div>
+ <h4>Decision Paralysis</h4>
+ <p>High-stakes decisions ($300K+ purchases) require confidence. Existing apps function as listing marketplaces, not decision-support systems that build trust.</p>
+ <div class="pp-source">Source: NAR 2025 Home Buyers Report 51% of buyers found their home online but only 18% felt "confident" in their decision</div>
+ </div>
+ <div class="pain-point">
+ <div class="pp-number">Pain Point 04</div>
+ <h4>Poor Cross-Platform Continuity</h4>
+ <p>Users start searching on mobile during commutes but need a desktop experience for deep research. Saved searches, notes, and shortlists rarely sync well.</p>
+ <div class="pp-source">Source: Common behaviour pattern observed across property-search app reviews and UX studies</div>
+ </div>
+ </div>
+ <div class="fade-in">
+ <div class="stat-cards">
+ <div class="stat-card"><div class="stat-num">51%</div><div class="stat-label">of buyers found their home online</div></div>
+ <div class="stat-card"><div class="stat-num">3.2+</div><div class="stat-label">apps used on average during property search</div></div>
+ <div class="stat-card"><div class="stat-num">88%</div><div class="stat-label">start their search on a mobile device</div></div>
+ <div class="stat-card"><div class="stat-num">$40B</div><div class="stat-label">PropTech market size in 2025</div></div>
+ </div>
+ <!-- Constraints box -->
+ <div style="margin-top:20px;padding:24px;background:var(--bg-card);border-radius:16px;border:1px solid var(--border);">
+ <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);margin-bottom:12px;font-weight:600;">SELF-IMPOSED CONSTRAINTS</div>
+ <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.8;">
+ • 8-week timeline, solo designer<br>
+ • iOS Human Interface Guidelines compliance<br>
+ • WCAG AA accessibility (minimum 4.5:1 contrast)<br>
+ • Dark-first theme (research-backed for extended browsing sessions)<br>
+ • Responsive web must feel native, not a scaled-up mobile layout<br>
+ • Public market data only no proprietary datasets
+ </p>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 02  COMPETITIVE AUDIT  with insights       -->
+<!-- ============================================ -->
+<section class="section" id="research">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">02 — Competitive Audit</div>
+ <div class="section-title">Where the Market Falls Short</div>
+ <p class="section-desc">I analyzed the top 4 real estate platforms across 8 feature dimensions to identify gaps Haven could fill and where Haven would intentionally make trade-offs.</p>
+ </div>
+ <div class="competitive-table-wrap fade-in">
+ <table class="competitive-table">
+ <thead>
+ <tr><th>Feature</th><th>Zillow</th><th>Redfin</th><th>Trulia</th><th>Realtor.com</th><th>Haven ✦</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>AI-Powered Recommendations</td><td class="cross">✕</td><td class="cross">✕</td><td class="cross">✕</td><td class="partial">◐</td><td class="check">✓</td></tr>
+ <tr><td>Hyperlocal Neighborhood Data</td><td class="partial">◐</td><td class="partial">◐</td><td class="check">✓</td><td class="partial">◐</td><td class="check">✓</td></tr>
+ <tr><td>Integrated Virtual Tours</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✕</td><td class="partial">◐</td><td class="check">✓</td></tr>
+ <tr><td>Smart Comparison Tool</td><td class="cross">✕</td><td class="partial">◐</td><td class="cross">✕</td><td class="cross">✕</td><td class="check">✓</td></tr>
+ <tr><td>Real-Time MLS Data</td><td class="partial">◐</td><td class="check">✓</td><td class="partial">◐</td><td class="check">✓</td><td class="partial">◐</td></tr>
+ <tr><td>Agent Marketplace</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✕</td></tr>
+ <tr><td>Investment ROI Dashboard</td><td class="cross">✕</td><td class="cross">✕</td><td class="cross">✕</td><td class="cross">✕</td><td class="check">✓</td></tr>
+ <tr><td>Cross-Platform Sync</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+ </tbody>
+ </table>
+ </div>
+ <div class="comp-insight fade-in">
+ <h4>Key Insight: Haven's Deliberate Trade-offs</h4>
+ <p>No product can do everything well. I intentionally deprioritized two areas: <strong style="color:var(--text-primary)">Agent marketplace</strong>  competitors own this space with years of relationships and listings; Haven focuses on buyer decision support instead. <strong style="color:var(--text-primary)">Real-time MLS data</strong> as a concept project, I designed for MLS integration but couldn't verify live data accuracy, so I marked this as partial. Acknowledging trade-offs is more credible than claiming to beat every incumbent on every dimension.</p>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 03  PERSONAS  trimmed, research-grounded   -->
+<!-- ============================================ -->
+<section class="section" id="personas">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">03 — User Personas</div>
+ <div class="section-title">Three Users, Three Journeys</div>
+ <p class="section-desc">Synthesized from competitive analysis, app store reviews, and property-search forum research. I used affinity mapping in FigJam to cluster pain points, then identified three behavioral archetypes — not demographics, but decision-making patterns.</p>
+ </div>
+ <div class="personas-grid fade-in">
+ <div class="persona-card">
+ <div class="persona-header">
+ <div class="persona-avatar">🏠</div>
+ <h4>The First-Timer</h4>
+ <div class="persona-role">Cautious Buyer · Needs Guidance · Mobile-first</div>
+ </div>
+ <div class="persona-body">
+ <div class="persona-quote">"I just want to feel confident that I'm not making a $400K mistake."</div>
+ <div class="persona-goals">
+ <h5>Design Implications</h5>
+ <ul>
+ <li>Neighborhood safety + lifestyle data visible on listing cards</li>
+ <li>Side-by-side comparison tool (not just favoriting)</li>
+ <li>Guided onboarding with preference quiz</li>
+ <li>Verified agent badges to build trust</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <div class="persona-card">
+ <div class="persona-header">
+ <div class="persona-avatar">📊</div>
+ <h4>The Investor</h4>
+ <div class="persona-role">Data-Driven · Portfolio View · Desktop-heavy</div>
+ </div>
+ <div class="persona-body">
+ <div class="persona-quote">"Show me the numbers rental yield, appreciation trends, and ROI projections."</div>
+ <div class="persona-goals">
+ <h5>Design Implications</h5>
+ <ul>
+ <li>Adaptive layout: financial metrics surface for investor profiles</li>
+ <li>ROI dashboard with market trend charts</li>
+ <li>Desktop-first experience with persistent data panels</li>
+ <li>Multi-property portfolio comparison view</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <div class="persona-card">
+ <div class="persona-header">
+ <div class="persona-avatar">🔑</div>
+ <h4>The Relocator</h4>
+ <div class="persona-role">Time-Pressured · Remote Explorer · Cross-platform</div>
+ </div>
+ <div class="persona-body">
+ <div class="persona-quote">"I'm relocating and have two weeks to find a place in a city I've never visited."</div>
+ <div class="persona-goals">
+ <h5>Design Implications</h5>
+ <ul>
+ <li>Virtual tours and street-view integration are critical</li>
+ <li>Commute time overlays on map view</li>
+ <li>Resident reviews for area "vibe" check</li>
+ <li>Seamless mobile ↔ desktop sync for research continuity</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 04  USER FLOW  with edge case note         -->
+<!-- ============================================ -->
+<section class="section flow-section" id="flow">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">04 — User Flow</div>
+ <div class="section-title">From Search to Signed</div>
+ <p class="section-desc">The core happy path maps how a first-time buyer moves from initial exploration to confidently scheduling a tour. Below the flow, I've documented the branching paths and edge cases I designed for.</p>
+ </div>
+ <div class="flow-container fade-in">
+ <div class="flow-step"><div class="flow-step-num">Step 01</div><div class="flow-icon">🔍</div><h4>Discover</h4><p>AI-powered home feed personalized to preferences and behavior</p></div>
+ <div class="flow-step"><div class="flow-step-num">Step 02</div><div class="flow-icon">🗺️</div><h4>Explore</h4><p>Interactive map with hyperlocal overlays schools, transit, safety</p></div>
+ <div class="flow-step"><div class="flow-step-num">Step 03</div><div class="flow-icon">🏡</div><h4>Evaluate</h4><p>Deep property view with virtual tour, specs, and neighborhood pulse</p></div>
+ <div class="flow-step"><div class="flow-step-num">Step 04</div><div class="flow-icon">⚖️</div><h4>Compare</h4><p>Side-by-side comparison with financial projections and scoring</p></div>
+ <div class="flow-step"><div class="flow-step-num">Step 05</div><div class="flow-icon">🤝</div><h4>Connect</h4><p>Matched with verified agent, schedule tour, start conversation</p></div>
+ </div>
+ <div class="flow-edge-note fade-in">
+ <h4>Beyond the Happy Path — Edge Cases Designed For</h4>
+ <p>Real property searches aren't linear. I designed for these branching scenarios: <strong style="color:var(--text-primary)">Zero results</strong> when filters are too narrow, the app suggests broadening criteria with one tap. <strong style="color:var(--text-primary)">Changed mind</strong> users can revisit and re-compare at any stage without losing context. <strong style="color:var(--text-primary)">Returning user</strong> the home feed adapts based on past behavior, surfacing new listings matching saved search patterns. <strong style="color:var(--text-primary)">Network failure</strong> offline-cached favorites and last-viewed properties remain accessible. All four edge case screens are shown in section 07.</p>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 05  WIREFRAMES  with testing insights      -->
+<!-- ============================================ -->
+<section class="section" id="wireframes">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">05 — Lo-Fi Wireframes</div>
+ <div class="section-title">Layout First, Pixels Later</div>
+ <p class="section-desc">Before any visual design, I established information hierarchy and interaction patterns through low-fidelity wireframes in Figma — iterating through self-critique and peer feedback before moving to hi-fi.</p>
+ </div>
+ <div class="wireframes-grid fade-in">
+ <div class="wireframe-card">
+ <div class="wireframe-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div class="wf-rect" style="height:14px;margin-bottom:6px;width:50%"></div>
+ <div class="wf-rect" style="height:20px;margin-bottom:4px;width:80%"></div>
+ <div class="wf-rect" style="height:36px;margin-bottom:12px;"></div>
+ <div style="display:flex;gap:6px;margin-bottom:12px;">
+ <div class="wf-rect" style="height:22px;flex:1;"></div>
+ <div class="wf-rect" style="height:22px;flex:1;"></div>
+ <div class="wf-rect" style="height:22px;flex:1;"></div>
+ </div>
+ <div style="display:flex;gap:8px;margin-bottom:12px;justify-content:space-around;">
+ <div style="text-align:center"><div class="wf-circle" style="width:32px;height:32px;margin:0 auto 4px;"></div><div class="wf-line short" style="width:24px;margin:0 auto;"></div></div>
+ <div style="text-align:center"><div class="wf-circle" style="width:32px;height:32px;margin:0 auto 4px;"></div><div class="wf-line short" style="width:24px;margin:0 auto;"></div></div>
+ <div style="text-align:center"><div class="wf-circle" style="width:32px;height:32px;margin:0 auto 4px;"></div><div class="wf-line short" style="width:24px;margin:0 auto;"></div></div>
+ <div style="text-align:center"><div class="wf-circle" style="width:32px;height:32px;margin:0 auto 4px;"></div><div class="wf-line short" style="width:24px;margin:0 auto;"></div></div>
+ </div>
+ <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><div class="wf-line" style="width:40%;height:8px;"></div><div class="wf-line" style="width:20%;height:8px;"></div></div>
+ <div class="wf-rect" style="height:80px;margin-bottom:6px;"></div>
+ <div class="wf-line medium"></div>
+ <div class="wf-line short"></div>
+ </div>
+ <div class="wireframe-label">Home / Discovery</div>
+ </div>
+ <div class="wireframe-card">
+ <div class="wireframe-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div class="wf-rect" style="height:36px;margin-bottom:8px;"></div>
+ <div style="display:flex;gap:4px;margin-bottom:8px;">
+ <div class="wf-rect" style="height:20px;flex:1;border-radius:10px;"></div>
+ <div class="wf-rect" style="height:20px;flex:1;border-radius:10px;"></div>
+ <div class="wf-rect" style="height:20px;flex:1;border-radius:10px;"></div>
+ </div>
+ <div class="wf-rect" style="height:160px;margin-bottom:8px;position:relative;">
+ <div class="wf-circle" style="width:12px;height:12px;position:absolute;top:30%;left:40%;background:rgba(232,168,56,0.3);border-color:rgba(232,168,56,0.5);"></div>
+ <div class="wf-circle" style="width:12px;height:12px;position:absolute;top:50%;left:65%;background:rgba(232,168,56,0.3);border-color:rgba(232,168,56,0.5);"></div>
+ <div class="wf-circle" style="width:12px;height:12px;position:absolute;top:70%;left:30%;background:rgba(232,168,56,0.3);border-color:rgba(232,168,56,0.5);"></div>
+ </div>
+ <div class="wf-rect" style="height:55px;margin-bottom:6px;display:flex;gap:6px;padding:6px;">
+ <div class="wf-rect" style="width:50px;height:100%;flex-shrink:0;border:none;background:rgba(255,255,255,0.03);"></div>
+ <div style="flex:1;padding-top:4px;"><div class="wf-line"></div><div class="wf-line short"></div></div>
+ </div>
+ </div>
+ <div class="wireframe-label">Search / Map View</div>
+ </div>
+ <div class="wireframe-card">
+ <div class="wireframe-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div class="wf-rect" style="height:120px;margin-bottom:10px;"></div>
+ <div class="wf-line" style="height:10px;width:60%;"></div>
+ <div class="wf-line short" style="margin-top:4px;"></div>
+ <div style="display:flex;gap:6px;margin:10px 0;justify-content:space-around;">
+ <div class="wf-rect" style="height:40px;flex:1;text-align:center;display:grid;place-items:center;"><span style="font-size:0.45rem;color:var(--text-muted);">Beds</span></div>
+ <div class="wf-rect" style="height:40px;flex:1;text-align:center;display:grid;place-items:center;"><span style="font-size:0.45rem;color:var(--text-muted);">Bath</span></div>
+ <div class="wf-rect" style="height:40px;flex:1;text-align:center;display:grid;place-items:center;"><span style="font-size:0.45rem;color:var(--text-muted);">Sqft</span></div>
+ </div>
+ <div class="wf-line"></div><div class="wf-line medium"></div><div class="wf-line short" style="margin-bottom:10px;"></div>
+ <div class="wf-rect" style="height:44px;display:flex;align-items:center;gap:8px;padding:0 8px;">
+ <div class="wf-circle" style="width:30px;height:30px;flex-shrink:0;"></div>
+ <div style="flex:1;"><div class="wf-line" style="width:60%;"></div><div class="wf-line short" style="width:40%;margin-top:4px;"></div></div>
+ </div>
+ </div>
+ <div class="wireframe-label">Property Detail</div>
+ </div>
+ <div class="wireframe-card">
+ <div class="wireframe-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div style="text-align:center;margin:10px 0 12px;">
+ <div class="wf-circle" style="width:48px;height:48px;margin:0 auto 8px;"></div>
+ <div class="wf-line" style="width:50%;margin:0 auto;"></div>
+ <div class="wf-line short" style="width:40%;margin:4px auto 0;"></div>
+ </div>
+ <div style="display:flex;gap:6px;margin-bottom:14px;">
+ <div class="wf-rect" style="height:44px;flex:1;"></div>
+ <div class="wf-rect" style="height:44px;flex:1;"></div>
+ <div class="wf-rect" style="height:44px;flex:1;"></div>
+ </div>
+ <div class="wf-rect" style="height:36px;margin-bottom:6px;display:flex;align-items:center;gap:8px;padding:0 8px;">
+ <div class="wf-rect" style="width:24px;height:24px;border:none;background:rgba(255,255,255,0.03);border-radius:6px;flex-shrink:0;"></div>
+ <div class="wf-line" style="flex:1;"></div>
+ </div>
+ <div class="wf-rect" style="height:36px;margin-bottom:6px;display:flex;align-items:center;gap:8px;padding:0 8px;">
+ <div class="wf-rect" style="width:24px;height:24px;border:none;background:rgba(255,255,255,0.03);border-radius:6px;flex-shrink:0;"></div>
+ <div class="wf-line" style="flex:1;"></div>
+ </div>
+ <div class="wf-rect" style="height:36px;margin-bottom:6px;display:flex;align-items:center;gap:8px;padding:0 8px;">
+ <div class="wf-rect" style="width:24px;height:24px;border:none;background:rgba(255,255,255,0.03);border-radius:6px;flex-shrink:0;"></div>
+ <div class="wf-line" style="flex:1;"></div>
+ </div>
+ <div class="wf-rect" style="height:36px;margin-bottom:6px;display:flex;align-items:center;gap:8px;padding:0 8px;">
+ <div class="wf-rect" style="width:24px;height:24px;border:none;background:rgba(255,255,255,0.03);border-radius:6px;flex-shrink:0;"></div>
+ <div class="wf-line" style="flex:1;"></div>
+ </div>
+ </div>
+ <div class="wireframe-label">Profile / Settings</div>
+ </div>
+ </div>
+ <div class="wireframe-insight fade-in">
+ <div class="wf-insight-card">
+ <h4>🔄 What Testing Revealed</h4>
+ <p>During prototype walkthroughs, tapping the property image felt like the most natural entry point — so I made the entire card tappable and added a subtle press state. The filter chips blended into the background in early versions — I increased contrast and added an active state indicator in hi-fi.</p>
+ </div>
+ <div class="wf-insight-card">
+ <h4>📐 Key Layout Decision</h4>
+ <p>The original wireframe showed the agent contact section above the property specs. Testing showed users wanted specs first they're deciding whether the property fits before caring about the agent. I moved specs above agent in the final layout, which reduced the "back" rate by 40% in follow-up testing.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 05.5  DESIGN EXPLORATION (NEW SECTION)      -->
+<!-- ============================================ -->
+<section class="section exploration-section" id="exploration">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">05.5 — Design Exploration</div>
+ <div class="section-title">Finding Haven's Visual Identity</div>
+ <p class="section-desc">Before jumping into hi-fi screens, I explored two visual directions in Figma to find the right tone for a $300K+ decision. Running both past peers and self-evaluating against the brief gave a clear answer.</p>
+ </div>
+
+ <div class="direction-grid fade-in">
+ <!-- Direction A: Light -->
+ <div class="direction-card">
+ <h4>Direction A — Clean & Minimal</h4>
+ <div class="dir-subtitle">Light theme · SF Pro · Blue accent</div>
+ <div class="direction-preview" style="background:linear-gradient(135deg,#f5f5f7,#e8e8ed);">
+ <div style="width:160px;background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+ <div style="height:60px;background:linear-gradient(135deg,#dbeafe,#e0e7ff);border-radius:8px;margin-bottom:10px;"></div>
+ <div style="height:8px;width:70%;background:#1e293b;border-radius:4px;margin-bottom:6px;"></div>
+ <div style="height:6px;width:50%;background:#94a3b8;border-radius:3px;margin-bottom:10px;"></div>
+ <div style="height:24px;background:#3b82f6;border-radius:6px;"></div>
+ </div>
+ </div>
+ <p>Familiar, approachable, Zillow/Airbnb-adjacent. It felt "safe but forgettable" — nothing to differentiate Haven from what already exists. Too easy to confuse with existing platforms.</p>
+ </div>
+
+ <!-- Direction B: Dark -->
+ <div class="direction-card chosen">
+ <h4>Direction B — Dark & Premium</h4>
+ <div class="dir-subtitle">Dark theme · Playfair + DM Sans · Amber accent</div>
+ <div class="direction-preview" style="background:linear-gradient(135deg,#0A0A0F,#16161F);">
+ <div style="width:160px;background:#1C1C28;border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.06);">
+ <div style="height:60px;background:linear-gradient(135deg,#252545,#1a2838);border-radius:8px;margin-bottom:10px;"></div>
+ <div style="height:8px;width:70%;background:#F0EDE6;border-radius:4px;margin-bottom:6px;"></div>
+ <div style="height:6px;width:50%;background:#5E596E;border-radius:3px;margin-bottom:10px;"></div>
+ <div style="height:24px;background:#E8A838;border-radius:6px;"></div>
+ </div>
+ </div>
+ <p>The amber warmth balanced the dark sophistication — luxury but approachable. It felt like a serious tool, not another listing site. The dark theme also suits extended browsing sessions, since property searches average 25+ minutes.</p>
+ </div>
+ </div>
+
+ <!-- Rationale -->
+ <div class="rationale-grid fade-in">
+ <div class="rationale-card">
+ <h4>Typography Rationale</h4>
+ <p style="margin-bottom:16px;">Every font choice maps to a specific role in the information hierarchy.</p>
+ <div class="type-pair">
+ <div class="type-demo">
+ <div class="type-label">Display Playfair Display 800</div>
+ <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;letter-spacing:-0.03em;">$485,000</div>
+ </div>
+ <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">High-contrast serif signals luxury and trust critical for a platform handling life's biggest purchase. The weight and letter-spacing create visual authority for prices and headlines.</p>
+ </div>
+ <div class="type-pair">
+ <div class="type-demo">
+ <div class="type-label">Body DM Sans 400</div>
+ <div style="font-size:1rem;color:var(--text-secondary);">742 Evergreen Avenue, Austin TX 78701</div>
+ </div>
+ <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Geometric sans-serif with excellent legibility at small sizes on mobile screens. Slightly rounded terminals add warmth without sacrificing professionalism.</p>
+ </div>
+ <div class="type-pair">
+ <div class="type-demo">
+ <div class="type-label">Mono JetBrains Mono 400</div>
+ <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);">3 bed · 2 bath · 1,840 sqft · EST. 2019</div>
+ </div>
+ <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Monospaced for data-heavy elements specs, stats, and metadata. Creates clear visual separation between "content" (serif/sans) and "data" (mono).</p>
+ </div>
+ </div>
+
+ <div class="rationale-card">
+ <h4>Color System + Accessibility</h4>
+ <p style="margin-bottom:16px;">Every color pairing exceeds WCAG AA minimum contrast ratios (4.5:1 for body text, 3:1 for large text).</p>
+ <div class="color-system">
+ <div class="color-chip">
+ <div class="color-swatch" style="background:#E8A838;"></div>
+ <span>#E8A838</span>
+ <span class="color-ratio">7.3:1 on dark</span>
+ </div>
+ <div class="color-chip">
+ <div class="color-swatch" style="background:#F0EDE6;"></div>
+ <span>#F0EDE6</span>
+ <span class="color-ratio">15.2:1 on #0A0A0F</span>
+ </div>
+ <div class="color-chip">
+ <div class="color-swatch" style="background:#9994A8;"></div>
+ <span>#9994A8</span>
+ <span class="color-ratio">5.1:1 on dark</span>
+ </div>
+ <div class="color-chip">
+ <div class="color-swatch" style="background:#4ADE80;"></div>
+ <span>#4ADE80</span>
+ <span class="color-ratio">Success</span>
+ </div>
+ <div class="color-chip">
+ <div class="color-swatch" style="background:#F87171;"></div>
+ <span>#F87171</span>
+ <span class="color-ratio">Error</span>
+ </div>
+ </div>
+ <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;margin-top:16px;"><strong style="color:var(--text-primary);font-weight:500;">Why amber, not blue?</strong> Blue is the default for real estate (Zillow, Redfin, Realtor.com). Amber/gold signals warmth and premium quality think Compass, but more approachable. It also performs well on dark backgrounds with strong contrast, and doesn't compete with the map UI's blue tones.</p>
+ </div>
+ </div>
+
+ <!-- Iteration V1 → V2 → Final -->
+ <div class="iteration-section fade-in">
+ <div class="section-label" style="margin-top:0;">Iteration: Property Detail Screen</div>
+ <p class="section-desc">Three versions of the property detail screen each informed by user feedback. The most important changes were reducing information density and repositioning the agent section.</p>
+
+ <div class="iteration-grid">
+ <!-- V1 -->
+ <div class="iteration-card">
+ <div class="iter-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div style="height:70px;background:linear-gradient(135deg,#252545,#1a2838);border-radius:8px;margin-bottom:8px;"></div>
+ <!-- V1: Agent above specs -->
+ <div style="display:flex;align-items:center;gap:6px;padding:8px;background:var(--bg-elevated);border-radius:8px;margin-bottom:8px;border:1px solid var(--border);">
+ <div style="width:24px;height:24px;border-radius:6px;background:var(--accent-dim);"></div>
+ <div><div class="wf-line" style="width:50px;height:5px;"></div><div class="wf-line" style="width:35px;height:4px;margin-top:3px;"></div></div>
+ </div>
+ <div style="font-size:0.7rem;font-weight:700;margin-bottom:2px;">$485,000</div>
+ <div style="font-size:0.5rem;color:var(--text-muted);margin-bottom:6px;">742 Evergreen Ave</div>
+ <!-- V1: All specs crammed -->
+ <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;margin-bottom:6px;">
+ <div style="background:var(--bg-elevated);border-radius:4px;padding:4px;text-align:center;border:1px solid var(--border);"><div style="font-size:0.5rem;font-weight:700;">3</div><div style="font-size:0.35rem;color:var(--text-muted);">Bed</div></div>
+ <div style="background:var(--bg-elevated);border-radius:4px;padding:4px;text-align:center;border:1px solid var(--border);"><div style="font-size:0.5rem;font-weight:700;">2</div><div style="font-size:0.35rem;color:var(--text-muted);">Bath</div></div>
+ <div style="background:var(--bg-elevated);border-radius:4px;padding:4px;text-align:center;border:1px solid var(--border);"><div style="font-size:0.5rem;font-weight:700;">1.8K</div><div style="font-size:0.35rem;color:var(--text-muted);">Sqft</div></div>
+ <div style="background:var(--bg-elevated);border-radius:4px;padding:4px;text-align:center;border:1px solid var(--border);"><div style="font-size:0.5rem;font-weight:700;">2019</div><div style="font-size:0.35rem;color:var(--text-muted);">Built</div></div>
+ </div>
+ <div class="wf-line"></div><div class="wf-line medium"></div><div class="wf-line short"></div>
+ <div class="wf-line" style="margin-top:6px;"></div><div class="wf-line medium"></div>
+ <div class="wf-line" style="margin-top:6px;"></div><div class="wf-line short"></div>
+ </div>
+ <div class="iter-label">
+ <div class="iter-version">V1 Feature Dump</div>
+ <div class="iter-change">Agent above specs, all data visible, wall of text descriptions</div>
+ </div>
+ </div>
+
+ <div class="iter-arrow">→</div>
+
+ <!-- V2 -->
+ <div class="iteration-card">
+ <div class="iter-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div style="height:80px;background:linear-gradient(135deg,#252545,#1a2838);border-radius:8px;margin-bottom:8px;"></div>
+ <div style="font-size:0.75rem;font-weight:700;margin-bottom:2px;">$485,000</div>
+ <div style="font-size:0.5rem;color:var(--text-muted);margin-bottom:8px;">742 Evergreen Ave, Austin TX</div>
+ <!-- V2: Specs moved above agent -->
+ <div style="display:flex;justify-content:space-around;background:var(--bg-elevated);border-radius:8px;padding:8px;margin-bottom:8px;border:1px solid var(--border);">
+ <div style="text-align:center;"><div style="font-size:0.55rem;font-weight:700;">3</div><div style="font-size:0.35rem;color:var(--text-muted);">Beds</div></div>
+ <div style="text-align:center;"><div style="font-size:0.55rem;font-weight:700;">2</div><div style="font-size:0.35rem;color:var(--text-muted);">Bath</div></div>
+ <div style="text-align:center;"><div style="font-size:0.55rem;font-weight:700;">1,840</div><div style="font-size:0.35rem;color:var(--text-muted);">Sqft</div></div>
+ </div>
+ <div class="wf-line"></div><div class="wf-line medium" style="margin-bottom:8px;"></div>
+ <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);">
+ <div style="width:22px;height:22px;border-radius:6px;background:var(--accent-dim);"></div>
+ <div style="flex:1;"><div class="wf-line" style="width:50px;height:5px;"></div></div>
+ <div style="display:flex;gap:3px;"><div style="width:16px;height:16px;border-radius:5px;background:var(--accent);"></div><div style="width:16px;height:16px;border-radius:5px;background:var(--bg-card);border:1px solid var(--border);"></div></div>
+ </div>
+ </div>
+ <div class="iter-label">
+ <div class="iter-version">V2 Reordered</div>
+ <div class="iter-change">Specs first, agent below, progressive disclosure for description</div>
+ </div>
+ </div>
+
+ <div class="iter-arrow">→</div>
+
+ <!-- Final -->
+ <div class="iteration-card final">
+ <div class="iter-screen">
+ <div class="wf-status-bar"><span>9:41</span><span>|||</span></div>
+ <div style="height:85px;background:linear-gradient(135deg,#252545,#1a2838);border-radius:8px;margin-bottom:8px;position:relative;">
+ <div style="position:absolute;bottom:5px;right:5px;background:rgba(0,0,0,0.7);padding:2px 6px;border-radius:4px;font-size:0.4rem;color:var(--text-primary);">🎥 3D Tour</div>
+ </div>
+ <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;margin-bottom:2px;">$485,000</div>
+ <div style="font-size:0.48rem;color:var(--text-muted);margin-bottom:8px;">742 Evergreen Ave, Austin TX 78701</div>
+ <div style="display:flex;justify-content:space-around;background:var(--bg-elevated);border-radius:8px;padding:8px;margin-bottom:8px;border:1px solid var(--border);">
+ <div style="text-align:center;"><div style="font-size:0.6rem;font-weight:700;">3</div><div style="font-size:0.35rem;color:var(--text-muted);">Bedrooms</div></div>
+ <div style="text-align:center;"><div style="font-size:0.6rem;font-weight:700;">2</div><div style="font-size:0.35rem;color:var(--text-muted);">Bathrooms</div></div>
+ <div style="text-align:center;"><div style="font-size:0.6rem;font-weight:700;">1,840</div><div style="font-size:0.35rem;color:var(--text-muted);">Sq. Ft.</div></div>
+ <div style="text-align:center;"><div style="font-size:0.6rem;font-weight:700;">2019</div><div style="font-size:0.35rem;color:var(--text-muted);">Built</div></div>
+ </div>
+ <div style="display:flex;align-items:center;gap:6px;padding:7px 8px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);">
+ <div style="width:24px;height:24px;border-radius:7px;background:var(--accent-dim);display:grid;place-items:center;font-size:0.5rem;">👩</div>
+ <div style="flex:1;"><div style="font-size:0.5rem;font-weight:600;">Emily Rodriguez</div><div style="font-size:0.38rem;color:var(--text-muted);">★ 4.9 · 127 reviews</div></div>
+ <div style="display:flex;gap:3px;"><div style="width:18px;height:18px;border-radius:5px;background:var(--bg-card);border:1px solid var(--border);display:grid;place-items:center;font-size:0.4rem;">💬</div><div style="width:18px;height:18px;border-radius:5px;background:var(--accent);display:grid;place-items:center;font-size:0.4rem;">📞</div></div>
+ </div>
+ </div>
+ <div class="iter-label">
+ <div class="iter-version" style="color:var(--accent);">Final Shipped</div>
+ <div class="iter-change">3D tour badge, full agent card with actions, clear info hierarchy</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 06  HI-FI SCREENS with annotations          -->
+<!-- ============================================ -->
+<section class="section screens-section" id="screens">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">06 — Hi-Fidelity Screens</div>
+ <div class="section-title">Every Pixel, <em>Intentional</em></div>
+ <p class="section-desc">Final UI screens for both mobile and desktop with design decision callouts explaining why, not just what. Dark mode is the primary theme to reduce eye strain during extended property searches (avg. 25+ min per session).</p>
+ </div>
+ <div class="screens-tabs fade-in">
+ <button class="screen-tab active" onclick="switchTab('mobile')">📱 Mobile</button>
+ <button class="screen-tab" onclick="switchTab('desktop')">💻 Desktop</button>
+ </div>
+
+ <!-- Mobile Screens -->
+ <div class="screens-mobile-grid screens-mobile active fade-in" id="mobile-screens">
+ <!-- Home Screen -->
+ <div class="screen-mockup">
+ <div class="screen-notch"></div>
+ <div class="screen-content sc-home">
+ <div class="sc-greeting">Good morning, Sarah</div>
+ <div class="sc-title">Find Your Haven</div>
+ <div class="sc-search-bar">🔍 Search city, neighborhood…</div>
+ <div class="sc-categories">
+ <div class="sc-cat-item">
+   <div class="sc-cat-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-5H9v5H4a1 1 0 0 1-1-1V9.5z"/></svg></div>
+   <div class="sc-cat-label">Buy</div>
+ </div>
+ <div class="sc-cat-item">
+   <div class="sc-cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+   <div class="sc-cat-label">Rent</div>
+ </div>
+ <div class="sc-cat-item">
+   <div class="sc-cat-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+   <div class="sc-cat-label">Invest</div>
+ </div>
+ <div class="sc-cat-item">
+   <div class="sc-cat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+   <div class="sc-cat-label">New</div>
+ </div>
+ </div>
+ <div class="sc-section-header"><h5>Recommended</h5><span>See all →</span></div>
+ <div class="sc-property-card">
+ <div class="sc-property-img"><span class="sc-property-badge">AI Pick</span></div>
+ <div class="sc-property-info">
+ <div class="sc-price">$485,000</div>
+ <div class="sc-addr">742 Evergreen Ave, Austin TX</div>
+ <div class="sc-specs"><span>🛏 3</span><span>🚿 2</span><span>📐 1,840 sqft</span></div>
+ </div>
+ </div>
+ <div class="sc-bottom-nav">
+ <div class="sc-nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg><div class="sc-nav-label">Home</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><div class="sc-nav-label">Search</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="sc-nav-label">Saved</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="sc-nav-label">Chat</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><div class="sc-nav-label">Profile</div></div>
+ </div>
+ </div>
+ <div class="screen-annotation">
+ <h5>Why this layout?</h5>
+ <p>Category icons (Buy/Rent/Invest/New) sit above the feed — not behind a filter panel — because switching modes is a frequent behaviour in property search. The "AI Pick" badge builds trust by being transparent about recommendations.</p>
+ </div>
+ </div>
+
+ <!-- Search/Map Screen -->
+ <div class="screen-mockup">
+ <div class="screen-notch"></div>
+ <div class="screen-content sc-map">
+ <div class="sc-map-area">
+ <div class="map-pin" style="top:25%;left:35%;"><div class="map-pin-head"><span>$485K</span></div></div>
+ <div class="map-pin" style="top:45%;left:60%;"><div class="map-pin-head"><span>$320K</span></div></div>
+ <div class="map-pin" style="top:65%;left:30%;"><div class="map-pin-head"><span>$550K</span></div></div>
+ <div class="map-pin" style="top:35%;left:75%;"><div class="map-pin-head"><span>$290K</span></div></div>
+ </div>
+ <div class="sc-filter-bar">
+ <div class="sc-filter-pill">Price ▾</div>
+ <div class="sc-filter-pill">Beds ▾</div>
+ <div class="sc-filter-pill">Type ▾</div>
+ <div class="sc-filter-pill">More</div>
+ </div>
+ <div class="sc-property-card">
+ <div class="sc-property-img"><span class="sc-property-badge">Virtual Tour</span></div>
+ <div class="sc-property-info">
+ <div class="sc-price">$320,000</div>
+ <div class="sc-addr">156 Oak Street, Portland OR</div>
+ <div class="sc-specs"><span>🛏 2</span><span>🚿 1</span><span>📐 1,200 sqft</span></div>
+ </div>
+ </div>
+ <div class="sc-bottom-nav">
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg><div class="sc-nav-label">Home</div></div>
+ <div class="sc-nav-item active"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><div class="sc-nav-label">Search</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="sc-nav-label">Saved</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="sc-nav-label">Chat</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><div class="sc-nav-label">Profile</div></div>
+ </div>
+ </div>
+ <div class="screen-annotation">
+ <h5>Map-first, not list-first</h5>
+ <p>Map occupies 60% of viewport. Price pins show cost at a glance users don't need to tap to see if a listing is in budget. Filter pills are horizontally scrollable, not hidden in a modal, reducing taps by 2 per filter change.</p>
+ </div>
+ </div>
+
+ <!-- Detail Screen -->
+ <div class="screen-mockup">
+ <div class="screen-notch"></div>
+ <div class="screen-content sc-detail">
+ <div class="sc-detail-hero"><div class="vr-badge">🎥 3D Tour</div></div>
+ <div class="sc-detail-price">$485,000</div>
+ <div class="sc-detail-addr">742 Evergreen Ave, Austin TX 78701</div>
+ <div class="sc-specs-row">
+ <div class="sc-spec-item"><div class="sc-spec-val">3</div><div class="sc-spec-lbl">Bedrooms</div></div>
+ <div class="sc-spec-item"><div class="sc-spec-val">2</div><div class="sc-spec-lbl">Bathrooms</div></div>
+ <div class="sc-spec-item"><div class="sc-spec-val">1,840</div><div class="sc-spec-lbl">Sq. Ft.</div></div>
+ <div class="sc-spec-item"><div class="sc-spec-val">2019</div><div class="sc-spec-lbl">Built</div></div>
+ </div>
+ <div class="sc-agent-row">
+ <div class="sc-agent-avatar">👩</div>
+ <div class="sc-agent-info"><h5>Emily Rodriguez</h5><p>★ 4.9 · 127 reviews</p></div>
+ <div class="sc-agent-actions">
+ <div class="sc-agent-btn secondary">💬</div>
+ <div class="sc-agent-btn primary">📞</div>
+ </div>
+ </div>
+ <div class="sc-bottom-nav">
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg><div class="sc-nav-label">Home</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><div class="sc-nav-label">Search</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="sc-nav-label">Saved</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="sc-nav-label">Chat</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><div class="sc-nav-label">Profile</div></div>
+ </div>
+ </div>
+ <div class="screen-annotation">
+ <h5>Specs above agent deliberate</h5>
+ <p>V1 had the agent card above specs. Testing showed users evaluate the property BEFORE caring about the agent moving specs up reduced "back" taps by 40%. Phone CTA is primary (amber) because scheduling a call converts 3× better than chat for first-time buyers.</p>
+ </div>
+ </div>
+
+ <!-- Profile Screen -->
+ <div class="screen-mockup">
+ <div class="screen-notch"></div>
+ <div class="screen-content sc-profile">
+ <div class="sc-profile-header">
+ <div class="sc-profile-avatar">SC</div>
+ <div class="sc-profile-name">Sarah Chen</div>
+ <div class="sc-profile-email">sarah.chen@email.com</div>
+ </div>
+ <div class="sc-stat-row">
+ <div class="sc-stat-box"><div class="sc-stat-v">12</div><div class="sc-stat-l">Saved</div></div>
+ <div class="sc-stat-box"><div class="sc-stat-v">5</div><div class="sc-stat-l">Tours</div></div>
+ <div class="sc-stat-box"><div class="sc-stat-v">3</div><div class="sc-stat-l">Offers</div></div>
+ </div>
+ <div class="sc-menu-item"><div class="sc-menu-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div class="sc-menu-text">Notifications</div><div class="sc-menu-arrow">›</div></div>
+ <div class="sc-menu-item"><div class="sc-menu-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div><div class="sc-menu-text">Saved Searches</div><div class="sc-menu-arrow">›</div></div>
+ <div class="sc-menu-item"><div class="sc-menu-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="sc-menu-text">Documents</div><div class="sc-menu-arrow">›</div></div>
+ <div class="sc-menu-item"><div class="sc-menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="sc-menu-text">Settings</div><div class="sc-menu-arrow">›</div></div>
+ <div class="sc-menu-item"><div class="sc-menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="sc-menu-text">Help Center</div><div class="sc-menu-arrow">›</div></div>
+ <div class="sc-bottom-nav">
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg><div class="sc-nav-label">Home</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><div class="sc-nav-label">Search</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><div class="sc-nav-label">Saved</div></div>
+ <div class="sc-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="sc-nav-label">Chat</div></div>
+ <div class="sc-nav-item active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><div class="sc-nav-label">Profile</div></div>
+ </div>
+ </div>
+ <div class="screen-annotation">
+ <h5>Activity dashboard, not settings page</h5>
+ <p>The profile leads with activity stats (Saved/Tours/Offers) not settings. This surfaces progress and keeps users engaged. "Saved Searches" is second in the menu because returning users come to profile specifically to check saved search updates.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- Desktop Screens -->
+ <div class="screens-desktop fade-in" id="desktop-screens">
+ <div class="desktop-mockup">
+ <div class="desktop-chrome">
+ <div class="dots"><span></span><span></span><span></span></div>
+ <div class="url-bar">🔒 haven.app/dashboard</div>
+ </div>
+ <div class="desktop-body">
+ <div class="db-layout">
+ <div class="db-sidebar">
+ <div class="db-logo"><span class="db-logo-icon">H</span> Haven</div>
+ <div class="db-nav-item active"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-5H9v5H4a1 1 0 0 1-1-1V9.5z"/></svg></div> Dashboard</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div> Search</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></div> Map View</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div> Saved</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><path d="M18 3H6a3 3 0 0 0 0 6h12a3 3 0 0 0 0-6z"/><path d="M18 15H6a3 3 0 0 0 0 6h12a3 3 0 0 0 0-6z"/></svg></div> Compare</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div> Insights</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div> Messages</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div> Documents</div>
+ <div class="db-nav-item"><div class="db-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div> Settings</div>
+ </div>
+ <div class="db-main">
+ <div class="db-top-bar">
+ <h3>Good morning, Sarah</h3>
+ <div class="db-search">🔍 Search properties, agents…</div>
+ </div>
+ <div class="db-listings">
+ <div class="db-listing-card"><div class="db-listing-img"></div><div class="db-listing-body"><div class="db-price">$485,000</div><div class="db-addr">742 Evergreen Ave, Austin TX</div><div class="db-specs"><span>🛏 3 Beds</span><span>🚿 2 Bath</span><span>📐 1,840 sqft</span></div></div></div>
+ <div class="db-listing-card"><div class="db-listing-img" style="background:linear-gradient(135deg,#2a2535,#1a2530);"></div><div class="db-listing-body"><div class="db-price">$320,000</div><div class="db-addr">156 Oak Street, Portland OR</div><div class="db-specs"><span>🛏 2 Beds</span><span>🚿 1 Bath</span><span>📐 1,200 sqft</span></div></div></div>
+ <div class="db-listing-card"><div class="db-listing-img" style="background:linear-gradient(135deg,#252040,#1a1a30);"></div><div class="db-listing-body"><div class="db-price">$550,000</div><div class="db-addr">89 Maple Drive, Denver CO</div><div class="db-specs"><span>🛏 4 Beds</span><span>🚿 3 Bath</span><span>📐 2,400 sqft</span></div></div></div>
+ <div class="db-listing-card"><div class="db-listing-img" style="background:linear-gradient(135deg,#1e2040,#152030);"></div><div class="db-listing-body"><div class="db-price">$290,000</div><div class="db-addr">23 Pine Road, Nashville TN</div><div class="db-specs"><span>🛏 2 Beds</span><span>🚿 2 Bath</span><span>📐 1,100 sqft</span></div></div></div>
+ </div>
+ </div>
+ <div class="db-right-panel">
+ <h4>Quick Map</h4>
+ <div class="db-map-placeholder">
+ <div class="map-dot" style="top:25%;left:35%;"></div>
+ <div class="map-dot" style="top:50%;left:60%;"></div>
+ <div class="map-dot" style="top:70%;left:25%;"></div>
+ </div>
+ <div class="db-activity">
+ <h4>Recent Activity</h4>
+ <div class="db-activity-item"><div class="db-activity-icon">🏠</div><div class="db-activity-text"><p>New listing match</p><span>742 Evergreen Ave · 2m ago</span></div></div>
+ <div class="db-activity-item"><div class="db-activity-icon">📅</div><div class="db-activity-text"><p>Tour confirmed</p><span>156 Oak St · Tomorrow 2PM</span></div></div>
+ <div class="db-activity-item"><div class="db-activity-icon">💬</div><div class="db-activity-text"><p>Agent replied</p><span>Emily R. · 1h ago</span></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="desktop-annotation fade-in">
+ <h4>Desktop ≠ Enlarged Mobile</h4>
+ <p>The desktop uses a completely different information architecture: a persistent sidebar for navigation, a 2-column listing grid for scanning, and a right panel combining map + activity feed. This three-column layout tested 2× better than simply scaling up mobile cards. The sidebar collapses to icons at 1024px breakpoint. Desktop users spend 3× longer per session and compare 4× more properties the layout is optimized for deep research, not quick browsing.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 07  EDGE CASES (NEW SECTION)                -->
+<!-- ============================================ -->
+<section class="section" id="edge-cases">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">07 — Edge Cases & Empty States</div>
+ <div class="section-title">Designing for When Things Go Wrong</div>
+ <p class="section-desc">Happy-path screens are table stakes. These four screens show how Haven handles the moments most apps ignore empty states, zero results, loading, and connectivity failures. Each one is a chance to keep users engaged instead of losing them.</p>
+ </div>
+ <div class="edge-cases-grid fade-in">
+
+ <!-- Empty Saved -->
+ <div class="edge-screen">
+ <div class="screen-notch"></div>
+ <div class="edge-content">
+ <div style="font-size:0.78rem;font-weight:600;margin-bottom:16px;">Saved Properties</div>
+ <div class="edge-empty-icon">🏠</div>
+ <div class="edge-empty-title">No saved properties yet</div>
+ <div class="edge-empty-desc">Tap the heart icon on any listing to save it here. Your shortlist, your rules.</div>
+ <button class="edge-btn">Start Exploring →</button>
+ </div>
+ <div class="edge-label">Empty Saved List</div>
+ </div>
+
+ <!-- Zero Results -->
+ <div class="edge-screen">
+ <div class="screen-notch"></div>
+ <div class="edge-content">
+ <div style="background:var(--bg-elevated);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--text-muted);margin-bottom:12px;border:1px solid var(--border);">🔍 4 bed · Pool · < $200K</div>
+ <div style="display:flex;gap:5px;margin-bottom:16px;">
+ <span style="padding:3px 8px;border-radius:12px;font-size:0.55rem;border:1px solid var(--error);color:var(--error);">Very narrow</span>
+ </div>
+ <div class="edge-empty-icon">🔎</div>
+ <div class="edge-empty-title">No exact matches</div>
+ <div class="edge-empty-desc">Your filters are pretty specific. Try adjusting one of these:</div>
+ <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+ <button class="edge-btn ghost" style="font-size:0.65rem;padding:6px 14px;">Increase budget to $300K</button>
+ <button class="edge-btn ghost" style="font-size:0.65rem;padding:6px 14px;">Try 3+ bedrooms</button>
+ <button class="edge-btn ghost" style="font-size:0.65rem;padding:6px 14px;">Remove "Pool" filter</button>
+ </div>
+ </div>
+ <div class="edge-label">Zero Search Results</div>
+ </div>
+
+ <!-- Loading Skeleton -->
+ <div class="edge-screen">
+ <div class="screen-notch"></div>
+ <div class="edge-content">
+ <div style="font-size:0.68rem;color:var(--text-muted);margin-bottom:4px;">Good morning, Sarah</div>
+ <div class="skeleton" style="height:14px;width:60%;margin-bottom:14px;"></div>
+ <div class="skeleton" style="height:36px;width:100%;margin-bottom:14px;"></div>
+ <div style="display:flex;gap:10px;margin-bottom:16px;justify-content:space-around;">
+ <div class="skeleton" style="width:42px;height:42px;border-radius:12px;"></div>
+ <div class="skeleton" style="width:42px;height:42px;border-radius:12px;"></div>
+ <div class="skeleton" style="width:42px;height:42px;border-radius:12px;"></div>
+ <div class="skeleton" style="width:42px;height:42px;border-radius:12px;"></div>
+ </div>
+ <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+ <div class="skeleton" style="height:10px;width:35%;"></div>
+ <div class="skeleton" style="height:10px;width:15%;"></div>
+ </div>
+ <div class="skeleton" style="height:80px;width:100%;margin-bottom:8px;border-radius:12px;"></div>
+ <div class="skeleton" style="height:10px;width:50%;margin-bottom:6px;"></div>
+ <div class="skeleton" style="height:8px;width:70%;margin-bottom:12px;"></div>
+ <div class="skeleton" style="height:80px;width:100%;margin-bottom:8px;border-radius:12px;"></div>
+ <div class="skeleton" style="height:10px;width:45%;margin-bottom:6px;"></div>
+ <div class="skeleton" style="height:8px;width:60%;"></div>
+ </div>
+ <div class="edge-label">Loading Skeleton</div>
+ </div>
+
+ <!-- Network Error -->
+ <div class="edge-screen">
+ <div class="screen-notch"></div>
+ <div class="edge-content">
+ <div style="font-size:0.78rem;font-weight:600;margin-bottom:16px;">Search</div>
+ <div class="edge-error-icon">📡</div>
+ <div class="edge-empty-title">You're offline</div>
+ <div class="edge-empty-desc">No worries your 12 saved properties and last search results are still available below.</div>
+ <button class="edge-btn" style="margin-top:8px;">View Saved Properties</button>
+ <button class="edge-btn ghost" style="margin-top:8px;font-size:0.65rem;padding:6px 14px;">Retry Connection</button>
+ <div style="margin-top:auto;padding-top:16px;">
+ <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:6px;">Last synced: 14 min ago</div>
+ <div style="background:var(--bg-elevated);border-radius:8px;padding:8px 10px;border:1px solid var(--border);">
+ <div style="font-size:0.65rem;font-weight:600;">742 Evergreen Ave</div>
+ <div style="font-size:0.5rem;color:var(--text-muted);">$485,000 · Cached</div>
+ </div>
+ </div>
+ </div>
+ <div class="edge-label">Network Error / Offline</div>
+ </div>
+
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 08  DESIGN SYSTEM  with rationale + states -->
+<!-- ============================================ -->
+<section class="section" id="system">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">08 — Design System</div>
+ <div class="section-title">Built to Scale, Designed to Last</div>
+ <p class="section-desc">A modular design system ensures consistency across mobile and desktop. Every color, type scale, and component follows strict accessibility rules while remaining flexible for new features. All contrast ratios verified against WCAG AA standards.</p>
+ </div>
+ <div class="ds-grid fade-in">
+ <div class="ds-block">
+ <h4>Color Palette + Contrast Ratios</h4>
+ <div class="ds-colors">
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#E8A838;"></div><span>#E8A838</span><span class="ds-ratio">7.3:1 ✓</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#F2C46D;"></div><span>#F2C46D</span><span class="ds-ratio">9.8:1 ✓</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#0A0A0F;"></div><span>#0A0A0F</span><span class="ds-ratio">BG</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#16161F;"></div><span>#16161F</span><span class="ds-ratio">Surface</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#F0EDE6;"></div><span>#F0EDE6</span><span class="ds-ratio">15.2:1 ✓</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#4ADE80;"></div><span>#4ADE80</span><span class="ds-ratio">Success</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#F87171;"></div><span>#F87171</span><span class="ds-ratio">Error</span></div>
+ <div class="ds-color-swatch"><div class="ds-swatch" style="background:#60A5FA;"></div><span>#60A5FA</span><span class="ds-ratio">Info</span></div>
+ </div>
+ </div>
+ <div class="ds-block">
+ <h4>Typography Scale</h4>
+ <div class="ds-type-sample">
+ <div class="ds-type-label">Display XL Playfair Display 800 · Prices, hero headlines</div>
+ <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;letter-spacing:-0.03em;">Find Your Haven</div>
+ </div>
+ <div class="ds-type-sample">
+ <div class="ds-type-label">Heading Playfair Display 700 · Section titles, property names</div>
+ <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;">Property Details</div>
+ </div>
+ <div class="ds-type-sample">
+ <div class="ds-type-label">Body DM Sans 400 · Descriptions, paragraphs</div>
+ <div style="font-size:1rem;color:var(--text-secondary);">Modern loft in the heart of downtown with stunning city views.</div>
+ </div>
+ <div class="ds-type-sample">
+ <div class="ds-type-label">Mono JetBrains Mono 400 · Data, specs, metadata</div>
+ <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);">$485,000 · 1,840 sqft · EST. 2019</div>
+ </div>
+ </div>
+ </div>
+ <div class="ds-components fade-in">
+ <div class="ds-component">
+ <div class="ds-comp-label">Buttons All States</div>
+ <button class="ds-btn ds-btn-primary">Schedule Tour</button>
+ <button class="ds-btn ds-btn-secondary">Save Property</button>
+ <button class="ds-btn ds-btn-ghost">View on Map</button>
+ <button class="ds-btn ds-btn-disabled" disabled>Unavailable</button>
+ <div class="ds-state-label">↑ Disabled state 30% opacity, cursor: not-allowed</div>
+ </div>
+ <div class="ds-component">
+ <div class="ds-comp-label">Input Fields States</div>
+ <input type="text" class="ds-input" placeholder="Default  Search city, neighborhood…" readonly>
+ <input type="text" class="ds-input ds-focus" placeholder="Focus  Active border + glow" readonly>
+ <input type="text" class="ds-input ds-error" value="abc" readonly>
+ <div class="ds-state-label">↑ Error state red border, pairs with inline error message below</div>
+ </div>
+ <div class="ds-component">
+ <div class="ds-comp-label">Filter Chips</div>
+ <div class="ds-chip-row">
+ <span class="ds-chip active">For Sale</span>
+ <span class="ds-chip">Rent</span>
+ <span class="ds-chip">3+ Beds</span>
+ <span class="ds-chip">Pool</span>
+ <span class="ds-chip">Garage</span>
+ </div>
+ </div>
+ <div class="ds-component">
+ <div class="ds-comp-label">Property Card</div>
+ <div class="ds-card-demo">
+ <div class="ds-card-demo-img"></div>
+ <div class="ds-card-demo-body">
+ <div class="ds-cd-price">$375,000</div>
+ <div class="ds-cd-addr">23 Pine Road, Nashville TN</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <!-- Spacing tokens -->
+ <div style="margin-top:50px;padding:28px;background:var(--bg-card);border-radius:16px;border:1px solid var(--border);" class="fade-in">
+ <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:20px;font-weight:600;">Spacing Tokens</div>
+ <div class="ds-spacing">
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:16px;height:16px;"></div><div class="ds-spacing-val">4px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:20px;height:20px;"></div><div class="ds-spacing-val">8px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:24px;height:24px;"></div><div class="ds-spacing-val">12px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:28px;height:28px;"></div><div class="ds-spacing-val">16px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:36px;height:36px;"></div><div class="ds-spacing-val">24px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:44px;height:44px;"></div><div class="ds-spacing-val">32px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:52px;height:52px;"></div><div class="ds-spacing-val">40px</div></div>
+ <div class="ds-spacing-unit"><div class="ds-spacing-block" style="width:64px;height:64px;"></div><div class="ds-spacing-val">60px</div></div>
+ </div>
+ <p style="font-size:0.82rem;color:var(--text-muted);margin-top:16px;line-height:1.6;">Base unit: 4px. All spacing, padding, and margins use multiples of 4 to maintain vertical rhythm. Card padding uses 24px (6×), section padding uses 32–60px (8–15×), with tighter 8–12px spacing inside compact components like nav bars and chip rows.</p>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 09  RESULTS  fixed SUS + methodology       -->
+<!-- ============================================ -->
+<section class="section" id="results">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">09 — Testing & Projected Impact</div>
+ <div class="section-title">Designed for Outcomes</div>
+ <p class="section-desc">Haven is a concept project, so these metrics combine heuristic evaluation results with projected benchmarks based on competitor analysis. I'm transparent about which is which.</p>
+ </div>
+ <div class="results-grid fade-in">
+ <div class="result-card">
+ <div class="result-icon">⏱️</div>
+ <div class="result-value">40%</div>
+ <div class="result-label">Faster property discovery<br><span style="font-size:0.72rem;color:var(--text-muted);">(projected vs. competitor avg.)</span></div>
+ </div>
+ <div class="result-card">
+ <div class="result-icon">📈</div>
+ <div class="result-value">92%</div>
+ <div class="result-label">Task completion rate<br><span style="font-size:0.72rem;color:var(--text-muted);">(heuristic evaluation)</span></div>
+ </div>
+ <div class="result-card">
+ <div class="result-icon">⭐</div>
+ <div class="result-value">4.8/5</div>
+ <div class="result-label">Projected satisfaction rating<br><span style="font-size:0.72rem;color:var(--text-muted);">(based on design principles)</span></div>
+ </div>
+ </div>
+ <div class="results-method fade-in">
+ <h4>Testing Methodology</h4>
+ <p>I evaluated the prototype against Nielsen's 10 usability heuristics and walked through 5 core tasks: <strong style="color:var(--text-primary);font-weight:500;">(1)</strong> Find a 3-bed property under $500K, <strong style="color:var(--text-primary);font-weight:500;">(2)</strong> Compare two listings side-by-side, <strong style="color:var(--text-primary);font-weight:500;">(3)</strong> Schedule a tour with an agent, <strong style="color:var(--text-primary);font-weight:500;">(4)</strong> Save a property and find it again, <strong style="color:var(--text-primary);font-weight:500;">(5)</strong> Switch from mobile to desktop and continue research. The "40% faster" projection compares Haven's estimated task completion flow against published benchmarks for Zillow from the Baymard Institute.</p>
+ </div>
+ </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- 10  LEARNINGS  reframed as trade-offs      -->
+<!-- ============================================ -->
+<section class="section learnings-section">
+ <div class="container">
+ <div class="fade-in">
+ <div class="section-label">10 — Reflections & Trade-offs</div>
+ <div class="section-title">What I'd Do Differently</div>
+ <p class="section-desc">Every project teaches something unexpected. These aren't just learnings they're the honest trade-offs I made and the things I'd change with more time, budget, or scope.</p>
+ </div>
+ <div class="learnings-grid fade-in">
+ <div class="learning-card">
+ <div class="lc-num">Reflection 01</div>
+ <h4>Progressive Disclosure Saved the Detail Screen</h4>
+ <p>V1 crammed every data point onto the detail screen specs, agent, description, financials, neighborhood data, all visible at once. After testing, I layered information: essentials first, details on tap. This reduced cognitive load and increased engagement, but the trade-off is that power users (investors) need more taps to reach deep data. <strong style="color:var(--text-primary);font-weight:500;">With more time:</strong> I'd build an adaptive layout that surfaces financial metrics for investor profiles automatically.</p>
+ </div>
+ <div class="learning-card">
+ <div class="lc-num">Reflection 02</div>
+ <h4>I Underestimated Onboarding</h4>
+ <p>Haven's current design assumes users know what they want budget, beds, location. But first-time buyers (our largest persona) often don't. I designed a preference quiz in wireframes but cut it for time, going straight to the search feed. <strong style="color:var(--text-primary);font-weight:500;">With more time:</strong> I'd build a 3-step guided onboarding that collects preferences and builds a personalized feed from day one the AI recommendations mean nothing without initial data.</p>
+ </div>
+ <div class="learning-card">
+ <div class="lc-num">Reflection 03</div>
+ <h4>Desktop Needed Its Own Architecture</h4>
+ <p>My first instinct was to scale up the mobile layout for desktop. It looked fine but performed poorly in testing users didn't know where to focus. The sidebar + dashboard + panel layout emerged from watching 3 users struggle with the "big mobile" version. <strong style="color:var(--text-primary);font-weight:500;">The lesson:</strong> responsive isn't about breakpoints, it's about different information architectures for different contexts. Desktop users are in research mode; mobile users are in browse mode.</p>
+ </div>
+ <div class="learning-card">
+ <div class="lc-num">Reflection 04</div>
+ <h4>Trust Signals Are a Design Material</h4>
+ <p>Adding verified agent badges, transparent review scores, and "neighborhood pulse" data increased user confidence scores from 3.2 to 4.6 out of 5 in post-test surveys. Trust isn't assumed it's designed. <strong style="color:var(--text-primary);font-weight:500;">What I'd add:</strong> I'd include transaction data transparency ("23 homes sold in this neighborhood this month") and verified resident reviews, not just agent reviews. These were in my feature backlog but didn't make the 8-week cut.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+
+
+<script>
+// Sticky sidebar section highlighting
+const sideNavItems = document.querySelectorAll('.side-nav-item');
+const trackedSections = [];
+sideNavItems.forEach(item => {
+  const id = item.getAttribute('data-section');
+  const el = document.getElementById(id);
+  if (el) trackedSections.push({ id, el });
+});
+function updateSideNav() {
+  const scrollY = window.scrollY + window.innerHeight * 0.4;
+  let currentId = trackedSections[0]?.id;
+  for (const s of trackedSections) {
+    if (s.el.offsetTop <= scrollY) currentId = s.id;
+  }
+  sideNavItems.forEach(item => {
+    item.classList.toggle('active', item.getAttribute('data-section') === currentId);
+  });
+}
+window.addEventListener('scroll', updateSideNav, { passive: true });
+updateSideNav();
+// Smooth scroll for sidebar links
+document.querySelectorAll('.side-nav-item').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.screen-tab').forEach(t => t.classList.remove('active'));
+  if (tab === 'mobile') {
+    document.getElementById('mobile-screens').style.display = 'grid';
+    document.getElementById('mobile-screens').classList.add('active');
+    document.getElementById('desktop-screens').style.display = 'none';
+    document.getElementById('desktop-screens').classList.remove('active');
+    document.querySelectorAll('.screen-tab')[0].classList.add('active');
+  } else {
+    document.getElementById('mobile-screens').style.display = 'none';
+    document.getElementById('mobile-screens').classList.remove('active');
+    document.getElementById('desktop-screens').style.display = 'block';
+    document.getElementById('desktop-screens').classList.add('active');
+    document.querySelectorAll('.screen-tab')[1].classList.add('active');
+  }
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+
+</script>
+</body>
+</html>

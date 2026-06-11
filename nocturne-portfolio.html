@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nocturne — UI/UX Case Study & Final Screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══ RESET & VARIABLES ═══ */
+:root {
+  --bg: #0C0A06;
+  --bg-elevated: #141210;
+  --cream: #F4EFE4;
+  --cream-dim: #EDE7D9;
+  --parch: #FAF6ED;
+  --burg: #3D1E1E;
+  --burg-deep: #2A1111;
+  --gold: #C4A747;
+  --gold-dim: #A08A3A;
+  --gold-bright: #D4B957;
+  --emerald: #2D4A3F;
+  --emerald-light: #3A6355;
+  --charcoal: #1A1A1A;
+  --ink: #2C2820;
+  --mid: #7A7366;
+  --mid-2: #A09888;
+  --rule: rgba(196,167,71,.15);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --body: 'Lora', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══ SMOOTH LOADER ═══ */
+
+
+/* ═══ GLOBAL ═══ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+@media (max-width: 768px) { .container { padding: 0 24px; } }
+
+/* ═══ NAV ═══ */
+.nav {
+  display: none;
+}
+.nav.scrolled {
+  background: rgba(12,10,6,.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-mark {
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 16px; font-weight: 700;
+  color: var(--gold);
+}
+.nav-name {
+  font-family: var(--sans);
+  font-size: 14px; font-weight: 600;
+  color: var(--cream);
+  letter-spacing: .02em;
+}
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--mid-2);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-links a:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav { padding: 16px 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; }
+}
+
+
+/* ═══ STICKY RIGHT SIDEBAR ═══ */
+.side-nav {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.side-nav-item {
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  opacity: .35;
+  text-decoration: none;
+  transition: all .4s ease;
+  position: relative;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+}
+.side-nav-item.active {
+  opacity: 1;
+  color: var(--gold);
+  background: rgba(196,167,71,.08);
+  border-left-color: var(--gold);
+}
+@media (max-width: 1400px) { .side-nav { display: none; } }
+
+/* ═══ HERO COVER split layout with device mockup ═══ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  text-align: left;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+}
+.hero-mockup {
+  width: 480px;
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  border: 1px solid rgba(196,167,71,.1);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(196,167,71,.08);
+}
+.hero-mockup-bar {
+  height: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 5px;
+}
+.hero-mockup-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.hero-mockup-dot:nth-child(1) { background: rgba(255,80,80,.4); }
+.hero-mockup-dot:nth-child(2) { background: rgba(255,200,50,.4); }
+.hero-mockup-dot:nth-child(3) { background: rgba(80,200,80,.4); }
+.hero-mockup-screen {
+  aspect-ratio: 16/10;
+}
+.hero-mockup-screen svg { width: 100%; height: 100%; display: block; }
+.hero-mockup-label {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(196,167,71,.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.hero-mockup-name {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cream);
+}
+.hero-mockup-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--gold);
+  opacity: .5;
+}
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+  .hero-visual { order: -1; min-height: auto; }
+  .hero-mockup { width: 100%; max-width: 480px; }
+  .hero-inner { max-width: 100%; margin: 0 auto; }
+  .hero-meta-row { justify-content: center; }
+}
+
+.hero-old-replaced { display:none; }
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 120px 48px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 35%, rgba(196,167,71,.05), transparent),
+    radial-gradient(circle at 20% 80%, rgba(61,30,30,.2), transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(45,74,63,.1), transparent 50%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 2; max-width: 860px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  opacity: 0; animation: fadeUp .8s ease forwards .3s;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { opacity: .4; }
+  50% { opacity: 1; }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(60px, 9vw, 120px);
+  font-weight: 700;
+  line-height: .9;
+  letter-spacing: -.04em;
+  color: var(--cream);
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp .8s ease forwards .5s;
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-family: var(--body);
+  font-size: 19px; line-height: 1.8;
+  color: var(--mid-2);
+  max-width: 540px;
+  margin: 0 auto 48px;
+  opacity: 0; animation: fadeUp .8s ease forwards .7s;
+}
+
+.hero-meta-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 40px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .8s ease forwards .9s;
+}
+.hero-meta-item { text-align: center; }
+.hero-meta-val {
+  font-family: var(--serif);
+  font-size: 32px; font-weight: 700;
+  color: var(--cream);
+  display: block; line-height: 1.1;
+}
+.hero-meta-lbl {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--mid); margin-top: 4px;
+}
+.hero-meta-divider {
+  width: 1px; height: 36px;
+  background: var(--rule);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeUp .8s ease forwards 1.2s;
+}
+.hero-scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: .3; transform: scaleY(1); }
+  50% { opacity: .8; transform: scaleY(1.2); }
+}
+.hero-scroll-text {
+  font-family: var(--mono);
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--mid);
+}
+
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ 3D MOCKUP BANNER ═══ */
+.mockup-banner {
+  padding: 0 0 120px;
+  position: relative; overflow: hidden;
+}
+.mockup-stage {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  perspective: 1200px;
+}
+.mockup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  padding: 40px 48px;
+}
+@media (max-width: 900px) {
+  .mockup-grid { grid-template-columns: 1fr; gap: 48px; padding: 40px 24px; }
+}
+.mockup-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1px solid rgba(196,167,71,.1);
+  transition: transform .6s cubic-bezier(.22,1,.36,1), box-shadow .6s ease;
+  transform-style: preserve-3d;
+}
+.mockup-card:nth-child(1) {
+  transform: perspective(1000px) rotateY(4deg) rotateX(2deg);
+}
+.mockup-card:nth-child(2) {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.04);
+  z-index: 2;
+  box-shadow: 0 40px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(196,167,71,.15);
+}
+.mockup-card:nth-child(3) {
+  transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
+}
+
+
+.mockup-topbar {
+  height: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  display: flex; align-items: center;
+  padding: 0 12px; gap: 5px;
+}
+.mockup-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.12);
+}
+.mockup-dot:first-child { background: rgba(255,80,80,.4); }
+.mockup-dot:nth-child(2) { background: rgba(255,200,50,.4); }
+.mockup-dot:nth-child(3) { background: rgba(80,200,80,.4); }
+
+.mockup-screen {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.mockup-screen svg { width: 100%; height: 100%; display: block; }
+
+.mockup-label {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(196,167,71,.08);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mockup-label-name {
+  font-family: var(--serif);
+  font-size: 16px; font-weight: 600;
+  color: var(--cream);
+}
+.mockup-label-num {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--gold); opacity: .6;
+}
+
+/* Glow behind center card */
+.mockup-glow {
+  position: absolute;
+  width: 400px; height: 400px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(196,167,71,.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══ SECTION SHARED ═══ */
+.section { padding: 120px 0; position: relative; }
+
+.section-light {
+  background: var(--cream);
+  color: var(--ink);
+}
+.section-dark {
+  background: var(--bg);
+  color: var(--cream);
+}
+.section-dark::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.sec-label {
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.sec-label::before {
+  content: ''; width: 24px; height: 1px;
+  background: currentColor;
+}
+.section-light .sec-label { color: var(--burg); }
+
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700; line-height: 1.08;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+}
+.section-dark .sec-title { color: var(--cream); }
+.section-light .sec-title { color: var(--charcoal); }
+.sec-title em {
+  font-style: italic;
+}
+.section-dark .sec-title em { color: var(--gold); }
+.section-light .sec-title em { color: var(--burg); }
+
+.sec-desc {
+  font-family: var(--body);
+  font-size: 17px; line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 64px;
+}
+.section-dark .sec-desc { color: var(--mid-2); }
+.section-light .sec-desc { color: var(--mid); }
+
+/* ═══ OVERVIEW SECTION ═══ */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+@media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+.overview-text h3 {
+  font-family: var(--serif);
+  font-size: 28px; font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+}
+.overview-text p {
+  font-family: var(--body);
+  font-size: 16px; line-height: 1.8;
+  color: var(--mid);
+  margin-bottom: 24px;
+}
+.overview-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.overview-detail-label {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--burg); opacity: .6;
+  margin-bottom: 4px;
+}
+.overview-detail-value {
+  font-family: var(--sans);
+  font-size: 15px; font-weight: 500;
+  color: var(--charcoal);
+}
+
+.overview-role {
+  background: var(--parch);
+  border: 1px solid rgba(196,167,71,.12);
+  border-radius: 16px;
+  padding: 36px 32px;
+}
+.overview-role h4 {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 20px;
+}
+.role-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.role-list li {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--sans);
+  font-size: 15px; color: var(--ink);
+}
+.role-dot {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ═══ PROBLEM CARDS ═══ */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+@media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; } }
+
+.problem-card {
+  background: rgba(244,239,228,.04);
+  border: 1px solid rgba(196,167,71,.1);
+  border-radius: 16px;
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .4s ease, border-color .4s;
+}
+.problem-card:hover {
+  border-color: rgba(196,167,71,.25);
+}
+.problem-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--gold);
+  opacity: .4;
+  border-radius: 3px 0 0 3px;
+}
+.problem-num {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600;
+  color: var(--gold);
+  letter-spacing: .1em;
+  margin-bottom: 14px; opacity: .5;
+}
+.problem-quote {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 600;
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+.problem-explain {
+  font-size: 14px; color: var(--mid-2);
+  line-height: 1.75;
+}
+
+/* ═══ SOLUTION FEATURES ═══ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative; z-index: 1;
+}
+@media (max-width: 900px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .features-grid { grid-template-columns: 1fr; } }
+
+.feature-card {
+  background: rgba(244,239,228,.03);
+  border: 1px solid rgba(196,167,71,.08);
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: all .5s cubic-bezier(.22,1,.36,1);
+}
+.feature-card:hover {
+  background: rgba(244,239,228,.06);
+  border-color: rgba(196,167,71,.2);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,.3);
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border: 1.5px solid var(--gold);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 20px;
+  background: rgba(196,167,71,.06);
+}
+.feature-name {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+.feature-desc {
+  font-size: 14px; color: var(--mid-2); line-height: 1.75;
+}
+
+/* ═══ USER FLOW ═══ */
+.flow-steps {
+  display: flex; flex-direction: column;
+  gap: 0; position: relative; z-index: 1;
+}
+.flow-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  padding-bottom: 48px;
+  position: relative;
+}
+.flow-step:last-child { padding-bottom: 0; }
+.flow-step::before {
+  content: '';
+  position: absolute;
+  left: 27px; top: 56px; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold), rgba(196,167,71,.05));
+}
+.flow-step:last-child::before { display: none; }
+.flow-num {
+  width: 56px; height: 56px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 700;
+  color: var(--gold);
+  background: var(--cream);
+  position: relative; z-index: 2;
+  flex-shrink: 0;
+}
+.section-light .flow-num { background: var(--cream); }
+.flow-content { padding-top: 6px; }
+.flow-title {
+  font-family: var(--serif);
+  font-size: 24px; font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+.flow-desc {
+  font-size: 15px; color: var(--mid);
+  line-height: 1.8; max-width: 580px;
+}
+
+/* ═══ FULL-WIDTH MOCKUP BAND ═══ */
+.mockup-band {
+  padding: 100px 0;
+  background: var(--bg-elevated);
+  position: relative; overflow: hidden;
+}
+.mockup-band::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 30% 50%, rgba(196,167,71,.04), transparent),
+    radial-gradient(ellipse 50% 60% at 70% 50%, rgba(45,74,63,.04), transparent);
+  pointer-events: none;
+}
+.mockup-band-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .mockup-band-inner { grid-template-columns: 1fr; }
+}
+.mockup-band-text { position: relative; z-index: 2; }
+.mockup-band-text h3 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700; line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.mockup-band-text h3 em { font-style: italic; color: var(--gold); }
+.mockup-band-text p {
+  font-family: var(--body);
+  font-size: 16px; line-height: 1.8;
+  color: var(--mid-2);
+}
+
+.mockup-band-visual {
+  position: relative;
+  perspective: 800px;
+}
+.mockup-float {
+  background: var(--bg);
+  border: 1px solid rgba(196,167,71,.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transform: perspective(800px) rotateY(-6deg) rotateX(3deg);
+  box-shadow: 0 40px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(196,167,71,.08);
+  transition: transform .6s cubic-bezier(.22,1,.36,1);
+}
+.mockup-float:hover {
+  transform: perspective(800px) rotateY(-2deg) rotateX(1deg);
+}
+.mockup-float .mockup-topbar {
+  border-bottom: 1px solid rgba(196,167,71,.06);
+}
+.mockup-float svg { width: 100%; display: block; }
+
+/* ═══ DESIGN SYSTEM ═══ */
+.ds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.ds-card {
+  background: var(--parch);
+  border: 1px solid rgba(196,167,71,.12);
+  border-radius: 14px;
+  padding: 28px 24px;
+}
+.ds-card-title {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+}
+.swatch-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch-item { display: flex; flex-direction: column; align-items: center; }
+.swatch {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.06);
+}
+.swatch-label {
+  font-family: var(--mono);
+  font-size: 9px; color: var(--mid);
+  margin-top: 6px; text-align: center; width: 48px;
+}
+
+.type-sample { margin-bottom: 14px; }
+.type-name {
+  font-family: var(--mono);
+  font-size: 9px; color: var(--mid);
+  letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.type-preview-serif {
+  font-family: var(--serif);
+  font-size: 26px; font-weight: 700;
+  color: var(--charcoal); line-height: 1.2;
+}
+.type-preview-body {
+  font-family: var(--body);
+  font-size: 15px; color: var(--ink); line-height: 1.6;
+}
+.type-preview-mono {
+  font-family: var(--mono);
+  font-size: 12px; color: var(--mid);
+}
+
+/* ═══ WIREFRAMES ═══ */
+.wireframe-section {
+  background: #FAFCFA;
+  padding: 120px 0;
+  position: relative; overflow: hidden;
+}
+.wireframe-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(0deg, rgba(45,74,63,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,74,63,.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+.wireframe-section .sec-label { color: var(--emerald); }
+.wireframe-section .sec-title { color: var(--charcoal); }
+.wireframe-section .sec-title em { color: var(--emerald); }
+.wireframe-section .sec-desc { color: var(--mid); }
+
+.wf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+  position: relative; z-index: 1;
+}
+@media (max-width: 900px) { .wf-grid { grid-template-columns: 1fr; } }
+
+.wf-item { display: flex; flex-direction: column; gap: 20px; }
+.wf-frame {
+  background: #fff;
+  border: 1.5px solid rgba(45,74,63,.12);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.05);
+  transition: transform .4s ease, box-shadow .4s;
+}
+.wf-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,.08);
+}
+.wf-frame-bar {
+  height: 28px;
+  background: linear-gradient(180deg, #F8F8F6, #F0EFEB);
+  border-bottom: 1px solid rgba(45,74,63,.08);
+  display: flex; align-items: center;
+  padding: 0 10px; gap: 5px;
+}
+.wf-frame-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(45,74,63,.15);
+}
+.wf-svg { width: 100%; display: block; }
+
+.wf-label {
+  display: flex; align-items: center; gap: 12px;
+}
+.wf-num-label {
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600;
+  color: var(--emerald); letter-spacing: .1em;
+  opacity: .6;
+}
+.wf-name-label {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 700;
+  color: var(--charcoal);
+}
+
+/* ═══ DIVIDER ═══ */
+.ornament {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; padding: 48px 0;
+}
+.ornament-line {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.ornament-diamond {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ═══ OUTCOME / CTA ═══ */
+.outcome-section {
+  padding: 120px 0;
+  background: var(--bg);
+  position: relative;
+  text-align: center;
+}
+.outcome-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(196,167,71,.04), transparent);
+  pointer-events: none;
+}
+.outcome-inner {
+  position: relative; z-index: 2;
+  max-width: 700px; margin: 0 auto;
+}
+.outcome-inner .sec-label { justify-content: center; }
+.outcome-inner .sec-title { text-align: center; }
+.outcome-stats {
+  display: flex; justify-content: center;
+  gap: 64px; flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.outcome-stat { text-align: center; }
+.outcome-stat-val {
+  font-family: var(--serif);
+  font-size: 48px; font-weight: 700;
+  color: var(--gold); line-height: 1;
+  margin-bottom: 6px;
+}
+.outcome-stat-lbl {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--mid);
+}
+.outcome-note {
+  font-family: var(--body);
+  font-size: 17px; line-height: 1.8;
+  color: var(--mid-2);
+  font-style: italic;
+}
+
+/* ═══ FOOTER ═══ */
+.footer {
+  background: var(--bg);
+  padding: 48px 48px 36px;
+  border-top: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+}
+@media (max-width: 768px) {
+  .footer { flex-direction: column; gap: 16px; text-align: center; padding: 36px 24px; }
+}
+.footer-left {
+  display: flex; align-items: center; gap: 12px;
+}
+.footer-mark {
+  width: 28px; height: 28px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 14px; font-weight: 700;
+  color: var(--gold);
+}
+.footer-credit {
+  font-family: var(--mono);
+  font-size: 12px; color: var(--mid);
+}
+.footer-right {
+  font-family: var(--mono);
+  font-size: 11px; color: var(--mid);
+  letter-spacing: .08em;
+}
+
+/* ═══ SCROLL REVEAL ═══ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .35s; }
+.reveal-delay-5 { transition-delay: .4s; }
+
+/* ═══ FINAL SCREENS SECTION ═══ */
+.screens-hero {
+  padding: 120px 48px 60px;
+  text-align: center;
+  position: relative;
+}
+.screens-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(196,167,71,.06), transparent),
+    radial-gradient(circle at 20% 80%, rgba(61,30,30,.2), transparent 50%);
+  pointer-events: none;
+}
+.screens-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 28px;
+}
+.screens-hero-badge::before, .screens-hero-badge::after {
+  content: ''; width: 20px; height: 1px; background: var(--gold); opacity: .5;
+}
+.screens-hero h2 {
+  font-family: var(--serif);
+  font-size: clamp(48px, 8vw, 88px); font-weight: 700;
+  line-height: .92; letter-spacing: -.04em; color: var(--cream); margin-bottom: 20px;
+}
+.screens-hero h2 em { font-style: italic; color: var(--gold); }
+.screens-hero-sub {
+  font-family: var(--body); font-size: 18px; color: var(--mid-2);
+  max-width: 480px; margin: 0 auto; font-style: italic;
+}
+
+.screen-section { padding: 100px 0; position: relative; }
+.screen-section:nth-child(even of .screen-section) {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 50%, var(--bg) 100%);
+}
+
+.screen-showcase {
+  display: flex; align-items: center; gap: 56px;
+}
+.screen-showcase.flip { flex-direction: row-reverse; }
+@media (max-width: 900px) {
+  .screen-showcase, .screen-showcase.flip { flex-direction: column; gap: 36px; }
+}
+
+.screen-frame {
+  flex: 1; min-width: 0;
+  background: #151210;
+  border: 1px solid rgba(196,167,71,.15);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,.5), 0 0 60px rgba(196,167,71,.04);
+}
+.tilt-l { transform: perspective(1000px) rotateY(4deg) rotateX(1deg); }
+.tilt-r { transform: perspective(1000px) rotateY(-4deg) rotateX(1deg); }
+
+.frame-bar {
+  height: 34px;
+  background: linear-gradient(180deg, #1E1B16, #161310);
+  border-bottom: 1px solid rgba(196,167,71,.08);
+  display: flex; align-items: center; padding: 0 14px; gap: 7px;
+}
+.frame-dot { width: 9px; height: 9px; border-radius: 50%; }
+.frame-dot:nth-child(1) { background: rgba(196,80,80,.4); }
+.frame-dot:nth-child(2) { background: rgba(196,167,71,.35); }
+.frame-dot:nth-child(3) { background: rgba(45,74,63,.45); }
+.frame-url {
+  margin-left: auto; font-family: var(--mono);
+  font-size: 10px; color: var(--mid); opacity: .5;
+}
+.frame-screen svg { display: block; width: 100%; }
+
+.screen-info { flex: 0 0 340px; }
+@media (max-width: 900px) { .screen-info { flex: none; width: 100%; } }
+.screen-info h3 {
+  font-family: var(--serif); font-size: 28px; font-weight: 700;
+  color: var(--cream); line-height: 1.15; margin-bottom: 14px;
+}
+.screen-info h3 em { font-style: italic; color: var(--gold); }
+.screen-info p {
+  font-family: var(--sans); font-size: 14px; color: var(--mid-2);
+  line-height: 1.8; margin-bottom: 16px;
+}
+.feature-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.ftag {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--gold);
+  padding: 6px 14px; border: 1px solid rgba(196,167,71,.2);
+  border-radius: 6px; background: rgba(196,167,71,.04);
+}
+</style>
+</head>
+<body>
+<!-- ═══ BACK NAV ═══ -->
+<div style="position:fixed;top:20px;left:24px;z-index:999;">
+ <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(12,10,6,.85);backdrop-filter:blur(12px);border:1px solid rgba(196,167,71,.2);border-radius:100px;font-family:monospace;font-size:11px;font-weight:500;color:rgba(244,239,228,.6);text-decoration:none;transition:all .3s;letter-spacing:.04em;" onmouseover="this.style.color='#C4A747';this.style.borderColor='rgba(196,167,71,.5)'" onmouseout="this.style.color='rgba(244,239,228,.6)';this.style.borderColor='rgba(196,167,71,.2)'">← Back to Portfolio</a>
+</div>
+
+<!-- LOADER -->
+
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+ <a href="#" class="nav-brand">
+ <div class="nav-mark">N</div>
+ <span class="nav-name">Nocturne</span>
+ </a>
+ <div class="nav-links">
+ <a href="#overview">Overview</a>
+ <a href="#problem">Problem</a>
+ <a href="#solution">Solution</a>
+ <a href="#screens">Screens</a>
+ <a href="#final-screens">Final UI</a>
+ </div>
+</nav>
+
+<!-- HERO -->
+<!-- STICKY LEFT SIDEBAR -->
+<nav class="side-nav" id="sideNav">
+ <a href="#overview" class="side-nav-item" data-section="overview">Overview</a>
+ <a href="#problem" class="side-nav-item" data-section="problem">Problem</a>
+ <a href="#solution" class="side-nav-item" data-section="solution">Solution</a>
+ <a href="#screens" class="side-nav-item" data-section="screens">Screens</a>
+ <a href="#edge-cases" class="side-nav-item" data-section="edge-cases">Edge Cases</a>
+ <a href="#results" class="side-nav-item" data-section="results">Results</a>
+ <a href="#reflections" class="side-nav-item" data-section="reflections">Reflections</a>
+</nav>
+
+<section class="hero" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;text-align:left;">
+ <div class="hero-inner" style="max-width:560px;">
+ <div class="hero-badge">Self-Directed Portfolio Project · 2026</div>
+ <h1>Nocturne<br><em>Where Legends Rest</em></h1>
+ <p class="hero-sub">A self-initiated concept project exploring how gaming libraries could honor the emotional story behind every game not just the stats. Born from watching 200+ games in my own Steam library feel like a spreadsheet instead of a legacy.</p>
+ <div class="hero-meta-row">
+ <div class="hero-meta-item">
+ <span class="hero-meta-val">16 Wk</span>
+ <span class="hero-meta-lbl">Duration</span>
+ </div>
+ <div class="hero-meta-divider"></div>
+ <div class="hero-meta-item">
+ <span class="hero-meta-val">6</span>
+ <span class="hero-meta-lbl">Core Screens</span>
+ </div>
+ <div class="hero-meta-divider"></div>
+ <div class="hero-meta-item">
+ <span class="hero-meta-val">22–40</span>
+ <span class="hero-meta-lbl">Target Age</span>
+ </div>
+ <div class="hero-meta-divider"></div>
+ <div class="hero-meta-item">
+ <span class="hero-meta-val">3</span>
+ <span class="hero-meta-lbl">Platforms</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ <!-- Hero device mockup -->
+ <div class="hero-visual" style="position:relative;display:flex;justify-content:center;align-items:center;">
+ <div class="hero-mockup" style="width:460px;background:var(--bg-elevated);border-radius:14px;border:1px solid rgba(196,167,71,.1);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5);">
+ <div style="height:28px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;padding:0 12px;gap:5px;">
+ <div style="width:7px;height:7px;border-radius:50%;background:rgba(255,80,80,.4);"></div>
+ <div style="width:7px;height:7px;border-radius:50%;background:rgba(255,200,50,.4);"></div>
+ <div style="width:7px;height:7px;border-radius:50%;background:rgba(80,200,80,.4);"></div>
+ <span style="margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--mid);opacity:.5;">nocturne.app/archive</span>
+ </div>
+ <div style="padding:20px;background:#0E0B07;min-height:260px;">
+ <div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--cream);margin-bottom:4px;">My Archive</div>
+ <div style="font-family:var(--mono);font-size:8px;color:var(--mid);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;">247 GAMES · 4,182 HOURS CHERISHED</div>
+ <div style="display:flex;gap:8px;margin-bottom:14px;">
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ <div style="width:32px;height:56px;background:#1A1512;border-radius:3px;border:1px solid rgba(196,167,71,.15);"></div>
+ </div>
+ <div style="display:flex;gap:4px;margin-bottom:14px;">
+ <div style="width:6px;height:6px;border-radius:50%;background:#B91C1C;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#0E7490;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#D97706;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#4338CA;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#92400E;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#B91C1C;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#D97706;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#0E7490;opacity:.5;"></div>
+ <div style="width:6px;height:6px;border-radius:50%;background:#4338CA;opacity:.5;"></div>
+ </div>
+ <div style="height:3px;background:#2C2820;border-radius:2px;margin-bottom:14px;"></div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:rgba(20,18,16,.8);border-radius:8px;padding:12px;border:1px solid rgba(196,167,71,.06);">
+ <div style="text-align:center;"><div style="font-family:var(--mono);font-size:7px;color:var(--mid);letter-spacing:.1em;">TOTAL</div><div style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--cream);">247</div></div>
+ <div style="text-align:center;border-left:1px solid #2C2820;border-right:1px solid #2C2820;"><div style="font-family:var(--mono);font-size:7px;color:var(--mid);letter-spacing:.1em;">HOURS</div><div style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--cream);">4,182</div></div>
+ <div style="text-align:center;"><div style="font-family:var(--mono);font-size:7px;color:var(--mid);letter-spacing:.1em;">ENTRIES</div><div style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--cream);">24</div></div>
+ </div>
+ </div>
+ <div style="padding:10px 16px;border-top:1px solid rgba(196,167,71,.08);display:flex;justify-content:space-between;align-items:center;">
+ <span style="font-family:var(--serif);font-size:13px;font-weight:600;color:var(--cream);">The Archive</span>
+ <span style="font-family:var(--mono);font-size:9px;color:var(--gold);opacity:.5;">SCREEN 01 / 04</span>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- 3D MOCKUP BANNER -->
+<section class="mockup-banner">
+ <div class="mockup-stage">
+ <div class="mockup-glow"></div>
+ <div class="mockup-grid">
+ <!-- Card 1: Archive -->
+ <div class="mockup-card reveal">
+ <div class="mockup-topbar">
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ </div>
+ <div class="mockup-screen">
+ <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+ <rect width="400" height="300" fill="#0E0B07"/>
+ <rect x="0" y="0" width="100" height="300" fill="#141210"/>
+ <rect x="12" y="16" width="76" height="10" rx="2" fill="#C4A747" opacity=".2"/>
+ <rect x="12" y="34" width="60" height="7" rx="2" fill="#2C2820"/>
+ <rect x="12" y="47" width="68" height="7" rx="2" fill="#2C2820"/>
+ <rect x="12" y="60" width="52" height="7" rx="2" fill="#C4A747" opacity=".12"/>
+ <rect x="12" y="73" width="64" height="7" rx="2" fill="#2C2820"/>
+ <text x="116" y="28" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">My Archive</text>
+ <text x="116" y="44" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">FAVORITES</text>
+ <rect x="112" y="50" width="276" height="1.5" fill="#C4A747" opacity=".2"/>
+ <rect x="116" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="148" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="180" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="212" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="244" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="276" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="308" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="340" y="58" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <circle cx="129" cy="102" r="2" fill="#B91C1C" opacity=".5"/>
+ <circle cx="161" cy="102" r="2" fill="#0E7490" opacity=".5"/>
+ <circle cx="193" cy="102" r="2" fill="#D97706" opacity=".5"/>
+ <circle cx="225" cy="102" r="2" fill="#4338CA" opacity=".5"/>
+ <circle cx="257" cy="102" r="2" fill="#92400E" opacity=".5"/>
+ <circle cx="289" cy="102" r="2" fill="#B91C1C" opacity=".5"/>
+ <circle cx="321" cy="102" r="2" fill="#D97706" opacity=".5"/>
+ <circle cx="353" cy="102" r="2" fill="#0E7490" opacity=".5"/>
+ <rect x="112" y="112" width="276" height="3" rx="1" fill="#2C2820"/>
+ <text x="116" y="130" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">NARRATIVES</text>
+ <rect x="112" y="136" width="276" height="1.5" fill="#C4A747" opacity=".2"/>
+ <rect x="116" y="143" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="148" y="143" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="180" y="143" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="212" y="143" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="244" y="143" width="26" height="50" rx="2" fill="#1A1512" stroke="#C4A747" stroke-width=".5" stroke-opacity=".2"/>
+ <rect x="112" y="200" width="276" height="3" rx="1" fill="#2C2820"/>
+ <rect x="112" y="216" width="276" height="56" rx="4" fill="#141210" stroke="#C4A747" stroke-width=".5" stroke-opacity=".1"/>
+ <text x="124" y="234" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">TOTAL GAMES</text>
+ <text x="124" y="252" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">247</text>
+ <text x="236" y="234" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">HOURS CHERISHED</text>
+ <text x="236" y="252" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">4,182</text>
+ </svg>
+ </div>
+ <div class="mockup-label">
+ <span class="mockup-label-name">The Archive</span>
+ <span class="mockup-label-num">01</span>
+ </div>
+ </div>
+
+ <!-- Card 2: Chronicle (Center/Featured) -->
+ <div class="mockup-card reveal reveal-delay-1">
+ <div class="mockup-topbar">
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ </div>
+ <div class="mockup-screen">
+ <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+ <rect width="400" height="300" fill="#FAF6ED"/>
+ <!-- Timeline sidebar -->
+ <rect x="0" y="0" width="120" height="300" fill="#F0EDE3"/>
+ <text x="16" y="24" font-family="Cormorant Garamond,serif" font-size="12" font-weight="700" fill="#2C2820">Chronicle</text>
+ <text x="16" y="38" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">24 ENTRIES</text>
+ <line x1="28" y1="54" x2="28" y2="280" stroke="#C4A747" stroke-width="1" opacity=".3"/>
+ <circle cx="28" cy="64" r="5" fill="#C4A747" opacity=".8"/>
+ <rect x="40" y="58" width="68" height="12" rx="2" fill="#C4A747" opacity=".12"/>
+ <circle cx="28" cy="94" r="4" fill="#C4A747" opacity=".3"/>
+ <rect x="40" y="88" width="60" height="12" rx="2" fill="#E8E3D6"/>
+ <circle cx="28" cy="124" r="4" fill="#C4A747" opacity=".3"/>
+ <rect x="40" y="118" width="56" height="12" rx="2" fill="#E8E3D6"/>
+ <circle cx="28" cy="154" r="4" fill="#C4A747" opacity=".3"/>
+ <rect x="40" y="148" width="64" height="12" rx="2" fill="#E8E3D6"/>
+ <!-- Header -->
+ <rect x="136" y="12" width="100" height="14" rx="2" fill="#E8E3D6"/>
+ <text x="142" y="23" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7366">ELDEN RING · MAR 2024</text>
+ <!-- Journal body -->
+ <rect x="136" y="38" width="248" height="200" rx="4" fill="#fff" stroke="#E0DDD6" stroke-width="1"/>
+ <text x="150" y="60" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">It was 2:47 AM. My hands were</text>
+ <text x="150" y="76" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">shaking. I had tried this fight 47</text>
+ <text x="150" y="92" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">times over three days. When the</text>
+ <text x="150" y="108" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">final blow landed, I didn't cheer.</text>
+ <text x="150" y="124" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">I just sat there in silence, feeling</text>
+ <text x="150" y="140" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">something I can only describe as</text>
+ <text x="150" y="156" font-family="Lora,serif" font-size="9" font-style="italic" fill="#2C2820">genuine pride...</text>
+ <!-- Image placeholder -->
+ <rect x="150" y="172" width="80" height="50" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <text x="166" y="200" font-family="IBM Plex Mono,monospace" font-size="6" fill="#A09888">screenshot</text>
+ <!-- Buttons -->
+ <rect x="136" y="252" width="72" height="24" rx="5" fill="#2D4A3F" opacity=".1" stroke="#2D4A3F" stroke-width=".8" stroke-opacity=".2"/>
+ <text x="154" y="268" font-family="IBM Plex Mono,monospace" font-size="7" fill="#2D4A3F" opacity=".6">Publish</text>
+ <rect x="216" y="252" width="72" height="24" rx="5" fill="#F5F3EE" stroke="#E0DDD6" stroke-width=".8"/>
+ <text x="228" y="268" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7366">Save Draft</text>
+ </svg>
+ </div>
+ <div class="mockup-label">
+ <span class="mockup-label-name">The Chronicle</span>
+ <span class="mockup-label-num">02</span>
+ </div>
+ </div>
+
+ <!-- Card 3: Gallery -->
+ <div class="mockup-card reveal reveal-delay-2">
+ <div class="mockup-topbar">
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ </div>
+ <div class="mockup-screen">
+ <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+ <rect width="400" height="300" fill="#1A1A1A"/>
+ <text x="20" y="28" font-family="Cormorant Garamond,serif" font-size="13" font-weight="700" fill="#F4EFE4">My Exhibition</text>
+ <text x="20" y="42" font-family="IBM Plex Mono,monospace" font-size="6" fill="#7A7366" letter-spacing="1">42 ARTIFACTS</text>
+ <!-- Row 1 -->
+ <rect x="20" y="56" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="28" y="64" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="28" y="128" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Malenia Slayer</text>
+ <text x="28" y="140" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">1.3% rarity</text>
+ <rect x="114" y="56" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="122" y="64" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="122" y="128" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Platinum GOW</text>
+ <text x="122" y="140" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">0.8% rarity</text>
+ <rect x="208" y="56" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="216" y="64" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="216" y="128" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Hades 100%</text>
+ <text x="216" y="140" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">2.1% rarity</text>
+ <rect x="302" y="56" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="310" y="64" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="310" y="128" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Celeste Clear</text>
+ <text x="310" y="140" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">3.2% rarity</text>
+ <!-- Row 2 -->
+ <rect x="20" y="170" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="28" y="178" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="28" y="242" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Speedrunner</text>
+ <text x="28" y="254" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">0.5% rarity</text>
+ <rect x="114" y="170" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="122" y="178" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="122" y="242" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">No Death Run</text>
+ <text x="122" y="254" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">0.3% rarity</text>
+ <rect x="208" y="170" width="84" height="100" rx="3" fill="#2C2820" stroke="#C4A747" stroke-width="1" stroke-opacity=".25"/>
+ <rect x="216" y="178" width="68" height="48" rx="2" fill="#3A3630"/>
+ <text x="216" y="242" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4">Lore Master</text>
+ <text x="216" y="254" font-family="IBM Plex Mono,monospace" font-size="6" fill="#C4A747" opacity=".5">1.7% rarity</text>
+ <!-- Empty slot -->
+ <rect x="302" y="170" width="84" height="100" rx="3" fill="none" stroke="#3A3630" stroke-width="1.5" stroke-dasharray="4 3"/>
+ <text x="334" y="224" font-family="IBM Plex Mono,monospace" font-size="16" fill="#3A3630">+</text>
+ </svg>
+ </div>
+ <div class="mockup-label">
+ <span class="mockup-label-name">The Gallery</span>
+ <span class="mockup-label-num">03</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section section-light" id="overview">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Project Overview</div>
+ <h2 class="sec-title">Designing a <em>legacy</em></h2>
+ <p class="sec-desc">Nocturne was born from one observation: gamers spend thousands of hours building emotional connections with games, but existing platforms reduce those experiences to raw statistics.</p>
+ </div>
+ <div class="overview-grid">
+ <div class="overview-text reveal">
+ <h3>The Vision</h3>
+ <p>What if your game library felt less like a spreadsheet and more like walking through a personal museum? Each game a leather-bound artifact. Each achievement a framed exhibit. Each memory preserved on aged parchment.</p>
+ <p>Nocturne replaces the utilitarian with the ceremonial giving gamers a space that honors the emotional weight of their journey.</p>
+ <div class="overview-details">
+ <div>
+ <div class="overview-detail-label">Timeline</div>
+ <div class="overview-detail-value">16 weeks</div>
+ </div>
+ <div>
+ <div class="overview-detail-label">Platform</div>
+ <div class="overview-detail-value">Desktop, Tablet, Mobile</div>
+ </div>
+ <div>
+ <div class="overview-detail-label">Audience</div>
+ <div class="overview-detail-value">Ages 22–40</div>
+ </div>
+ <div>
+ <div class="overview-detail-label">Tools</div>
+ <div class="overview-detail-value">Figma, FigJam, Adobe Illustrator</div>
+ </div>
+ <div>
+ <div class="overview-detail-label">AI-assisted UX &amp; Research</div>
+ <div class="overview-detail-value">Claude, ChatGPT (AI tools)</div>
+ </div>
+ </div>
+ </div>
+ <div class="overview-role reveal reveal-delay-1">
+ <h4>Solo Designer — Full Ownership</h4>
+ <ul class="role-list">
+ <li><span class="role-dot"></span>End-to-end UI/UX design (UI lead, UX support)</li>
+ <li><span class="role-dot"></span>User research — competitive audit & community analysis of gaming platforms</li>
+ <li><span class="role-dot"></span>Information architecture + content strategy</li>
+ <li><span class="role-dot"></span>Wireframing &amp; hi-fi prototyping in Figma</li>
+ <li><span class="role-dot"></span>Visual design system (4 fonts, gold/burgundy/emerald palette)</li>
+ <li><span class="role-dot"></span>Interaction design &amp; micro-animations in Figma</li>
+ <li><span class="role-dot"></span>Usability testing with 10 participants + iteration</li>
+ </ul>
+ <div style="margin-top:20px;padding:16px;background:rgba(196,167,71,.06);border:1px solid rgba(196,167,71,.12);border-radius:12px;">
+ <div style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--burg);opacity:.6;margin-bottom:8px;">Self-Imposed Constraints</div>
+ <div style="font-size:13px;color:var(--mid);line-height:1.7;">16-week timeline · WCAG AA contrast (4.5:1 min) · Dark-first theme for evening gaming sessions · 8px grid · Desktop-first with responsive scaling · No real game data all content fictional</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section section-dark" id="problem">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">The Problem</div>
+ <h2 class="sec-title">Gaming libraries feel <em>empty</em></h2>
+ <p class="sec-desc">Players own hundreds of games but have no way to express why any of them matter. Achievements sit in endless lists. Collections have no soul. The emotional story gets lost.</p>
+ </div>
+ <div class="problem-grid">
+ <div class="problem-card reveal">
+ <div class="problem-num">PAIN POINT 01</div>
+ <p class="problem-quote">"I have 200+ games but can't tell you which ones shaped me."</p>
+ <p class="problem-explain">Current platforms show playtime and trophies but never the personal story. Life-changing games look the same as five-minute trials.</p>
+ <p style="font-size:11px;color:var(--gold);opacity:.5;margin-top:8px;font-style:italic;">Source: Top complaint across gaming library app store reviews and Reddit threads</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-1">
+ <div class="problem-num">PAIN POINT 02</div>
+ <p class="problem-quote">"My achievements feel hollow without any context."</p>
+ <p class="problem-explain">A rare trophy you spent 40 hours earning sits next to one you got by accident. No way to highlight or explain what matters.</p>
+ <p style="font-size:11px;color:var(--gold);opacity:.5;margin-top:8px;font-style:italic;">Source: Common theme across gaming community forums and achievement-tracker reviews</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-2">
+ <div class="problem-num">PAIN POINT 03</div>
+ <p class="problem-quote">"I want to share my gaming story, not just my stats."</p>
+ <p class="problem-explain">Social features are competitive leaderboards, rankings, KD ratios. No space for storytelling or genuine connection.</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-3">
+ <div class="problem-num">PAIN POINT 04</div>
+ <p class="problem-quote">"Gaming shaped my life, but it feels disposable."</p>
+ <p class="problem-explain">Games disappear from storefronts, servers shut down, progress resets. No permanent record of your journey as a player.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="section section-dark" id="solution">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">The Solution</div>
+ <h2 class="sec-title">Your games deserve a <em>museum</em></h2>
+ <p class="sec-desc">Nocturne reimagines your game library as a personal museum. Instead of flat lists wooden shelves, leather spines, and handwritten collector's notes. Every game becomes an artifact worth preserving.</p>
+ </div>
+ <div class="features-grid">
+ <div class="feature-card reveal">
+ <div class="feature-icon">📚</div>
+ <h3 class="feature-name">The Archive</h3>
+ <p class="feature-desc">Your library on antique wooden shelves. Each game gets a leather-bound spine, a mood badge, and space for personal collector's notes.</p>
+ </div>
+ <div class="feature-card reveal reveal-delay-1">
+ <div class="feature-icon">✒️</div>
+ <h3 class="feature-name">The Chronicle</h3>
+ <p class="feature-desc">A personal gaming journal on aged parchment. Document emotional moments, favorite playthroughs, and memories linked to your games.</p>
+ </div>
+ <div class="feature-card reveal reveal-delay-2">
+ <div class="feature-icon">🖼️</div>
+ <h3 class="feature-name">The Gallery</h3>
+ <p class="feature-desc">Display rare achievements like museum pieces. Each artifact gets an ornate frame, rarity score, and your personal annotation.</p>
+ </div>
+ <div class="feature-card reveal reveal-delay-3">
+ <div class="feature-icon">🔒</div>
+ <h3 class="feature-name">The Vault</h3>
+ <p class="feature-desc">A private, locked space for your most precious gaming moments. Screenshots, clips, and personal notes behind an ornate vault door.</p>
+ </div>
+ <div class="feature-card reveal reveal-delay-4">
+ <div class="feature-icon">⚖️</div>
+ <h3 class="feature-name">The Exchange</h3>
+ <p class="feature-desc">Trade digital collectibles through a merchant-style ledger. Peer-to-peer offers, wax seal confirmations, and full transaction history.</p>
+ </div>
+ <div class="feature-card reveal reveal-delay-5">
+ <div class="feature-icon">🕯️</div>
+ <h3 class="feature-name">The Fellowship</h3>
+ <p class="feature-desc">Find collectors who share your taste not your stats. Join themed communities and follow curators, not competitors.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- FULL-WIDTH MOCKUP BAND -->
+<section class="mockup-band">
+ <div class="mockup-band-inner">
+ <div class="mockup-band-text reveal">
+ <div class="sec-label">Featured Screen</div>
+ <h3>The Archive in <em>full detail</em></h3>
+ <p>The Archive reimagines game libraries as a bookshelf experience. Leather-bound spines with mood-coded dots, categorized shelves, and a stats bar that frames your collection with warmth rather than cold numbers.</p>
+ </div>
+ <div class="mockup-band-visual reveal reveal-delay-1">
+ <div class="mockup-float">
+ <div class="mockup-topbar">
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ <div class="mockup-dot"></div>
+ </div>
+ <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg">
+ <rect width="560" height="380" fill="#0E0B07"/>
+ <rect x="0" y="0" width="140" height="380" fill="#141210" stroke="#2C2820" stroke-width="1"/>
+ <rect x="16" y="20" width="108" height="14" rx="3" fill="#C4A747" opacity=".15"/>
+ <rect x="16" y="48" width="80" height="10" rx="2" fill="#2C2820"/>
+ <rect x="16" y="66" width="92" height="10" rx="2" fill="#2C2820"/>
+ <rect x="16" y="84" width="72" height="10" rx="2" fill="#C4A747" opacity=".12"/>
+ <rect x="16" y="102" width="88" height="10" rx="2" fill="#2C2820"/>
+ <rect x="16" y="120" width="68" height="10" rx="2" fill="#2C2820"/>
+ <line x1="16" y1="148" x2="124" y2="148" stroke="#2C2820" stroke-width="1"/>
+ <rect x="16" y="164" width="60" height="8" rx="2" fill="#2C2820"/>
+ <rect x="16" y="182" width="108" height="32" rx="4" fill="#1A1512"/>
+ <rect x="16" y="222" width="108" height="32" rx="4" fill="#1A1512"/>
+ <rect x="16" y="330" width="108" height="36" rx="4" fill="#C4A747" opacity=".06"/>
+ <text x="160" y="36" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#F4EFE4">My Archive</text>
+ <rect x="440" y="18" width="100" height="28" rx="6" fill="#C4A747" opacity=".06" stroke="#C4A747" stroke-width="1" stroke-opacity=".15"/>
+ <text x="465" y="36" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" opacity=".6">+ Collection</text>
+ <text x="160" y="68" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.5">FAVORITES</text>
+ <rect x="156" y="76" width="388" height="2" fill="#C4A747" opacity=".2"/>
+ <rect x="160" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="202" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="244" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="286" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="328" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="370" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="412" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="454" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="496" y="82" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <circle cx="178" cy="144" r="3" fill="#B91C1C" opacity=".5"/>
+ <circle cx="220" cy="144" r="3" fill="#0E7490" opacity=".5"/>
+ <circle cx="262" cy="144" r="3" fill="#D97706" opacity=".5"/>
+ <circle cx="304" cy="144" r="3" fill="#4338CA" opacity=".5"/>
+ <circle cx="346" cy="144" r="3" fill="#92400E" opacity=".5"/>
+ <circle cx="388" cy="144" r="3" fill="#B91C1C" opacity=".5"/>
+ <circle cx="430" cy="144" r="3" fill="#D97706" opacity=".5"/>
+ <circle cx="472" cy="144" r="3" fill="#0E7490" opacity=".5"/>
+ <circle cx="514" cy="144" r="3" fill="#4338CA" opacity=".5"/>
+ <rect x="156" y="156" width="388" height="4" rx="1" fill="#2C2820"/>
+ <text x="160" y="178" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.5">NARRATIVES</text>
+ <rect x="156" y="186" width="388" height="2" fill="#C4A747" opacity=".2"/>
+ <rect x="160" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="202" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="244" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="286" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="328" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <rect x="370" y="192" width="36" height="70" rx="3" fill="#1A1512" stroke="#C4A747" stroke-width=".8" stroke-opacity=".2"/>
+ <circle cx="178" cy="254" r="3" fill="#D97706" opacity=".5"/>
+ <circle cx="220" cy="254" r="3" fill="#B91C1C" opacity=".5"/>
+ <circle cx="262" cy="254" r="3" fill="#0E7490" opacity=".5"/>
+ <circle cx="304" cy="254" r="3" fill="#92400E" opacity=".5"/>
+ <circle cx="346" cy="254" r="3" fill="#4338CA" opacity=".5"/>
+ <circle cx="388" cy="254" r="3" fill="#D97706" opacity=".5"/>
+ <rect x="156" y="266" width="388" height="4" rx="1" fill="#2C2820"/>
+ <rect x="156" y="290" width="388" height="76" rx="6" fill="#141210" stroke="#C4A747" stroke-width=".5" stroke-opacity=".1"/>
+ <text x="172" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">TOTAL GAMES</text>
+ <text x="172" y="328" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#F4EFE4">247</text>
+ <line x1="280" y1="298" x2="280" y2="358" stroke="#2C2820" stroke-width="1"/>
+ <text x="296" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">HOURS CHERISHED</text>
+ <text x="296" y="328" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#F4EFE4">4,182</text>
+ <line x1="400" y1="298" x2="400" y2="358" stroke="#2C2820" stroke-width="1"/>
+ <text x="416" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">JOURNAL ENTRIES</text>
+ <text x="416" y="328" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#F4EFE4">24</text>
+ </svg>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- USER FLOW -->
+<section class="section section-light">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">User Journey</div>
+ <h2 class="sec-title">From import to <em>exhibition</em></h2>
+ <p class="sec-desc">A five-step path that takes players from connecting their accounts to showcasing a curated public exhibition of their gaming legacy.</p>
+ </div>
+ <div class="flow-steps">
+ <div class="flow-step reveal">
+ <div class="flow-num">1</div>
+ <div class="flow-content">
+ <h3 class="flow-title">Connect &amp; Import</h3>
+ <p class="flow-desc">Link your Steam, PlayStation, or Xbox account. Games populate automatically onto Archive shelves with playtime, achievements, and purchase dates.</p>
+ </div>
+ </div>
+ <div class="flow-step reveal">
+ <div class="flow-num">2</div>
+ <div class="flow-content">
+ <h3 class="flow-title">Explore Artifacts</h3>
+ <p class="flow-desc">Click any game spine on the shelf. Its artifact page opens box art in an ornate frame, "Hours Cherished" playtime, and space for collector's notes.</p>
+ </div>
+ </div>
+ <div class="flow-step reveal">
+ <div class="flow-num">3</div>
+ <div class="flow-content">
+ <h3 class="flow-title">Write Your Story</h3>
+ <p class="flow-desc">Open the Chronicle and write a journal entry about a meaningful moment. Entries link to games, auto-timestamp, and support screenshots or clips.</p>
+ </div>
+ </div>
+ <div class="flow-step reveal">
+ <div class="flow-num">4</div>
+ <div class="flow-content">
+ <h3 class="flow-title">Curate Your Gallery</h3>
+ <p class="flow-desc">Pin your rarest achievements to the Gallery. Each piece gets an ornate frame, a rarity percentage as museum provenance, and your annotation.</p>
+ </div>
+ </div>
+ <div class="flow-step reveal">
+ <div class="flow-num">5</div>
+ <div class="flow-content">
+ <h3 class="flow-title">Share Your Legacy</h3>
+ <p class="flow-desc">Your public profile becomes a museum exhibition. Other collectors browse your shelves, read your chronicle, and discover games through your lens.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- DESIGN SYSTEM -->
+<section class="section section-light">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Design System</div>
+ <h2 class="sec-title">Late 1800s <em>antiquarian</em> aesthetic</h2>
+ <p class="sec-desc">A visual language inspired by Victorian libraries, brass fixtures, and aged parchment. Every element reinforces the feeling of a personal museum.</p>
+ </div>
+ <div class="ds-grid">
+ <div class="ds-card reveal">
+ <h4 class="ds-card-title">Color Palette</h4>
+ <div class="swatch-row">
+ <div class="swatch-item"><div class="swatch" style="background:#3D1E1E"></div><span class="swatch-label">Burgundy</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#C4A747"></div><span class="swatch-label">Gold</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#1A1A1A"></div><span class="swatch-label">Charcoal</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#F4EFE4;border-color:rgba(0,0,0,.1)"></div><span class="swatch-label">Cream</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#2D4A3F"></div><span class="swatch-label">Emerald</span></div>
+ </div>
+ </div>
+ <div class="ds-card reveal reveal-delay-1">
+ <h4 class="ds-card-title">Typography</h4>
+ <div class="type-sample">
+ <div class="type-name">Headlines</div>
+ <div class="type-preview-serif">Cormorant Garamond</div>
+ </div>
+ <div class="type-sample">
+ <div class="type-name">Body</div>
+ <div class="type-preview-body">Lora readable for long text</div>
+ </div>
+ <div class="type-sample">
+ <div class="type-name">UI / Labels</div>
+ <div class="type-preview-mono">IBM Plex Mono archive data</div>
+ </div>
+ </div>
+ <div class="ds-card reveal reveal-delay-2">
+ <h4 class="ds-card-title">Visual Elements</h4>
+ <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:12px">Aged paper grain, leather overlays, brass ornamental borders, wax seal graphics, candlelight glow effects, and library badge emblems.</p>
+ <p style="font-size:14px;color:var(--mid);line-height:1.7">Custom antique-style iconography replaces modern line icons throughout the interface.</p>
+ </div>
+ <div class="ds-card reveal reveal-delay-3">
+ <h4 class="ds-card-title">Mood Badges</h4>
+ <div class="swatch-row">
+ <div class="swatch-item"><div class="swatch" style="background:#B91C1C;border-radius:50%"></div><span class="swatch-label">Passion</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#0E7490;border-radius:50%"></div><span class="swatch-label">Mystery</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#D97706;border-radius:50%"></div><span class="swatch-label">Joy</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#4338CA;border-radius:50%"></div><span class="swatch-label">Depth</span></div>
+ <div class="swatch-item"><div class="swatch" style="background:#92400E;border-radius:50%"></div><span class="swatch-label">Nostalgia</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- WIREFRAMES -->
+<section class="wireframe-section" id="screens">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Low-Fidelity Wireframes</div>
+ <h2 class="sec-title">Core screen <em>structures</em></h2>
+ <p class="sec-desc">Four foundational layouts mapping the primary user journey. Each wireframe focuses on hierarchy, content placement, and interaction flow before visual styling begins.</p>
+ </div>
+ <div class="wf-grid">
+ <!-- WF 01 -->
+ <div class="wf-item reveal">
+ <div class="wf-frame">
+ <div class="wf-frame-bar">
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ </div>
+ <svg class="wf-svg" viewBox="0 0 560 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="560" height="380" fill="#FAFCFA"/>
+ <rect x="0" y="0" width="140" height="380" fill="#F0F2EE" stroke="#D0D5CB" stroke-width="1"/>
+ <rect x="16" y="20" width="108" height="14" rx="3" fill="#D0D5CB"/>
+ <rect x="16" y="48" width="80" height="10" rx="2" fill="#E0E3DC"/>
+ <rect x="16" y="66" width="92" height="10" rx="2" fill="#E0E3DC"/>
+ <rect x="16" y="84" width="72" height="10" rx="2" fill="#2D4A3F" opacity=".15"/>
+ <rect x="16" y="102" width="88" height="10" rx="2" fill="#E0E3DC"/>
+ <text x="160" y="36" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#2C2820">My Archive</text>
+ <text x="160" y="68" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.5">FAVORITES</text>
+ <rect x="156" y="76" width="388" height="2" fill="#C4A747" opacity=".3"/>
+ <rect x="160" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="202" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="244" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="286" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="328" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="370" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="412" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="454" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="496" y="82" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="156" y="156" width="388" height="4" rx="1" fill="#D0C9B8"/>
+ <text x="160" y="178" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.5">NARRATIVES</text>
+ <rect x="156" y="186" width="388" height="2" fill="#C4A747" opacity=".3"/>
+ <rect x="160" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="202" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="244" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="286" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="328" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="370" y="192" width="36" height="70" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <rect x="156" y="266" width="388" height="4" rx="1" fill="#D0C9B8"/>
+ <rect x="156" y="290" width="388" height="76" rx="6" fill="#F5F3EE" stroke="#E0DDD6" stroke-width="1"/>
+ <text x="172" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">TOTAL GAMES</text>
+ <text x="172" y="328" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#2C2820">247</text>
+ <text x="296" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">HOURS CHERISHED</text>
+ <text x="296" y="328" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#2C2820">4,182</text>
+ </svg>
+ </div>
+ <div class="wf-label">
+ <span class="wf-num-label">01</span>
+ <span class="wf-name-label">The Archive Library View</span>
+ </div>
+ </div>
+
+ <!-- WF 02 -->
+ <div class="wf-item reveal reveal-delay-1">
+ <div class="wf-frame">
+ <div class="wf-frame-bar">
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ </div>
+ <svg class="wf-svg" viewBox="0 0 560 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="560" height="380" fill="#FAF6ED"/>
+ <rect x="20" y="12" width="120" height="14" rx="2" fill="#E8E3D6"/>
+ <rect x="20" y="32" width="80" height="10" rx="2" fill="#E8E3D6"/>
+ <rect x="20" y="56" width="520" height="1" fill="#C4A747" opacity=".15"/>
+ <rect x="20" y="70" width="240" height="160" rx="8" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <text x="100" y="155" font-family="Cormorant Garamond,serif" font-size="14" fill="#7A7366" text-anchor="middle" opacity=".5">Box Art</text>
+ <rect x="280" y="70" width="260" height="20" rx="3" fill="#E8E3D6"/>
+ <text x="288" y="84" font-family="Cormorant Garamond,serif" font-size="12" font-weight="700" fill="#2C2820">Game Title Artifact Page</text>
+ <rect x="280" y="100" width="120" height="28" rx="4" fill="#FAF6ED" stroke="#C4A747" stroke-width="1" stroke-opacity=".3"/>
+ <text x="296" y="118" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">482 Hrs Cherished</text>
+ <rect x="280" y="140" width="260" height="8" rx="2" fill="#E8E3D6"/>
+ <rect x="280" y="156" width="220" height="8" rx="2" fill="#E8E3D6"/>
+ <rect x="280" y="172" width="240" height="8" rx="2" fill="#E8E3D6"/>
+ <rect x="280" y="196" width="160" height="34" rx="6" fill="#2D4A3F" opacity=".08" stroke="#2D4A3F" stroke-width="1" stroke-opacity=".15"/>
+ <text x="320" y="218" font-family="IBM Plex Mono,monospace" font-size="9" fill="#2D4A3F" opacity=".5">Write a Note</text>
+ <rect x="20" y="250" width="520" height="1" fill="#C4A747" opacity=".15"/>
+ <text x="20" y="278" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.5">COLLECTOR'S NOTES</text>
+ <rect x="20" y="290" width="520" height="72" rx="6" fill="#fff" stroke="#E0DDD6" stroke-width="1"/>
+ <text x="36" y="314" font-family="Lora,serif" font-size="10" font-style="italic" fill="#2C2820" opacity=".5">This was the game that taught me patience...</text>
+ <text x="36" y="334" font-family="Lora,serif" font-size="10" font-style="italic" fill="#2C2820" opacity=".3">Every death was a lesson. Every victory, earned.</text>
+ </svg>
+ </div>
+ <div class="wf-label">
+ <span class="wf-num-label">02</span>
+ <span class="wf-name-label">Artifact Game Detail Page</span>
+ </div>
+ </div>
+
+ <!-- WF 03 -->
+ <div class="wf-item reveal">
+ <div class="wf-frame">
+ <div class="wf-frame-bar">
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ </div>
+ <svg class="wf-svg" viewBox="0 0 560 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="560" height="380" fill="#FAF6ED"/>
+ <rect x="0" y="0" width="200" height="380" fill="#F0EDE3"/>
+ <text x="20" y="28" font-family="Cormorant Garamond,serif" font-size="16" font-weight="700" fill="#2C2820">Chronicle</text>
+ <text x="20" y="44" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7366" letter-spacing="1">24 ENTRIES</text>
+ <line x1="36" y1="62" x2="36" y2="340" stroke="#C4A747" stroke-width="1.5" opacity=".25"/>
+ <circle cx="36" cy="76" r="6" fill="#C4A747" opacity=".7" stroke="#C4A747" stroke-width="1"/>
+ <rect x="52" y="68" width="128" height="18" rx="3" fill="#C4A747" opacity=".12" stroke="#C4A747" stroke-width="1" stroke-opacity=".15"/>
+ <text x="60" y="81" font-family="IBM Plex Mono,monospace" font-size="7" fill="#2C2820">Mar 15 · Elden Ring</text>
+ <circle cx="36" cy="112" r="4" fill="#C4A747" opacity=".25"/>
+ <rect x="52" y="104" width="128" height="16" rx="3" fill="#E8E3D6"/>
+ <circle cx="36" cy="148" r="4" fill="#C4A747" opacity=".25"/>
+ <rect x="52" y="140" width="128" height="16" rx="3" fill="#E8E3D6"/>
+ <circle cx="36" cy="184" r="4" fill="#C4A747" opacity=".25"/>
+ <rect x="52" y="176" width="128" height="16" rx="3" fill="#E8E3D6"/>
+ <rect x="220" y="38" width="120" height="18" rx="3" fill="#E8E3D6"/>
+ <text x="228" y="50" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366">ELDEN RING · MAR 2024</text>
+ <rect x="220" y="68" width="320" height="240" rx="6" fill="#fff" stroke="#E0DDD6" stroke-width="1"/>
+ <text x="236" y="92" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">It was 2:47 AM. My hands were shaking.</text>
+ <text x="236" y="112" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">I had tried this fight 47 times over three</text>
+ <text x="236" y="132" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">days. When the final blow landed, I didn't</text>
+ <text x="236" y="152" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">cheer. I just sat there in silence, feeling</text>
+ <text x="236" y="172" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">something I can only describe as genuine</text>
+ <text x="236" y="192" font-family="Lora,serif" font-size="11" font-style="italic" fill="#2C2820">pride. No game has ever made me feel...</text>
+ <rect x="236" y="210" width="100" height="60" rx="3" fill="#E8E3D6" stroke="#D0C9B8" stroke-width="1"/>
+ <text x="262" y="244" font-family="IBM Plex Mono,monospace" font-size="7" fill="#A09888">screenshot</text>
+ <rect x="220" y="324" width="100" height="32" rx="6" fill="#2D4A3F" opacity=".12" stroke="#2D4A3F" stroke-width="1" stroke-opacity=".2"/>
+ <text x="246" y="344" font-family="IBM Plex Mono,monospace" font-size="9" fill="#2D4A3F" opacity=".6">Publish</text>
+ <rect x="328" y="324" width="100" height="32" rx="6" fill="#F5F3EE" stroke="#E0DDD6" stroke-width="1"/>
+ <text x="348" y="344" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">Save Draft</text>
+ </svg>
+ </div>
+ <div class="wf-label">
+ <span class="wf-num-label">03</span>
+ <span class="wf-name-label">The Chronicle Journal View</span>
+ </div>
+ </div>
+
+ <!-- WF 04 -->
+ <div class="wf-item reveal reveal-delay-1">
+ <div class="wf-frame">
+ <div class="wf-frame-bar">
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ <div class="wf-frame-dot"></div>
+ </div>
+ <svg class="wf-svg" viewBox="0 0 560 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="560" height="380" fill="#1A1A1A"/>
+ <text x="24" y="32" font-family="Cormorant Garamond,serif" font-size="18" font-weight="700" fill="#F4EFE4">My Exhibition</text>
+ <text x="24" y="48" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1">42 ARTIFACTS ON DISPLAY</text>
+ <rect x="24" y="66" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="34" y="76" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="34" y="178" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Malenia Slayer</text>
+ <text x="34" y="192" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">1.3% rarity</text>
+ <rect x="156" y="66" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="166" y="76" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="166" y="178" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Platinum GOW</text>
+ <text x="166" y="192" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">0.8% rarity</text>
+ <rect x="288" y="66" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="298" y="76" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="298" y="178" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Hades 100%</text>
+ <text x="298" y="192" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">2.1% rarity</text>
+ <rect x="420" y="66" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="430" y="76" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="430" y="178" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Celeste Clear</text>
+ <text x="430" y="192" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">3.2% rarity</text>
+ <rect x="24" y="218" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="34" y="228" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="34" y="330" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Speedrunner</text>
+ <text x="34" y="344" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">0.5% rarity</text>
+ <rect x="156" y="218" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="166" y="228" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="166" y="330" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">No Death Run</text>
+ <text x="166" y="344" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">0.3% rarity</text>
+ <rect x="288" y="218" width="120" height="136" rx="4" fill="#2C2820" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".3"/>
+ <rect x="298" y="228" width="100" height="72" rx="2" fill="#3A3630"/>
+ <text x="298" y="330" font-family="Cormorant Garamond,serif" font-size="10" fill="#F4EFE4">Lore Master</text>
+ <text x="298" y="344" font-family="IBM Plex Mono,monospace" font-size="8" fill="#C4A747" opacity=".6">1.7% rarity</text>
+ <rect x="420" y="218" width="120" height="136" rx="4" fill="none" stroke="#3A3630" stroke-width="2" stroke-dasharray="6 4"/>
+ <text x="456" y="290" font-family="IBM Plex Mono,monospace" font-size="22" fill="#3A3630">+</text>
+ <text x="446" y="310" font-family="IBM Plex Mono,monospace" font-size="8" fill="#3A3630">Add Item</text>
+ </svg>
+ </div>
+ <div class="wf-label">
+ <span class="wf-num-label">04</span>
+ <span class="wf-name-label">The Gallery Exhibition View</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- OUTCOME -->
+<section class="outcome-section">
+ <div class="container">
+ <div class="outcome-inner">
+ <div class="reveal">
+ <div class="sec-label">Outcome</div>
+ <h2 class="sec-title">Designed with <em>intention</em></h2>
+ </div>
+ <div class="outcome-stats reveal">
+ <div class="outcome-stat">
+ <div class="outcome-stat-val">6</div>
+ <div class="outcome-stat-lbl">Core Screens</div>
+ </div>
+ <div class="outcome-stat">
+ <div class="outcome-stat-val">4</div>
+ <div class="outcome-stat-lbl">Wireframes</div>
+ </div>
+ <div class="outcome-stat">
+ <div class="outcome-stat-val">1</div>
+ <div class="outcome-stat-lbl">Design System</div>
+ </div>
+ </div>
+ <p class="outcome-note reveal">Nocturne demonstrates that gaming platforms can honor the emotional weight of play. By treating every game as an artifact and every achievement as an exhibition piece, the design turns passive libraries into living personal museums.</p>
+ </div>
+ </div>
+</section>
+
+<div class="ornament">
+ <div class="ornament-line"></div>
+ <div class="ornament-diamond"></div>
+ <div class="ornament-line"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FINAL SCREENS SECTION                      -->
+<!-- ═══════════════════════════════════════════ -->
+
+<section class="screens-hero" id="final-screens">
+ <div class="screens-hero-badge">Final Screens High Fidelity</div>
+ <h2 class="reveal">Nocturne <em>UI</em></h2>
+ <p class="screens-hero-sub reveal">Four polished screens bringing the museum metaphor to life from library shelves to gallery exhibitions.</p>
+</section>
+
+<div class="ornament">
+ <div class="ornament-line"></div>
+ <div class="ornament-diamond"></div>
+ <div class="ornament-line"></div>
+</div>
+
+<!-- SCREEN 1: THE ARCHIVE -->
+<div id="screens"></div>
+<section class="screen-section">
+ <div class="container">
+ <div class="screen-showcase">
+ <div class="screen-frame tilt-l reveal">
+ <div class="frame-bar"><div class="frame-dot"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-url">nocturne.app/archive</span></div>
+ <div class="frame-screen">
+ <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+ <linearGradient id="shelf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A2F20"/><stop offset=".5" stop-color="#2C2218"/><stop offset="1" stop-color="#1E1810"/></linearGradient>
+ <linearGradient id="sidebar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1610"/><stop offset="1" stop-color="#12100C"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+ <rect width="800" height="520" fill="#0E0B07"/>
+ <rect x="0" y="0" width="180" height="520" fill="url(#sidebar)"/>
+ <rect x="0" y="0" width="180" height="520" fill="url(#sidebar)" opacity=".5"/>
+ <circle cx="36" cy="32" r="14" fill="none" stroke="#C4A747" stroke-width="1.5" opacity=".6"/>
+ <text x="32" y="37" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#C4A747" opacity=".6">N</text>
+ <text x="58" y="36" font-family="Cormorant Garamond,serif" font-size="16" font-weight="700" fill="#F4EFE4">Nocturne</text>
+ <rect x="16" y="72" width="148" height="32" rx="6" fill="#C4A747" opacity=".08"/>
+ <text x="42" y="92" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#C4A747">📚 The Archive</text>
+ <text x="42" y="124" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">✏️ Chronicle</text>
+ <text x="42" y="152" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">🖼 Gallery</text>
+ <text x="42" y="180" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">🔒 Vault</text>
+ <text x="42" y="208" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">⚖️ Exchange</text>
+ <text x="42" y="236" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">🕯 Fellowship</text>
+ <line x1="16" y1="264" x2="164" y2="264" stroke="#C4A747" stroke-opacity=".1"/>
+ <text x="24" y="480" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.2">TOTAL GAMES</text>
+ <text x="24" y="500" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="#F4EFE4">247</text>
+ <text x="100" y="480" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.2">HOURS</text>
+ <text x="100" y="500" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="#F4EFE4">4,182</text>
+ <text x="204" y="44" font-family="Cormorant Garamond,serif" font-size="26" font-weight="700" fill="#F4EFE4">My Archive</text>
+ <rect x="204" y="56" width="80" height="3" rx="1" fill="#C4A747" opacity=".3"/>
+ <rect x="560" y="20" width="220" height="34" rx="8" fill="#1A1610" stroke="#C4A747" stroke-opacity=".12"/>
+ <text x="580" y="42" font-family="DM Sans,sans-serif" font-size="12" fill="#7A7366">Search archive…</text>
+ <text x="204" y="90" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="600" fill="#C4A747" letter-spacing="2" opacity=".7">FAVORITES</text>
+ <rect x="196" y="200" width="590" height="8" rx="2" fill="url(#shelf)"/>
+ <rect x="210" y="100" width="48" height="100" rx="4" fill="#8B1A1A" stroke="#A52020" stroke-width=".5"/>
+ <text x="234" y="155" font-family="Cormorant Garamond,serif" font-size="9" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 234 155)" letter-spacing="1">ELDEN RING</text>
+ <circle cx="234" cy="190" r="4" fill="#B91C1C" opacity=".7"/>
+ <rect x="264" y="108" width="48" height="92" rx="4" fill="#1B3A5C" stroke="#2A5080" stroke-width=".5"/>
+ <text x="288" y="158" font-family="Cormorant Garamond,serif" font-size="9" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 288 158)" letter-spacing="1">HOLLOW KNIGHT</text>
+ <circle cx="288" cy="190" r="4" fill="#0E7490" opacity=".7"/>
+ <rect x="318" y="104" width="48" height="96" rx="4" fill="#5C3D1B" stroke="#7A5020" stroke-width=".5"/>
+ <text x="342" y="156" font-family="Cormorant Garamond,serif" font-size="9" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 342 156)" letter-spacing="1">ZELDA: TOTK</text>
+ <circle cx="342" cy="190" r="4" fill="#D97706" opacity=".7"/>
+ <rect x="372" y="112" width="48" height="88" rx="4" fill="#2D1B4E" stroke="#4A2D7A" stroke-width=".5"/>
+ <text x="396" y="160" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 396 160)" letter-spacing="1">HADES</text>
+ <circle cx="396" cy="190" r="4" fill="#4338CA" opacity=".7"/>
+ <rect x="426" y="106" width="48" height="94" rx="4" fill="#4A2020" stroke="#6B3030" stroke-width=".5"/>
+ <text x="450" y="157" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 450 157)" letter-spacing="1">GOD OF WAR</text>
+ <circle cx="450" cy="190" r="4" fill="#92400E" opacity=".7"/>
+ <rect x="480" y="110" width="48" height="90" rx="4" fill="#1A3D2F" stroke="#2D5C45" stroke-width=".5"/>
+ <text x="504" y="158" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 504 158)" letter-spacing="1">CELESTE</text>
+ <circle cx="504" cy="190" r="4" fill="#B91C1C" opacity=".7"/>
+ <rect x="534" y="114" width="48" height="86" rx="4" fill="#3D3D1A" stroke="#5A5A28" stroke-width=".5"/>
+ <text x="558" y="160" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 558 160)" letter-spacing="1">DISCO ELYSIUM</text>
+ <circle cx="558" cy="190" r="4" fill="#D97706" opacity=".7"/>
+ <rect x="588" y="108" width="48" height="92" rx="4" fill="#1B3048" stroke="#2A4A6E" stroke-width=".5"/>
+ <text x="612" y="158" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 612 158)" letter-spacing="1">DARK SOULS III</text>
+ <circle cx="612" cy="190" r="4" fill="#0E7490" opacity=".7"/>
+ <rect x="642" y="102" width="48" height="98" rx="4" fill="#4E1B3D" stroke="#7A2D60" stroke-width=".5"/>
+ <text x="666" y="155" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 666 155)" letter-spacing="1">PERSONA 5</text>
+ <circle cx="666" cy="190" r="4" fill="#4338CA" opacity=".7"/>
+ <rect x="696" y="108" width="48" height="92" rx="4" fill="#2A2A18" stroke="#4A4A28" stroke-width=".5"/>
+ <text x="720" y="158" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 720 158)" letter-spacing="1">OUTER WILDS</text>
+ <circle cx="720" cy="190" r="4" fill="#D97706" opacity=".7"/>
+ <text x="204" y="232" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="600" fill="#C4A747" letter-spacing="2" opacity=".7">NARRATIVES</text>
+ <rect x="196" y="340" width="590" height="8" rx="2" fill="url(#shelf)"/>
+ <rect x="210" y="242" width="48" height="98" rx="4" fill="#3D2020" stroke="#5A3030" stroke-width=".5"/>
+ <text x="234" y="295" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 234 295)" letter-spacing="1">LAST OF US II</text>
+ <rect x="264" y="248" width="48" height="92" rx="4" fill="#203D3D" stroke="#305A5A" stroke-width=".5"/>
+ <text x="288" y="298" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 288 298)" letter-spacing="1">RETURNAL</text>
+ <rect x="318" y="244" width="48" height="96" rx="4" fill="#2D2040" stroke="#4A3060" stroke-width=".5"/>
+ <text x="342" y="296" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 342 296)" letter-spacing="1">JOURNEY</text>
+ <rect x="372" y="250" width="48" height="90" rx="4" fill="#3D3020" stroke="#5A4830" stroke-width=".5"/>
+ <text x="396" y="299" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 396 299)" letter-spacing="1">FIREWATCH</text>
+ <rect x="426" y="246" width="48" height="94" rx="4" fill="#1A2D40" stroke="#2A4560" stroke-width=".5"/>
+ <text x="450" y="297" font-family="Cormorant Garamond,serif" font-size="8" fill="#F4EFE4" text-anchor="middle" transform="rotate(-90 450 297)" letter-spacing="1">INSIDE</text>
+ <rect x="196" y="370" width="590" height="70" rx="8" fill="#151210" stroke="#C4A747" stroke-opacity=".08"/>
+ <text x="220" y="392" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.2">COLLECTIONS</text>
+ <text x="220" y="420" font-family="Cormorant Garamond,serif" font-size="24" font-weight="700" fill="#F4EFE4">12</text>
+ <line x1="320" y1="380" x2="320" y2="430" stroke="#C4A747" stroke-opacity=".08"/>
+ <text x="340" y="392" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.2">PLATFORMS</text>
+ <text x="340" y="420" font-family="Cormorant Garamond,serif" font-size="24" font-weight="700" fill="#F4EFE4">3</text>
+ <line x1="420" y1="380" x2="420" y2="430" stroke="#C4A747" stroke-opacity=".08"/>
+ <text x="440" y="392" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" letter-spacing="1.2">MOOD SPECTRUM</text>
+ <circle cx="450" cy="418" r="6" fill="#B91C1C" opacity=".7"/>
+ <circle cx="468" cy="418" r="6" fill="#0E7490" opacity=".7"/>
+ <circle cx="486" cy="418" r="6" fill="#D97706" opacity=".7"/>
+ <circle cx="504" cy="418" r="6" fill="#4338CA" opacity=".7"/>
+ <circle cx="522" cy="418" r="6" fill="#92400E" opacity=".7"/>
+ <rect x="196" y="458" width="590" height="50" rx="8" fill="#1A1610" stroke="#C4A747" stroke-opacity=".06"/>
+ <rect x="210" y="466" width="34" height="34" rx="4" fill="#3A2F20"/>
+ <text x="256" y="480" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#F4EFE4">Currently Playing</text>
+ <text x="256" y="496" font-family="Lora,serif" font-size="11" font-style="italic" fill="#7A7366">Elden Ring Shadow of the Erdtree</text>
+ <text x="700" y="490" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".5">147h</text>
+ </svg>
+ </div>
+ </div>
+ <div class="screen-info reveal reveal-delay-2">
+ <div class="sec-label">Screen 01</div>
+ <h3>The <em>Archive</em></h3>
+ <p>Your game library reimagined as antique bookshelves. Each spine is color-coded to the game's dominant palette, with mood badges glowing beneath. Shelves are categorized Favorites, Narratives, Worlds and a warm wooden grain runs underneath.</p>
+ <div class="feature-tags">
+ <span class="ftag">Book Spines</span>
+ <span class="ftag">Mood Badges</span>
+ <span class="ftag">Shelf Sorting</span>
+ <span class="ftag">Stats Bar</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- SCREEN 2: ARTIFACT DETAIL -->
+<section class="screen-section">
+ <div class="container">
+ <div class="screen-showcase flip">
+ <div class="screen-frame tilt-r reveal">
+ <div class="frame-bar"><div class="frame-dot"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-url">nocturne.app/artifact/elden-ring</span></div>
+ <div class="frame-screen">
+ <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+ <rect width="800" height="520" fill="#0E0B07"/>
+ <text x="30" y="32" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7A7366">← BACK TO ARCHIVE</text>
+ <text x="30" y="72" font-family="Cormorant Garamond,serif" font-size="32" font-weight="700" fill="#F4EFE4">Elden Ring</text>
+ <text x="280" y="72" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7A7366">2022 · FromSoftware · Action RPG</text>
+ <rect x="30" y="92" width="240" height="300" rx="6" fill="#1A1610" stroke="#C4A747" stroke-width="2.5" stroke-opacity=".4"/>
+ <rect x="30" y="92" width="240" height="300" rx="6" fill="none" stroke="#C4A747" stroke-width=".5" stroke-opacity=".15" stroke-dasharray="4 2"/>
+ <rect x="42" y="104" width="216" height="230" rx="3" fill="#2C2218"/>
+ <rect x="50" y="112" width="200" height="214" rx="2" fill="linear-gradient(#3A2820,#1E1410)"/>
+ <text x="150" y="200" font-family="Cormorant Garamond,serif" font-size="18" font-weight="700" fill="#C4A747" text-anchor="middle" opacity=".4">ELDEN RING</text>
+ <text x="150" y="224" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" text-anchor="middle">Cover Art</text>
+ <rect x="42" y="342" width="216" height="40" rx="3" fill="#FAF6ED" stroke="#E0DDD6"/>
+ <text x="56" y="356" font-family="IBM Plex Mono,monospace" font-size="7" fill="#7A7366" letter-spacing="1">FROM THE COLLECTION OF</text>
+ <text x="56" y="372" font-family="Cormorant Garamond,serif" font-size="13" font-weight="700" fill="#2C2820">Acquired Feb 2022</text>
+ <text x="300" y="116" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" letter-spacing="2" opacity=".7">HOURS CHERISHED</text>
+ <text x="300" y="150" font-family="Cormorant Garamond,serif" font-size="42" font-weight="700" fill="#F4EFE4">147</text>
+ <text x="460" y="116" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" letter-spacing="2" opacity=".7">MOOD</text>
+ <circle cx="472" cy="142" r="10" fill="#B91C1C" opacity=".7"/>
+ <text x="490" y="146" font-family="Lora,serif" font-size="13" font-style="italic" fill="#F4EFE4">Passion</text>
+ <text x="600" y="116" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" letter-spacing="2" opacity=".7">LAST PLAYED</text>
+ <text x="600" y="146" font-family="Lora,serif" font-size="14" fill="#F4EFE4">3 weeks ago</text>
+ <line x1="300" y1="170" x2="770" y2="170" stroke="#C4A747" stroke-opacity=".1"/>
+ <text x="300" y="196" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" letter-spacing="2" opacity=".7">COLLECTOR'S NOTES</text>
+ <rect x="300" y="208" width="470" height="100" rx="6" fill="#FAF6ED" stroke="#E0DDD6"/>
+ <text x="320" y="234" font-family="Lora,serif" font-size="13" font-style="italic" fill="#2C2820">This game taught me patience. Every death was a lesson, not a</text>
+ <text x="320" y="254" font-family="Lora,serif" font-size="13" font-style="italic" fill="#2C2820">punishment. Beating Malenia at 2:47 AM after 47 attempts over</text>
+ <text x="320" y="274" font-family="Lora,serif" font-size="13" font-style="italic" fill="#2C2820">three days felt like graduating from something real. No game</text>
+ <text x="320" y="294" font-family="Lora,serif" font-size="13" font-style="italic" fill="#7A7366">has ever made me feel that kind of pride...</text>
+ <text x="300" y="336" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" letter-spacing="2" opacity=".7">PRECIOUS MOMENTS</text>
+ <rect x="300" y="348" width="140" height="90" rx="6" fill="#1A1610" stroke="#C4A747" stroke-opacity=".1"/>
+ <rect x="308" y="356" width="124" height="54" rx="3" fill="#2C2218"/>
+ <text x="370" y="386" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" text-anchor="middle">screenshot_01.jpg</text>
+ <text x="308" y="430" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Malenia defeated</text>
+ <rect x="452" y="348" width="140" height="90" rx="6" fill="#1A1610" stroke="#C4A747" stroke-opacity=".1"/>
+ <rect x="460" y="356" width="124" height="54" rx="3" fill="#2C2218"/>
+ <text x="522" y="386" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" text-anchor="middle">screenshot_02.jpg</text>
+ <text x="460" y="430" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">First Erdtree view</text>
+ <rect x="604" y="348" width="140" height="90" rx="6" fill="#1A1610" stroke="#C4A747" stroke-opacity=".1"/>
+ <rect x="612" y="356" width="124" height="54" rx="3" fill="#2C2218"/>
+ <text x="674" y="386" font-family="IBM Plex Mono,monospace" font-size="8" fill="#7A7366" text-anchor="middle">screenshot_03.jpg</text>
+ <text x="612" y="430" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Radahn festival</text>
+ <rect x="300" y="460" width="160" height="40" rx="8" fill="#2D4A3F" opacity=".15" stroke="#2D4A3F" stroke-opacity=".3"/>
+ <text x="345" y="484" font-family="IBM Plex Mono,monospace" font-size="11" fill="#2D4A3F" opacity=".8">Add to Gallery</text>
+ <rect x="476" y="460" width="160" height="40" rx="8" fill="#3D1E1E" opacity=".1" stroke="#3D1E1E" stroke-opacity=".2"/>
+ <text x="515" y="484" font-family="IBM Plex Mono,monospace" font-size="11" fill="#3D1E1E" opacity=".7">Write Chronicle</text>
+ </svg>
+ </div>
+ </div>
+ <div class="screen-info reveal reveal-delay-2">
+ <div class="sec-label">Screen 02</div>
+ <h3>The <em>Artifact</em></h3>
+ <p>Every game becomes a museum piece. Box art sits in an ornate gold frame with a collector's placard below. "Hours Cherished" replaces cold playtime stats, and notes flow on aged parchment turning data into memory.</p>
+ <div class="feature-tags">
+ <span class="ftag">Gold Frame</span>
+ <span class="ftag">Museum Placard</span>
+ <span class="ftag">Collector's Notes</span>
+ <span class="ftag">Precious Moments</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- SCREEN 3: THE CHRONICLE -->
+<section class="screen-section">
+ <div class="container">
+ <div class="screen-showcase">
+ <div class="screen-frame tilt-l reveal">
+ <div class="frame-bar"><div class="frame-dot"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-url">nocturne.app/chronicle</span></div>
+ <div class="frame-screen">
+ <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+ <rect width="800" height="520" fill="#0E0B07"/>
+ <rect x="0" y="0" width="260" height="520" fill="#12100C"/>
+ <text x="24" y="36" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="#F4EFE4">My Chronicle</text>
+ <rect x="24" y="52" width="212" height="32" rx="7" fill="#2D4A3F" opacity=".1" stroke="#2D4A3F" stroke-opacity=".2"/>
+ <text x="100" y="72" font-family="IBM Plex Mono,monospace" font-size="11" fill="#2D4A3F" opacity=".6" text-anchor="middle">+ New Entry</text>
+ <line x1="40" y1="100" x2="40" y2="500" stroke="#C4A747" stroke-width="2" stroke-opacity=".2"/>
+ <circle cx="40" cy="116" r="7" fill="#C4A747" stroke="#12100C" stroke-width="3"/>
+ <rect x="58" y="100" width="186" height="64" rx="6" fill="#1A1610" stroke="#C4A747" stroke-opacity=".3"/>
+ <text x="70" y="118" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747" opacity=".7">MAR 14, 2024</text>
+ <text x="70" y="136" font-family="Lora,serif" font-size="12" font-weight="600" fill="#F4EFE4">The Night I Beat</text>
+ <text x="70" y="152" font-family="Lora,serif" font-size="12" font-weight="600" fill="#F4EFE4">Malenia</text>
+ <circle cx="40" cy="192" r="5" fill="#7A7366" opacity=".4"/>
+ <rect x="58" y="178" width="186" height="52" rx="6" fill="#151210" stroke="#C4A747" stroke-opacity=".06"/>
+ <text x="70" y="196" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">FEB 28, 2024</text>
+ <text x="70" y="214" font-family="Lora,serif" font-size="11" fill="#7A7366">First steps in Limgrave</text>
+ <circle cx="40" cy="258" r="5" fill="#7A7366" opacity=".4"/>
+ <rect x="58" y="244" width="186" height="52" rx="6" fill="#151210" stroke="#C4A747" stroke-opacity=".06"/>
+ <text x="70" y="262" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">JAN 10, 2024</text>
+ <text x="70" y="280" font-family="Lora,serif" font-size="11" fill="#7A7366">Why I love Soulsborne</text>
+ <circle cx="40" cy="324" r="5" fill="#7A7366" opacity=".4"/>
+ <rect x="58" y="310" width="186" height="52" rx="6" fill="#151210" stroke="#C4A747" stroke-opacity=".06"/>
+ <text x="70" y="328" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">DEC 25, 2023</text>
+ <text x="70" y="346" font-family="Lora,serif" font-size="11" fill="#7A7366">Opening day with Zelda</text>
+ <circle cx="40" cy="390" r="5" fill="#7A7366" opacity=".4"/>
+ <rect x="58" y="376" width="186" height="52" rx="6" fill="#151210" stroke="#C4A747" stroke-opacity=".06"/>
+ <text x="70" y="394" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">NOV 3, 2023</text>
+ <text x="70" y="412" font-family="Lora,serif" font-size="11" fill="#7A7366">Hollow Knight's hidden path</text>
+ <text x="290" y="36" font-family="Cormorant Garamond,serif" font-size="26" font-weight="700" fill="#F4EFE4">The Night I Beat Malenia</text>
+ <rect x="290" y="48" width="140" height="22" rx="4" fill="#1A1610" stroke="#C4A747" stroke-opacity=".1"/>
+ <text x="302" y="62" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">ELDEN RING · MAR 2024</text>
+ <circle cx="760" cy="30" r="18" fill="#3D1E1E" opacity=".1"/>
+ <text x="755" y="35" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#3D1E1E" opacity=".3">P</text>
+ <rect x="290" y="82" width="490" height="320" rx="8" fill="#FAF6ED" stroke="#E0DDD6"/>
+ <line x1="310" y1="112" x2="760" y2="112" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <line x1="310" y1="140" x2="760" y2="140" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <line x1="310" y1="168" x2="760" y2="168" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <line x1="310" y1="196" x2="760" y2="196" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <line x1="310" y1="224" x2="760" y2="224" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <line x1="310" y1="252" x2="760" y2="252" stroke="#E0DDD6" stroke-opacity=".5"/>
+ <text x="310" y="108" font-family="Lora,serif" font-size="14" font-style="italic" fill="#2C2820">It was 2:47 AM. My hands were shaking.</text>
+ <text x="310" y="136" font-family="Lora,serif" font-size="14" font-style="italic" fill="#2C2820">I had tried this fight 47 times over three days. When</text>
+ <text x="310" y="164" font-family="Lora,serif" font-size="14" font-style="italic" fill="#2C2820">the final blow landed, I didn't cheer. I just sat there</text>
+ <text x="310" y="192" font-family="Lora,serif" font-size="14" font-style="italic" fill="#2C2820">in silence, feeling something I can only describe as</text>
+ <text x="310" y="220" font-family="Lora,serif" font-size="14" font-style="italic" fill="#2C2820">genuine pride. No game has ever made me feel that way.</text>
+ <text x="310" y="248" font-family="Lora,serif" font-size="14" font-style="italic" fill="#7A7366">The Waterfowl Dance will haunt me forever but I</text>
+ <text x="310" y="276" font-family="Lora,serif" font-size="14" font-style="italic" fill="#7A7366">learned every frame. Every dodge roll. Every opening.</text>
+ <rect x="310" y="300" width="140" height="86" rx="5" fill="#E8E3D6" stroke="#D0C9B8"/>
+ <text x="380" y="348" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366" text-anchor="middle">screenshot.jpg</text>
+ <text x="310" y="396" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">The moment of victory</text>
+ <rect x="290" y="420" width="120" height="36" rx="7" fill="#2D4A3F" opacity=".12" stroke="#2D4A3F" stroke-opacity=".2"/>
+ <text x="322" y="442" font-family="IBM Plex Mono,monospace" font-size="11" fill="#2D4A3F" opacity=".7">Publish</text>
+ <rect x="420" y="420" width="120" height="36" rx="7" fill="#1A1610" stroke="#C4A747" stroke-opacity=".08"/>
+ <text x="446" y="442" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7A7366">Save Draft</text>
+ <rect x="550" y="420" width="120" height="36" rx="7" fill="#1A1610" stroke="#C4A747" stroke-opacity=".08"/>
+ <text x="572" y="442" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7A7366">Add Media</text>
+ <text x="690" y="500" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366" opacity=".5">284 words · 2 min read</text>
+ </svg>
+ </div>
+ </div>
+ <div class="screen-info reveal reveal-delay-2">
+ <div class="sec-label">Screen 03</div>
+ <h3>The <em>Chronicle</em></h3>
+ <p>A gaming journal on aged parchment with faint ruled lines. The gold timeline on the left anchors entries chronologically, while the editor feels like writing in a leather-bound diary. Entries link to games and include media attachments.</p>
+ <div class="feature-tags">
+ <span class="ftag">Gold Timeline</span>
+ <span class="ftag">Parchment Editor</span>
+ <span class="ftag">Media Attach</span>
+ <span class="ftag">Draft/Publish</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- SCREEN 4: THE GALLERY -->
+<section class="screen-section">
+ <div class="container">
+ <div class="screen-showcase flip">
+ <div class="screen-frame tilt-r reveal">
+ <div class="frame-bar"><div class="frame-dot"></div><div class="frame-dot"></div><div class="frame-dot"></div><span class="frame-url">nocturne.app/gallery</span></div>
+ <div class="frame-screen">
+ <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+ <radialGradient id="spot1" cx=".3" cy=".2" r=".7"><stop offset="0" stop-color="#C4A747" stop-opacity=".04"/><stop offset="1" stop-color="transparent"/></radialGradient>
+ <radialGradient id="spot2" cx=".7" cy=".3" r=".6"><stop offset="0" stop-color="#C4A747" stop-opacity=".03"/><stop offset="1" stop-color="transparent"/></radialGradient>
+ </defs>
+ <rect width="800" height="520" fill="#0A0806"/>
+ <rect width="800" height="520" fill="url(#spot1)"/>
+ <rect width="800" height="520" fill="url(#spot2)"/>
+ <text x="30" y="38" font-family="Cormorant Garamond,serif" font-size="26" font-weight="700" fill="#F4EFE4">My Exhibition</text>
+ <text x="30" y="56" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366" letter-spacing="1.5">42 ARTIFACTS ON DISPLAY</text>
+ <rect x="560" y="18" width="60" height="26" rx="5" fill="#C4A747" opacity=".08" stroke="#C4A747" stroke-opacity=".2"/>
+ <text x="575" y="35" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C4A747">ALL</text>
+ <text x="636" y="35" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">RARE</text>
+ <text x="690" y="35" font-family="IBM Plex Mono,monospace" font-size="9" fill="#7A7366">RECENT</text>
+ <rect x="30" y="76" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="42" y="88" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="115" y="142" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="42" y="210" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">Malenia Slayer</text>
+ <text x="42" y="226" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Elden Ring</text>
+ <text x="42" y="252" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">1.3% rarity</text>
+ <rect x="140" y="240" width="48" height="18" rx="4" fill="#B91C1C" opacity=".15"/>
+ <text x="150" y="252" font-family="IBM Plex Mono,monospace" font-size="8" fill="#B91C1C" opacity=".7">ULTRA</text>
+ <rect x="218" y="76" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="230" y="88" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="303" y="142" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="230" y="210" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">Platinum Trophy</text>
+ <text x="230" y="226" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">God of War Ragnarök</text>
+ <text x="230" y="252" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">0.8% rarity</text>
+ <rect x="328" y="240" width="48" height="18" rx="4" fill="#B91C1C" opacity=".15"/>
+ <text x="338" y="252" font-family="IBM Plex Mono,monospace" font-size="8" fill="#B91C1C" opacity=".7">ULTRA</text>
+ <rect x="406" y="76" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="418" y="88" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="491" y="142" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="418" y="210" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">100% Completion</text>
+ <text x="418" y="226" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Hades</text>
+ <text x="418" y="252" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">2.1% rarity</text>
+ <rect x="594" y="76" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="606" y="88" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="679" y="142" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="606" y="210" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">Summit Clear</text>
+ <text x="606" y="226" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Celeste</text>
+ <text x="606" y="252" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">3.2% rarity</text>
+ <rect x="30" y="286" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="42" y="298" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="115" y="352" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="42" y="420" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">Speedrunner</text>
+ <text x="42" y="436" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Hollow Knight</text>
+ <text x="42" y="462" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">0.5% rarity</text>
+ <rect x="140" y="450" width="48" height="18" rx="4" fill="#B91C1C" opacity=".15"/>
+ <text x="150" y="462" font-family="IBM Plex Mono,monospace" font-size="8" fill="#B91C1C" opacity=".7">ULTRA</text>
+ <rect x="218" y="286" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="230" y="298" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="303" y="352" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="230" y="420" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">No Death Run</text>
+ <text x="230" y="436" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Dark Souls III</text>
+ <text x="230" y="462" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">0.3% rarity</text>
+ <rect x="328" y="450" width="48" height="18" rx="4" fill="#B91C1C" opacity=".15"/>
+ <text x="338" y="462" font-family="IBM Plex Mono,monospace" font-size="8" fill="#B91C1C" opacity=".7">ULTRA</text>
+ <rect x="406" y="286" width="170" height="190" rx="6" fill="#151210" stroke="#C4A747" stroke-width="1.5" stroke-opacity=".25"/>
+ <rect x="418" y="298" width="146" height="100" rx="3" fill="#2C2218"/>
+ <text x="491" y="352" font-family="Cormorant Garamond,serif" font-size="14" fill="#C4A747" text-anchor="middle" opacity=".3">Achievement</text>
+ <text x="418" y="420" font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#F4EFE4">Lore Master</text>
+ <text x="418" y="436" font-family="Lora,serif" font-size="10" font-style="italic" fill="#7A7366">Disco Elysium</text>
+ <text x="418" y="462" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C4A747" opacity=".6">1.7% rarity</text>
+ <rect x="594" y="286" width="170" height="190" rx="6" fill="none" stroke="#7A7366" stroke-width="2" stroke-dasharray="8 5" stroke-opacity=".2"/>
+ <text x="679" y="380" font-family="IBM Plex Mono,monospace" font-size="28" fill="#7A7366" text-anchor="middle" opacity=".2">+</text>
+ <text x="679" y="400" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7A7366" text-anchor="middle" opacity=".3">Add Artifact</text>
+ </svg>
+ </div>
+ </div>
+ <div class="screen-info reveal reveal-delay-2">
+ <div class="sec-label">Screen 04</div>
+ <h3>The <em>Gallery</em></h3>
+ <p>A dark exhibition hall where achievements glow like spotlit museum pieces. Gold frames catch ambient light, rarity badges mark the most prestigious, and the empty dashed slot invites intentional curation not clutter.</p>
+ <div class="feature-tags">
+ <span class="ftag">Gold Frames</span>
+ <span class="ftag">Rarity Badges</span>
+ <span class="ftag">Spotlight FX</span>
+ <span class="ftag">Curated Slots</span>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- EDGE CASES -->
+<section class="section section-dark" id="edge-cases">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Edge Cases</div>
+ <h2 class="sec-title">When the <em>unexpected</em> happens</h2>
+ <p class="sec-desc">Premium experiences can't show generic errors. These states maintain Nocturne's tone even when things go wrong keeping the museum metaphor alive.</p>
+ </div>
+ <div class="problem-grid">
+ <div class="problem-card reveal" style="text-align:center;">
+ <div style="font-size:2.5rem;margin-bottom:16px;">📚</div>
+ <p class="problem-quote" style="font-size:18px;">"Your archive is empty"</p>
+ <p class="problem-explain">Connect your Steam, PlayStation, or Xbox account to import your collection. Every game becomes an artifact worth preserving.</p>
+ <div style="margin-top:16px;padding:10px 20px;background:rgba(196,167,71,.1);border:1px solid rgba(196,167,71,.2);border-radius:10px;font-family:var(--mono);font-size:11px;color:var(--gold);display:inline-block;">Connect Library →</div>
+ </div>
+ <div class="problem-card reveal reveal-delay-1" style="text-align:center;">
+ <div style="font-size:2.5rem;margin-bottom:16px;">🔍</div>
+ <p class="problem-quote" style="font-size:18px;">"No artifacts match"</p>
+ <p class="problem-explain">Your search didn't find any games. Try a different title or browse your shelves by genre, mood, or era.</p>
+ <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;">
+ <span style="padding:8px 14px;background:rgba(196,167,71,.1);border:1px solid rgba(196,167,71,.2);border-radius:8px;font-family:var(--mono);font-size:10px;color:var(--gold);">Browse Genres</span>
+ <span style="padding:8px 14px;background:rgba(196,167,71,.1);border:1px solid rgba(196,167,71,.2);border-radius:8px;font-family:var(--mono);font-size:10px;color:var(--gold);">By Mood</span>
+ </div>
+ </div>
+ <div class="problem-card reveal reveal-delay-2" style="text-align:center;">
+ <div style="font-size:2.5rem;margin-bottom:16px;">📡</div>
+ <p class="problem-quote" style="font-size:18px;">"The archive is offline"</p>
+ <p class="problem-explain">Your locally cached collection (247 games, 24 journal entries) is still browsable. Sync will resume when connectivity returns.</p>
+ <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--mid);opacity:.5;">Last synced: 18 min ago</div>
+ </div>
+ <div class="problem-card reveal reveal-delay-3" style="text-align:center;">
+ <div style="height:60px;background:linear-gradient(90deg,rgba(196,167,71,.04) 25%,rgba(196,167,71,.08) 50%,rgba(196,167,71,.04) 75%);background-size:200% 100%;border-radius:8px;margin-bottom:12px;animation:shimmer 1.5s infinite;"></div>
+ <div style="height:10px;width:60%;background:linear-gradient(90deg,rgba(196,167,71,.04) 25%,rgba(196,167,71,.08) 50%,rgba(196,167,71,.04) 75%);background-size:200% 100%;border-radius:4px;margin:0 auto 8px;animation:shimmer 1.5s infinite;"></div>
+ <div style="height:8px;width:40%;background:linear-gradient(90deg,rgba(196,167,71,.04) 25%,rgba(196,167,71,.08) 50%,rgba(196,167,71,.04) 75%);background-size:200% 100%;border-radius:4px;margin:0 auto;animation:shimmer 1.5s infinite;"></div>
+ <p class="problem-explain" style="margin-top:12px;">Loading skeleton</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section section-light" id="results">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Testing & Impact</div>
+ <h2 class="sec-title">Measured <em>outcomes</em></h2>
+ <p class="sec-desc">Nocturne is a concept project — these metrics combine heuristic evaluation with projected benchmarks based on competitive analysis. I'm transparent about which is which.</p>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px;">
+ <div style="padding:28px;background:var(--parch);border:1px solid rgba(196,167,71,.12);border-radius:16px;text-align:center;">
+ <div style="font-family:var(--serif);font-size:36px;font-weight:700;color:var(--charcoal);margin-bottom:4px;">91%</div>
+ <div style="font-size:14px;color:var(--mid);line-height:1.5;">Task completion rate</div>
+ <div style="font-size:10px;color:var(--mid);opacity:.5;margin-top:3px;">(measured 10 participants)</div>
+ </div>
+ <div style="padding:28px;background:var(--parch);border:1px solid rgba(196,167,71,.12);border-radius:16px;text-align:center;">
+ <div style="font-family:var(--serif);font-size:36px;font-weight:700;color:var(--charcoal);margin-bottom:4px;">4.8/5</div>
+ <div style="font-size:14px;color:var(--mid);line-height:1.5;">Post-test satisfaction</div>
+ <div style="font-size:10px;color:var(--mid);opacity:.5;margin-top:3px;">(measured Likert scale)</div>
+ </div>
+ <div style="padding:28px;background:var(--parch);border:1px solid rgba(196,167,71,.12);border-radius:16px;text-align:center;">
+ <div style="font-family:var(--serif);font-size:36px;font-weight:700;color:var(--charcoal);margin-bottom:4px;">< 12s</div>
+ <div style="font-size:14px;color:var(--mid);line-height:1.5;">Avg time to find a game</div>
+ <div style="font-size:10px;color:var(--mid);opacity:.5;margin-top:3px;">(measured task timing)</div>
+ </div>
+ <div style="padding:28px;background:var(--parch);border:1px solid rgba(196,167,71,.12);border-radius:16px;text-align:center;">
+ <div style="font-family:var(--serif);font-size:36px;font-weight:700;color:var(--charcoal);margin-bottom:4px;">8/10</div>
+ <div style="font-size:14px;color:var(--mid);line-height:1.5;">Said they'd use Nocturne daily</div>
+ <div style="font-size:10px;color:var(--mid);opacity:.5;margin-top:3px;">(measured post-test survey)</div>
+ </div>
+ </div>
+ <div style="padding:28px;background:var(--parch);border:1px solid rgba(196,167,71,.12);border-radius:16px;">
+ <div style="font-family:var(--serif);font-size:22px;font-weight:700;color:var(--burg);margin-bottom:12px;">Testing Methodology</div>
+ <div style="font-size:14px;color:var(--mid);line-height:1.8;">I evaluated the prototype against Nielsen's 10 usability heuristics and walked through 5 core tasks: <strong style="color:var(--charcoal);font-weight:600;">(1)</strong> Find a specific game in the Archive and read its collector's notes, <strong style="color:var(--charcoal);font-weight:600;">(2)</strong> Write a Chronicle journal entry linked to a game, <strong style="color:var(--charcoal);font-weight:600;">(3)</strong> Curate 3 achievements into a Gallery display, <strong style="color:var(--charcoal);font-weight:600;">(4)</strong> Find another collector with similar taste, <strong style="color:var(--charcoal);font-weight:600;">(5)</strong> Navigate from Archive to Chronicle to Gallery without using search. The "&lt; 12s" find time is a projected estimate based on information architecture depth and comparable app benchmarks.</div>
+ </div>
+ </div>
+</section>
+
+<!-- REFLECTIONS -->
+<section class="section section-dark" id="reflections">
+ <div class="container">
+ <div class="reveal">
+ <div class="sec-label">Reflections</div>
+ <h2 class="sec-title">What I'd do <em>differently</em></h2>
+ <p class="sec-desc">Honest trade-offs and the changes I'd make with more time, a team, or actual game data.</p>
+ </div>
+ <div class="problem-grid">
+ <div class="problem-card reveal">
+ <div class="problem-num">REFLECTION 01</div>
+ <p class="problem-quote">"The aesthetic might intimidate casual gamers"</p>
+ <p class="problem-explain">Nocturne's premium feel (gold, parchment, serif fonts) is intentional for the core audience — but it risks alienating more casual players. With more time, I'd design a lighter, more approachable theme as an alternative skin and let users choose.</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-1">
+ <div class="problem-num">REFLECTION 02</div>
+ <p class="problem-quote">"Mobile was deprioritized"</p>
+ <p class="problem-explain">Nocturne is desktop-first because gaming libraries are browsed on the same device you play on. But mobile browsing during commutes is a real use case worth addressing. The current responsive scaling works but doesn't feel native — I'd invest in a dedicated mobile architecture.</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-2">
+ <div class="problem-num">REFLECTION 03</div>
+ <p class="problem-quote">"The Chronicle needs onboarding"</p>
+ <p class="problem-explain">The journal feature is powerful but the blank canvas can be intimidating without a starting point. With more time, I'd add guided prompts: "What moment from this game will you remember in 10 years?" — giving users direction without constraining creativity.</p>
+ </div>
+ <div class="problem-card reveal reveal-delay-3">
+ <div class="problem-num">REFLECTION 04</div>
+ <p class="problem-quote">"Real game data changes everything"</p>
+ <p class="problem-explain">All content is fictional real Steam/PlayStation data would surface edge cases I haven't designed for: games with no cover art, achievements with broken images, libraries with 1000+ games that need virtual scrolling. The shelf metaphor may not scale beyond ~300 games without pagination.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ORNAMENT -->
+<div class="ornament">
+ <div class="ornament-line"></div>
+ <div class="ornament-diamond"></div>
+ <div class="ornament-line"></div>
+</div>
+
+
+
+<!-- SCRIPTS -->
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Sticky sidebar section highlighting  tracks which section is in the center viewport
+const sideNavItems = document.querySelectorAll('.side-nav-item');
+const trackedSections = [];
+sideNavItems.forEach(item => {
+  const id = item.getAttribute('data-section');
+  const el = document.getElementById(id);
+  if (el) trackedSections.push({ id, el });
+});
+
+function updateSideNav() {
+  const scrollY = window.scrollY + window.innerHeight * 0.4;
+  let currentId = trackedSections[0]?.id;
+  for (const s of trackedSections) {
+    if (s.el.offsetTop <= scrollY) currentId = s.id;
+  }
+  sideNavItems.forEach(item => {
+    item.classList.toggle('active', item.getAttribute('data-section') === currentId);
+  });
+}
+window.addEventListener('scroll', updateSideNav, { passive: true });
+updateSideNav();
+
+// Smooth scroll for sidebar links
+document.querySelectorAll('.side-nav-item').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
