@@ -1,0 +1,41 @@
+Muhammad Usman — Portfolio Updates
+===================================
+
+WHAT CHANGED
+- Homepage project order: Fiber, Meridian, Stride, Nocturne (index.html and portfolio.html).
+- Meridian: removed all three unverified testimonials and their brand affiliations.
+- All four case studies: replaced unsupported success percentages, satisfaction scores,
+  speculative speed/retention multipliers, and untested timing claims with factual
+  design-scope cards. Clearly labeled evaluation as a self-directed heuristic review,
+  not external participant usability testing.
+- Accessibility: corrected inaccurate palette contrast ratios shown on Stride and Fiber;
+  removed blanket WCAG-AA certification claims. Original colors and visual theme preserved.
+  Full accessibility compliance has not been independently audited.
+- Fiber: changed medical safety claims to nutrition information/estimated impact wording,
+  clarified that glucose impact is illustrative and individual responses vary,
+  corrected unverified community usage numbers, and clarified the need for expert/security review.
+- Homepage: fixed an existing stray JavaScript closing bracket that prevented the
+  homepage script from parsing. This affected both index.html and portfolio.html.
+
+PRESERVED
+- All original page layouts, card components, visual themes, animations and other CSS.
+- Meridian interactive app prototype (meridian-app.html) unchanged.
+- Your original CV file unchanged.
+- File names and relative links are unchanged.
+
+CHECKS
+- All pages parsed and contained expected sections and links.
+- All inline JavaScript passed a Node syntax check after the homepage fix.
+- Full visual browser testing was not possible in this environment; please check
+  homepage and four cases on desktop and mobile before publishing.
+
+HOW TO PUBLISH ON GITHUB PAGES
+1. Keep your current GitHub repository as a backup, or download its current code.
+2. Extract this ZIP. Copy the files INSIDE the usman-portfolio folder into the
+   same GitHub Pages directory that currently contains your index.html.
+3. Commit the file changes. GitHub Pages will redeploy from your configured branch.
+4. After deployment, refresh the site (Ctrl+Shift+R) and check the homepage order,
+   all four case-study links, and the Meridian prototype link.
+
+Do not present the concept screens or heuristic walkthrough as clinical validation,
+real-world user test results, or a production accessibility audit.
