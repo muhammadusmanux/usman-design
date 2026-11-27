@@ -1,0 +1,19 @@
+MUHAMMAD USMAN — COMPLETE PORTFOLIO & CV
+
+PUBLISHING
+1. Back up your existing GitHub repository.
+2. Open the usman-portfolio folder in this ZIP. Copy its contents into the directory in your GitHub Pages repository that currently contains index.html (not the outer folder).
+3. Replace the old files with the new ones, including portfolio.html and Muhammad_Usman_CV.pdf. Do not delete portfolio.html if you want existing shared links to keep working.
+4. Commit to your configured GitHub Pages publishing branch or directory.
+5. After deployment, test the homepage, old portfolio.html address, all four case studies, Meridian prototype, CV download and mobile layout.
+
+HOMEPAGE
+index.html is the only full homepage. portfolio.html is now a compatibility redirect to index.html, with a fallback link. Edit index.html only for future homepage changes.
+
+PROJECT ORDER
+01 Meridian / 02 Stride / 03 Fiber / 04 Nocturne. All are 2026 concept projects.
+
+CV
+The website's Muhammad_Usman_CV.pdf is the latest CV, with achievement-focused experience and Meridian first. The PDF and editable Word document in CV-for-applications are for personal use and job applications, not required for deployment. The two PDF copies are identical; their filenames serve different purposes.
+
+The homepage and project numbering have been aligned with the CV. All four projects are explicitly self-initiated concepts from 2026, not client work. The prototype and existing assets are preserved. Local file references and archive integrity were checked. Live deployment has not been tested.
